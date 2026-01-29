@@ -1,26 +1,25 @@
-using System.Collections.Generic;
-using UnityEngine;
-
-public abstract class StateMachine<Controller>
+public class StateMachine<TController>
 {
-    public Controller controller;
-    public IState currentState;
-    public Dictionary<string, IState> states;
-    
-    public StateMachine(Controller controller)
+    public TController Controller { get; }
+    public State<TController> CurrentState { get; private set; }
+
+    public StateMachine(TController controller)
     {
-        this.controller = controller;
+        Controller = controller;
     }
 
-    public abstract void Update();
-    public void SetState(IState newState)
+    public void Update()
     {
-        if (newState != null && newState != currentState)
-        {
-            currentState.Exit();
-            currentState = newState;
-            newState.Enter();
-        }
+        CurrentState?.Update();
     }
 
+    public void SetState(State<TController> newState)
+    {
+        if (newState == CurrentState)
+            return;
+
+        CurrentState?.Exit();
+        CurrentState = newState;
+        CurrentState.Enter();
+    }
 }
