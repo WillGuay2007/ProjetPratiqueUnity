@@ -17,6 +17,7 @@ public abstract class PlayerState
     }
 
     public virtual void Enter() {
+        //Debug.Log("Entering " + GetType().Name);
         DoChecks();
         player.animator.SetBool(animBoolName, true);
         startTime = Time.time;

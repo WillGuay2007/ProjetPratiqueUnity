@@ -13,14 +13,19 @@ public class PlayerController : MonoBehaviour
 
     [SerializeField] private PlayerData m_playerData;
     #endregion
+    #region Check transforms
+    [SerializeField] private Transform m_groundCheck;
+    #endregion
     #region State variables
     public PlayerStateMachine stateMachine { get; private set; }
-    public PlayerState idleState { get; private set; }
-    public PlayerState moveState { get; private set; }
+    public PlayerIdleState idleState { get; private set; }
+    public PlayerMoveState moveState { get; private set; }
+    public PlayerJumpState jumpState { get; private set; }
+    public PlayerInAirState inAirState { get; private set; }
     #endregion
     #region Other variables
-    public bool isGrounded { get; private set; }
     public int facingDirection { get; private set; }
+    public Vector2 currentVelocity;
     #endregion
     #region UnityCallbacks
     private void Awake()
@@ -31,9 +36,12 @@ public class PlayerController : MonoBehaviour
         spriteRenderer = GetComponent<SpriteRenderer>();
         capsuleCollider = GetComponent<CapsuleCollider2D>();
         playerInputManager = GetComponent<PlayerInputManager>();
+        currentVelocity = rigidBody.linearVelocity;
         stateMachine = new PlayerStateMachine(this);
         idleState = new PlayerIdleState(this, stateMachine, m_playerData, "Idle");
         moveState = new PlayerMoveState(this, stateMachine, m_playerData, "Move");
+        jumpState = new PlayerJumpState(this, stateMachine, m_playerData, "Jump");
+        inAirState = new PlayerInAirState(this, stateMachine, m_playerData, "Jump");
     }
 
     private void Start()
@@ -43,6 +51,7 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
+        currentVelocity = rigidBody.linearVelocity;
         stateMachine.currentState.LogicUpdate();
     }
 
@@ -65,6 +74,11 @@ public class PlayerController : MonoBehaviour
         {
             Flip();
         }
+    }
+
+    public bool CheckIfOnGround()
+    {
+        return Physics2D.OverlapCircle(m_groundCheck.position, m_playerData.groundCheckRadius, m_playerData.whatIsGround);
     }
     #endregion
     #region Set Functions
