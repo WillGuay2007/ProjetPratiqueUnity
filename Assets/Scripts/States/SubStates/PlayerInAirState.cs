@@ -3,8 +3,10 @@ using UnityEngine;
 public class PlayerInAirState : PlayerState
 {
     private int xInput;
+    private int yInput;
     private bool m_isGrounded;
     private bool m_jumpInput;
+    private bool m_dashInput;
     private bool m_coyoteTime;
     private bool m_jumpInputStop;
     private bool m_isJumping;
@@ -35,23 +37,30 @@ public class PlayerInAirState : PlayerState
         CheckCoyoteTime();
 
         xInput = player.playerInputManager.NormInputX;
+        yInput = player.playerInputManager.NormInputY;
         m_jumpInput = player.playerInputManager.JumpInput;
         m_jumpInputStop = player.playerInputManager.JumpInputStop;
+        m_dashInput = player.playerInputManager.DashInput;
 
         CheckJumpMultiplier();
 
         if (m_isGrounded && player.rigidBody.linearVelocity.y < 0.01f)
         {
-            stateMachine.SetState(player.idleState);
+            stateMachine.SetState(player.moveState);
         }
         else if (m_jumpInput && player.jumpState.CanJump()) {
             player.playerInputManager.UseJumpInput();
             stateMachine.SetState(player.jumpState);
         }
+        else if (m_dashInput && player.dashState.CanDash() && (xInput != 0 || yInput != 0))
+        {
+            player.playerInputManager.UseDashInput();
+            stateMachine.SetState(player.dashState);
+        }
         else
         {
             player.CheckIfShouldFlip(xInput);
-            player.SetVelocityX(playerData.movementVelocity * xInput);
+            player.AdjustVelocityX_Constant(xInput * playerData.movementVelocity, playerData.airFrictionX);
         }
     }
 

@@ -22,13 +22,7 @@ public class PlayerJumpState : PlayerAbilityState
 
     public bool CanJump()
     {
-        if (m_amountOfJumpsLeft > 0)
-        {
-            return true;
-        } else
-        {
-            return false;
-        }
+        return m_amountOfJumpsLeft > 0;
     }
 
     public void ResetAmoutOfJumpsLeft() => m_amountOfJumpsLeft = playerData.amountOfJumps;

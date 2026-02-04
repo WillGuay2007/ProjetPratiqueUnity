@@ -22,6 +22,7 @@ public class PlayerController : MonoBehaviour
     public PlayerMoveState moveState { get; private set; }
     public PlayerJumpState jumpState { get; private set; }
     public PlayerInAirState inAirState { get; private set; }
+    public PlayerDashState dashState { get; private set; }
     #endregion
     #region Other variables
     public int facingDirection { get; private set; }
@@ -40,8 +41,9 @@ public class PlayerController : MonoBehaviour
         stateMachine = new PlayerStateMachine(this);
         idleState = new PlayerIdleState(this, stateMachine, m_playerData, "Idle");
         moveState = new PlayerMoveState(this, stateMachine, m_playerData, "Move");
-        jumpState = new PlayerJumpState(this, stateMachine, m_playerData, "Jump");
-        inAirState = new PlayerInAirState(this, stateMachine, m_playerData, "Jump");
+        jumpState = new PlayerJumpState(this, stateMachine, m_playerData, "InAir");
+        inAirState = new PlayerInAirState(this, stateMachine, m_playerData, "InAir");
+        dashState = new PlayerDashState(this, stateMachine, m_playerData, "InAir");
     }
 
     private void Start()
@@ -91,5 +93,48 @@ public class PlayerController : MonoBehaviour
     {
         rigidBody.linearVelocityY = velocity;
     }
+
+    public void ResetVelocity() => rigidBody.linearVelocity = Vector2.zero;
+
+    public void SetVelocity(Vector2 velocity)
+    {
+        rigidBody.linearVelocity = velocity;
+    }
+
+    public void AdjustVelocityX_Lerp(float velocity, float friction)
+    {
+        if (friction > 1) friction = 1;
+        float targetVelocityX = Mathf.Lerp(currentVelocity.x, velocity, friction);
+        SetVelocityX(targetVelocityX);
+    }
+
+    public void AdjustVelocityY_Lerp(float velocity, float friction)
+    {
+        if (friction > 1) friction = 1;
+        float targetVelocityY = Mathf.Lerp(currentVelocity.y, velocity, friction);
+        SetVelocityX(targetVelocityY);
+    }
+
+    public void AdjustVelocityX_Constant(float velocity, float interval)
+    {
+        if (currentVelocity.x > velocity) interval *= -1;
+        float newVelocity = currentVelocity.x + interval;
+        if (interval < 0)
+        {
+            if (newVelocity < velocity) newVelocity = velocity;
+        } else
+        {
+            if (newVelocity > velocity) newVelocity = velocity;
+        }
+            SetVelocityX(newVelocity);
+    }
+
+    public void AdjustVelocityY_Constant(float velocity, float interval)
+    {
+        if (currentVelocity.x > velocity) interval *= -1;
+        float newVelocity = currentVelocity.y + interval;
+        SetVelocityY(newVelocity);
+    }
+
     #endregion
 }

@@ -12,11 +12,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b3c74e4734362b540b6719ea683d4f25, type: 3}
   m_Name: PlayerData
   m_EditorClassIdentifier: 
-  movementVelocity: 7
+  movementVelocity: 8
+  groundFriction: 0.1
   jumpVelocity: 16
   jumpHoldMultiplier: 0.5
   amountOfJumps: 1
   coyoteTime: 0.2
+  airFrictionX: 0.05
+  dashSpeed: 25
+  dashDuration: 0.15
+  amountOfAirDashes: 2
+  dashEndYMultiplier: 0.4
   groundCheckRadius: 0.2
   whatIsGround:
     serializedVersion: 2

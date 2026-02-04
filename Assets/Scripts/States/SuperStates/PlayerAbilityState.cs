@@ -4,7 +4,9 @@ public class PlayerAbilityState : PlayerState
 {
 
     protected bool isAbilityDone;
-    private bool m_isGrounded;
+    protected int xInput;
+    protected int yInput;
+    protected bool isGrounded;
 
     public PlayerAbilityState(PlayerController playerController, PlayerStateMachine plrStateMachine, PlayerData plrData, string animBool) : base(playerController, plrStateMachine, plrData, animBool)
     {
@@ -13,13 +15,17 @@ public class PlayerAbilityState : PlayerState
     public override void DoChecks()
     {
         base.DoChecks();
-        m_isGrounded = player.CheckIfOnGround();
+        isGrounded = player.CheckIfOnGround();
     }
 
     public override void Enter()
     {
         base.Enter();
         isAbilityDone = false;
+
+        xInput = player.playerInputManager.NormInputX;
+        yInput = player.playerInputManager.NormInputY;
+
     }
 
     public override void Exit()
@@ -30,9 +36,19 @@ public class PlayerAbilityState : PlayerState
     public override void LogicUpdate()
     {
         base.LogicUpdate();
+
+        xInput = player.playerInputManager.NormInputX;
+        yInput = player.playerInputManager.NormInputY;
+
         if (isAbilityDone)
         {
-            stateMachine.SetState(player.inAirState);
+            if (isGrounded)
+            {
+                stateMachine.SetState(player.moveState);
+            } else
+            {
+                stateMachine.SetState(player.inAirState);
+            }
         }
 
     }

@@ -42,6 +42,7 @@ public class PlayerGroundedState : PlayerState
         base.Enter();
 
         player.jumpState.ResetAmoutOfJumpsLeft();
+        player.dashState.ResetAmountOfAirDashesLeft();
     }
 
     public override void Exit()
