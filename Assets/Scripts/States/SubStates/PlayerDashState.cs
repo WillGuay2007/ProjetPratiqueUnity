@@ -6,6 +6,7 @@ public class PlayerDashState : PlayerAbilityState
     private Vector2 m_dashDirection;
     private int m_amountOfAirDashesLeft;
     private float m_elapsedTime = 0f;
+    private bool m_jumpInput;
     public PlayerDashState(PlayerController playerController, PlayerStateMachine plrStateMachine, PlayerData plrData, string animBool) : base(playerController, plrStateMachine, plrData, animBool)
     {
         m_amountOfAirDashesLeft = playerData.amountOfAirDashes;
@@ -32,21 +33,29 @@ public class PlayerDashState : PlayerAbilityState
     public override void LogicUpdate()
     {
         base.LogicUpdate();
+        m_jumpInput = player.playerInputManager.JumpInput;
         if (isAbilityDone) return;
         m_elapsedTime += Time.deltaTime;
+
         if (m_elapsedTime > playerData.dashDuration)
         {
             m_elapsedTime = 0f;
             isAbilityDone = true;
+            return;
         }
         else if (isGrounded)
         {
-            player.ResetVelocity();
-            isAbilityDone = true;
-        }
-        {
-            SetDirectionVelocity();
-        }
+            if (m_jumpInput)
+            {
+                player.playerInputManager.UseJumpInput();
+                isAbilityDone = true;
+                ResetAmountOfAirDashesLeft();
+                stateMachine.SetState(player.jumpState);
+                return;
+            }
+        } 
+        
+        SetDirectionVelocity();
     }
 
     public override void PhysicsUpdate()

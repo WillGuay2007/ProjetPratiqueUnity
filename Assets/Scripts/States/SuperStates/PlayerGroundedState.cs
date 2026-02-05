@@ -5,6 +5,7 @@ public class PlayerGroundedState : PlayerState
     protected int xInput;
     protected int yInput;
     private bool m_jumpInput;
+    private bool m_dashInput;
     private bool m_isGrounded;
 
     public PlayerGroundedState(PlayerController playerController, PlayerStateMachine plrStateMachine, PlayerData plrData, string animBool) : base(playerController, plrStateMachine, plrData, animBool)
@@ -15,11 +16,18 @@ public class PlayerGroundedState : PlayerState
     {
         xInput = player.playerInputManager.NormInputX;
         m_jumpInput = player.playerInputManager.JumpInput;
+        m_dashInput = player.playerInputManager.DashInput;
 
         if (m_jumpInput && player.jumpState.CanJump())
         {
             player.playerInputManager.UseJumpInput();
             stateMachine.SetState(player.jumpState);
+            return true;
+        }
+        else if (m_dashInput && player.dashState.CanDash() && (xInput != 0 || yInput != 0))
+        {
+            player.playerInputManager.UseDashInput();
+            stateMachine.SetState(player.dashState);
             return true;
         }
         else if (!m_isGrounded)
