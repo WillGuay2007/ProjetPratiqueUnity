@@ -7,6 +7,7 @@ public class PlayerGroundedState : PlayerState
     private bool m_jumpInput;
     private bool m_dashInput;
     private bool m_isGrounded;
+    private bool m_swapGravityInput;
 
     public PlayerGroundedState(PlayerController playerController, PlayerStateMachine plrStateMachine, PlayerData plrData, string animBool) : base(playerController, plrStateMachine, plrData, animBool)
     {
@@ -14,9 +15,11 @@ public class PlayerGroundedState : PlayerState
 
     protected bool HandleGroundedTransitions()
     {
-        xInput = player.playerInputManager.NormInputX;
-        m_jumpInput = player.playerInputManager.JumpInput;
-        m_dashInput = player.playerInputManager.DashInput;
+        if (m_swapGravityInput)
+        {
+            player.playerInputManager.UseSwapGravityInput();
+            player.playergravityController.SwapPlayerGravity();
+        }
 
         if (m_jumpInput && player.jumpState.CanJump())
         {
@@ -61,6 +64,11 @@ public class PlayerGroundedState : PlayerState
     public override void LogicUpdate()
     {
         base.LogicUpdate();
+        xInput = player.playerInputManager.NormInputX;
+        yInput = player.playerInputManager.NormInputY;
+        m_jumpInput = player.playerInputManager.JumpInput;
+        m_dashInput = player.playerInputManager.DashInput;
+        m_swapGravityInput = player.playerInputManager.SwapGravityInput;
     }
 
     public override void PhysicsUpdate()

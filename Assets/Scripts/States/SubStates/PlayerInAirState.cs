@@ -59,7 +59,7 @@ public class PlayerInAirState : PlayerState
         }
         else
         {
-            player.CheckIfShouldFlip(xInput);
+            player.CheckIfShouldFlipX(xInput);
             player.AdjustVelocityX_Constant(xInput * playerData.movementVelocity, playerData.airFrictionX);
         }
     }
@@ -87,7 +87,8 @@ public class PlayerInAirState : PlayerState
                 player.SetVelocityY(player.currentVelocity.y * playerData.jumpHoldMultiplier);
                 m_isJumping = false;
             }
-            else if (player.currentVelocity.y <= 0f)
+            else if (player.facingYDirection == 1 && player.currentVelocity.y < 0
+            || player.facingYDirection == -1 && player.currentVelocity.y > 0)
             {
                 m_isJumping = false;
             }

@@ -7,6 +7,7 @@ public class PlayerDashState : PlayerAbilityState
     private int m_amountOfAirDashesLeft;
     private float m_elapsedTime = 0f;
     private bool m_jumpInput;
+    private bool m_hasRegainedDash;
     public PlayerDashState(PlayerController playerController, PlayerStateMachine plrStateMachine, PlayerData plrData, string animBool) : base(playerController, plrStateMachine, plrData, animBool)
     {
         m_amountOfAirDashesLeft = playerData.amountOfAirDashes;
@@ -26,7 +27,10 @@ public class PlayerDashState : PlayerAbilityState
     public override void Exit()
     {
         base.Exit();
-        if (player.currentVelocity.y <= 0) return;
+        if (
+            player.facingYDirection == 1 && player.currentVelocity.y < 0
+            || player.facingYDirection == -1 && player.currentVelocity.y > 0
+            ) return;
         player.SetVelocityY(player.currentVelocity.y * playerData.dashEndYMultiplier);
     }
 
@@ -34,6 +38,7 @@ public class PlayerDashState : PlayerAbilityState
     {
         base.LogicUpdate();
         m_jumpInput = player.playerInputManager.JumpInput;
+        player.CheckIfShouldFlipX(xInput);
         if (isAbilityDone) return;
         m_elapsedTime += Time.deltaTime;
 
@@ -45,12 +50,33 @@ public class PlayerDashState : PlayerAbilityState
         }
         else if (isGrounded)
         {
-            if (m_jumpInput)
+            //Tu peut récupérer ton dash après une certaine duration, te permettant de super ou hyper dash avec un dash en plus.
+            if (m_elapsedTime > playerData.regainDashAtDuration && m_hasRegainedDash == false)
             {
+                m_hasRegainedDash = true;
+                ResetAmountOfAirDashesLeft();
+            }
+
+
+                if (m_jumpInput)
+                {
                 player.playerInputManager.UseJumpInput();
                 isAbilityDone = true;
-                ResetAmountOfAirDashesLeft();
+
+                if (m_dashDirection.x != 0 && m_dashDirection.y == 0) //Superdash
+                {
+                    player.jumpState.SetCustomJumpHeight(playerData.SuperDashYVelocity);
+                    player.SetVelocityX(playerData.SuperDashXVelocity * player.facingXDirection);
+                } else if (m_dashDirection.x != 0 && (player.facingYDirection == 1 && m_dashDirection.y < 0)
+                    || (player.facingYDirection == -1 && m_dashDirection.y > 0)
+                    ) //Hyperdash
+                {
+                    player.jumpState.SetCustomJumpHeight(playerData.HyperdashYVelocity);
+                    player.SetVelocityX(playerData.HyperdashXVelocity * player.facingXDirection);
+                }
+
                 stateMachine.SetState(player.jumpState);
+                
                 return;
             }
         } 
@@ -74,16 +100,35 @@ public class PlayerDashState : PlayerAbilityState
     private Vector2 GetDirection()
     {
         float yDirection = yInput;
-        if (xInput != 0 && yInput < 0) yDirection = yDirection / 2; //Moins de diagonale en dash vers le bas.
-        return new Vector2(xInput, yDirection).normalized;
+        float xDirection = xInput;
+        Vector2 direction;
+        if (xInput != 0 && yInput < 0) /*Diagonale vers le bas*/ {
+            yDirection = yDirection * 0.5f;
+            direction = new Vector2(xDirection, yDirection).normalized;
+        }
+        else if (xInput == 0 && yInput != 0) /*Up and Down*/ {
+            yDirection = yDirection * 0.75f;
+            direction = new Vector2(0f, yDirection);
+        }
+        else
+        {
+            direction = new Vector2(xDirection, yDirection).normalized;
+        }
+        //Debug.Log(
+        //    "The direction is: " + direction.ToString() +
+        //    "\nThe length is: " + direction.magnitude
+        //    );
+        //Enlever le commentaire pour debugger.
+        return direction;
     }
 
     private void StartDash()
     {
+        m_hasRegainedDash = false;
         m_elapsedTime = 0f;
+        m_dashDirection = GetDirection();
         SetDirectionVelocity();
         DecreaseAmountOfDashesLeft();
-        m_dashDirection = GetDirection();
         player.ResetVelocity();
     }
 

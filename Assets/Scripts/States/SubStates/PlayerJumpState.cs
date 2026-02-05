@@ -4,6 +4,7 @@ public class PlayerJumpState : PlayerAbilityState
 {
 
     private int m_amountOfJumpsLeft;
+    private float m_customJumpHeight = 0f;
 
     public PlayerJumpState(PlayerController playerController, PlayerStateMachine plrStateMachine, PlayerData plrData, string animBool) : base(playerController, plrStateMachine, plrData, animBool)
     {
@@ -13,11 +14,18 @@ public class PlayerJumpState : PlayerAbilityState
     public override void Enter()
     {
         base.Enter();
-
-        player.SetVelocityY(playerData.jumpVelocity);
+        float jumpHeight = m_customJumpHeight != 0 ? m_customJumpHeight : playerData.jumpVelocity;
+        jumpHeight *= player.facingYDirection;
+        player.SetVelocityY(jumpHeight);
         isAbilityDone = true;
         DecreaseAmountOfJumpsLeft();
         player.inAirState.SetIsJumping();
+    }
+
+    public override void Exit()
+    {
+        base.Exit();
+        m_customJumpHeight = 0;
     }
 
     public bool CanJump()
@@ -27,4 +35,5 @@ public class PlayerJumpState : PlayerAbilityState
 
     public void ResetAmoutOfJumpsLeft() => m_amountOfJumpsLeft = playerData.amountOfJumps;
     public void DecreaseAmountOfJumpsLeft() => m_amountOfJumpsLeft--;
+    public void SetCustomJumpHeight(float amount) => m_customJumpHeight = amount;
 }

@@ -22,8 +22,13 @@ public class PlayerData : ScriptableObject
     [Header("Dash state")]
     public float dashSpeed = 25f;
     public float dashDuration = 0.25f;
+    public float regainDashAtDuration = 0.20f;
     public int amountOfAirDashes = 1;
     public float dashEndYMultiplier = 0.2f;
+    public float HyperdashXVelocity = 40f;
+    public float HyperdashYVelocity = 10f;
+    public float SuperDashXVelocity = 25f;
+    public float SuperDashYVelocity = 21f;
 
     [Header("Check variables")]
     public float groundCheckRadius = 0.2f;

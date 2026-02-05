@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -9,6 +10,7 @@ public class PlayerInputManager : MonoBehaviour
     public bool JumpInput { get; private set; }
     public bool JumpInputStop { get; private set; }
     public bool DashInput { get; private set; }
+    public bool SwapGravityInput { get; private set; }
 
     [SerializeField] private float m_jumpInputHoldTime = 0.2f;
     [SerializeField] private float m_dashBuffer = 0.2f;
@@ -52,8 +54,21 @@ public class PlayerInputManager : MonoBehaviour
         }
     }
 
+    public void OnSwapGravity(InputAction.CallbackContext context)
+    {
+        if (context.started)
+        {
+            SwapGravityInput = true;
+        }
+        else if (context.canceled)
+        {
+            SwapGravityInput = false;
+        }
+    }
+
     public void UseJumpInput() => JumpInput = false;
     public void UseDashInput() => DashInput = false;
+    public void UseSwapGravityInput() => SwapGravityInput = false;
     private void CheckJumpInputHoldTime()
     {
         if (Time.time >= m_jumpInputStartTime + m_jumpInputHoldTime)

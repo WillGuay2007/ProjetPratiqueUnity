@@ -27,7 +27,7 @@ public class PlayerMoveState : PlayerGroundedState
 
         if (HandleGroundedTransitions()) return;
 
-        player.CheckIfShouldFlip(xInput);
+        player.CheckIfShouldFlipX(xInput);
 
         player.AdjustVelocityX_Constant(playerData.movementVelocity * xInput, playerData.groundFriction);
         if (xInput == 0 && player.currentVelocity.x == 0)

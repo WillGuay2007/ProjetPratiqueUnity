@@ -10,6 +10,7 @@ public class PlayerController : MonoBehaviour
     public CapsuleCollider2D capsuleCollider { get; private set; }
     public SpriteRenderer spriteRenderer { get; private set; }
     public PlayerInputManager playerInputManager { get; private set; }
+    public PlayerGravityController playergravityController { get; private set; }
 
     [SerializeField] private PlayerData m_playerData;
     #endregion
@@ -25,18 +26,21 @@ public class PlayerController : MonoBehaviour
     public PlayerDashState dashState { get; private set; }
     #endregion
     #region Other variables
-    public int facingDirection { get; private set; }
+    public int facingXDirection { get; private set; }
+    public int facingYDirection { get; private set; }
     public Vector2 currentVelocity;
     #endregion
     #region UnityCallbacks
     private void Awake()
     {
-        facingDirection = 1;
+        facingYDirection = 1;
+        facingXDirection = 1;
         animator = GetComponent<Animator>();
         rigidBody = GetComponent<Rigidbody2D>();
         spriteRenderer = GetComponent<SpriteRenderer>();
         capsuleCollider = GetComponent<CapsuleCollider2D>();
         playerInputManager = GetComponent<PlayerInputManager>();
+        playergravityController = GetComponent<PlayerGravityController>();
         currentVelocity = rigidBody.linearVelocity;
         stateMachine = new PlayerStateMachine(this);
         idleState = new PlayerIdleState(this, stateMachine, m_playerData, "Idle");
@@ -63,18 +67,25 @@ public class PlayerController : MonoBehaviour
     }
     #endregion
     #region Other Functions
-    private void Flip()
+    private void FlipX()
     {
-        facingDirection *= -1;
+        facingXDirection *= -1;
         transform.Rotate(0f, 180f, 0f);
+    }
+
+    public void FlipY()
+    {
+        facingYDirection *= -1;
+        transform.Rotate(0f, 180f, 0f);
+        transform.Rotate(0f, 0f, 180f);
     }
     #endregion
     #region Check Functions
-    public void CheckIfShouldFlip(int xInput)
+    public void CheckIfShouldFlipX(int xInput)
     {
-        if (xInput != 0 && xInput != facingDirection)
+        if (xInput != 0 && xInput != facingXDirection)
         {
-            Flip();
+            FlipX();
         }
     }
 
