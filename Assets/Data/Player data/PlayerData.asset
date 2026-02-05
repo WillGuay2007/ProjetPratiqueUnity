@@ -13,15 +13,15 @@ MonoBehaviour:
   m_Name: PlayerData
   m_EditorClassIdentifier: 
   movementVelocity: 8
-  groundFriction: 0.1
+  groundFriction: 0.6
   jumpVelocity: 16
   jumpHoldMultiplier: 0.5
   amountOfJumps: 1
   coyoteTime: 0.2
-  airFrictionX: 0.05
+  airFrictionX: 1
   dashSpeed: 25
   dashDuration: 0.15
-  amountOfAirDashes: 2
+  amountOfAirDashes: 1
   dashEndYMultiplier: 0.4
   groundCheckRadius: 0.2
   whatIsGround:

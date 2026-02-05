@@ -42,13 +42,7 @@ public class PlayerAbilityState : PlayerState
 
         if (isAbilityDone)
         {
-            if (isGrounded)
-            {
-                stateMachine.SetState(player.moveState);
-            } else
-            {
-                stateMachine.SetState(player.inAirState);
-            }
+            stateMachine.SetState(player.inAirState);
         }
 
     }
