@@ -23,6 +23,8 @@ public class PlayerData : ScriptableObject
     public float dashSpeed = 25f;
     public float dashDuration = 0.25f;
     public float regainDashAtDuration = 0.20f;
+    public float diagonalDownDashYMultiplier= 0.5f;
+    public float verticalDashYMultiplier = 0.75f;
     public int amountOfAirDashes = 1;
     public float dashEndYMultiplier = 0.2f;
     public float HyperdashXVelocity = 40f;

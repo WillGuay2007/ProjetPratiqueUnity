@@ -21,6 +21,7 @@ public class PlayerGravityController : MonoBehaviour
     public void ResetPlayerGravity()
     {
         m_rigidbody.gravityScale = m_originalPlayerGravity;
+        m_player.FlipY();
     }
 
     public void DisablePlayerGravity()

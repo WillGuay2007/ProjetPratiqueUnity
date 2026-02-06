@@ -93,6 +93,16 @@ public class PlayerController : MonoBehaviour
     {
         return Physics2D.OverlapCircle(m_groundCheck.position, m_playerData.groundCheckRadius, m_playerData.whatIsGround);
     }
+
+    public bool IsFalling()
+    {
+        return Mathf.Sign(currentVelocity.y) == -facingYDirection;
+    }
+
+    public bool IsGoingUp()
+    {
+        return Mathf.Sign(currentVelocity.y) == facingYDirection;
+    }
     #endregion
     #region Set Functions
     public void SetVelocityX(float velocity)

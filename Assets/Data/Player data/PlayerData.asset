@@ -22,6 +22,8 @@ MonoBehaviour:
   dashSpeed: 25
   dashDuration: 0.25
   regainDashAtDuration: 0.15
+  diagonalDownDashYMultiplier: 0.5
+  verticalDashYMultiplier: 0.75
   amountOfAirDashes: 1
   dashEndYMultiplier: 0.7
   HyperdashXVelocity: 40
