@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b3c74e4734362b540b6719ea683d4f25, type: 3}
   m_Name: PlayerData
   m_EditorClassIdentifier: 
+  playerHealth: 100
   movementVelocity: 8
   groundFriction: 1.5
   jumpVelocity: 16
@@ -20,10 +21,11 @@ MonoBehaviour:
   coyoteTime: 0.2
   airFrictionX: 1
   dashSpeed: 25
-  dashDuration: 0.25
-  regainDashAtDuration: 0.15
+  dashDuration: 0.2
+  regainDashAtDuration: 0.1
   diagonalDownDashYMultiplier: 0.5
   verticalDashYMultiplier: 0.75
+  diagonalUpDashYMultiplier: 0.85
   amountOfAirDashes: 1
   dashEndYMultiplier: 0.7
   HyperdashXVelocity: 40

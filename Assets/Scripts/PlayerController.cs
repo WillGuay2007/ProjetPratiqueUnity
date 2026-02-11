@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class PlayerController : MonoBehaviour
+public class PlayerController : MonoBehaviour, IDamageable
 {
     #region Components
     public Rigidbody2D rigidBody {  get; private set; }
@@ -24,17 +24,24 @@ public class PlayerController : MonoBehaviour
     public PlayerJumpState jumpState { get; private set; }
     public PlayerInAirState inAirState { get; private set; }
     public PlayerDashState dashState { get; private set; }
+    public PlayerDiedState diedState { get; private set; }
     #endregion
     #region Other variables
     public int facingXDirection { get; private set; }
     public int facingYDirection { get; private set; }
+    private float m_health;
+    public float health { get => m_health; set => m_health = value; }
+    public Vector2 currentCheckpoint;
+
     public Vector2 currentVelocity;
     #endregion
     #region UnityCallbacks
     private void Awake()
     {
+        currentCheckpoint = transform.position;
         facingYDirection = 1;
         facingXDirection = 1;
+        health = m_playerData.playerHealth;
         animator = GetComponent<Animator>();
         rigidBody = GetComponent<Rigidbody2D>();
         spriteRenderer = GetComponent<SpriteRenderer>();
@@ -48,6 +55,7 @@ public class PlayerController : MonoBehaviour
         jumpState = new PlayerJumpState(this, stateMachine, m_playerData, "InAir");
         inAirState = new PlayerInAirState(this, stateMachine, m_playerData, "InAir");
         dashState = new PlayerDashState(this, stateMachine, m_playerData, "InAir");
+        diedState = new PlayerDiedState(this, stateMachine, m_playerData, "Died");
     }
 
     private void Start()
@@ -79,6 +87,20 @@ public class PlayerController : MonoBehaviour
         transform.Rotate(0f, 180f, 0f);
         transform.Rotate(0f, 0f, 180f);
     }
+
+    public void Damage(float damage)
+    {
+        health -= damage;
+        if (IsDead()) stateMachine.SetState(diedState);
+    }
+
+    public void Respawn()
+    {
+        playergravityController.SetDefaultGravity();
+        transform.position = currentCheckpoint;
+        stateMachine.SetState(idleState);
+        SetPhysics(true);
+    }
     #endregion
     #region Check Functions
     public void CheckIfShouldFlipX(int xInput)
@@ -102,6 +124,11 @@ public class PlayerController : MonoBehaviour
     public bool IsGoingUp()
     {
         return Mathf.Sign(currentVelocity.y) == facingYDirection;
+    }
+
+    private bool IsDead()
+    {
+        return health <= 0f;
     }
     #endregion
     #region Set Functions
@@ -157,5 +184,10 @@ public class PlayerController : MonoBehaviour
         SetVelocityY(newVelocity);
     }
 
+    public void SetPhysics(bool isEnabled)
+    {
+        rigidBody.simulated = isEnabled;
+    }
     #endregion
+
 }

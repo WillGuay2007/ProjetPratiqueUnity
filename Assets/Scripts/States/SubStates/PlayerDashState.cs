@@ -50,18 +50,17 @@ public class PlayerDashState : PlayerAbilityState
         m_elapsedTime += Time.deltaTime;
 
         bool dashTimerEnded = m_elapsedTime > playerData.dashDuration;
-        bool dashRegainTimerReached = m_elapsedTime > playerData.regainDashAtDuration && m_hasRegainedDash == false;
+        bool groundedDashRegainTimerReached = m_elapsedTime > playerData.regainDashAtDuration && m_hasRegainedDash == false;
         DashType dashType = GetDashType();
 
         if (dashTimerEnded)
         {
-            m_elapsedTime = 0f;
             isAbilityDone = true;
             return;
         }
         else if (isGrounded)
         {
-            if (dashRegainTimerReached)
+            if (groundedDashRegainTimerReached)
             {
                 m_hasRegainedDash = true;
                 ResetAmountOfDashesLeft();
@@ -107,9 +106,15 @@ public class PlayerDashState : PlayerAbilityState
         float xDirection = xInput;
         Vector2 direction;
 
+        //TODO: Fixer pour que ca marche en swap gravity.
         if (xInput != 0 && yInput < 0) /* Diagonale vers le bas */
         {
             yDirection = yDirection * playerData.diagonalDownDashYMultiplier;
+            direction = new Vector2(xDirection, yDirection).normalized;
+        }
+        else if (xInput != 0 && yInput > 0)/* Diagonale vers le haut */
+        {
+            yDirection = yDirection * playerData.diagonalUpDashYMultiplier;
             direction = new Vector2(xDirection, yDirection).normalized;
         }
         else if (xInput == 0 && yInput != 0) /* Up and Down */

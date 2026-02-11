@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class PlayerData : ScriptableObject
 {
+    [Header("Player health")]
+    public float playerHealth = 100f;
+
     [Header("Move State")]
     public float movementVelocity = 10f;
 
@@ -25,8 +28,9 @@ public class PlayerData : ScriptableObject
     public float regainDashAtDuration = 0.20f;
     public float diagonalDownDashYMultiplier= 0.5f;
     public float verticalDashYMultiplier = 0.75f;
+    public float diagonalUpDashYMultiplier = 0.7f;
     public int amountOfAirDashes = 1;
-    public float dashEndYMultiplier = 0.2f;
+    public float dashEndYMultiplier = 0.5f;
     public float HyperdashXVelocity = 40f;
     public float HyperdashYVelocity = 10f;
     public float SuperDashXVelocity = 25f;
