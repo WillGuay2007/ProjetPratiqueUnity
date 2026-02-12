@@ -8,6 +8,7 @@ public class PlayerDashState : PlayerAbilityState
     private float m_elapsedTime = 0f;
     private bool m_jumpInput;
     private bool m_hasRegainedDash;
+    private DashType m_dashType;
 
     private enum DashType
     {
@@ -51,7 +52,6 @@ public class PlayerDashState : PlayerAbilityState
 
         bool dashTimerEnded = m_elapsedTime > playerData.dashDuration;
         bool groundedDashRegainTimerReached = m_elapsedTime > playerData.regainDashAtDuration && m_hasRegainedDash == false;
-        DashType dashType = GetDashType();
 
         if (dashTimerEnded)
         {
@@ -72,11 +72,11 @@ public class PlayerDashState : PlayerAbilityState
             player.playerInputManager.UseJumpInput();
             isAbilityDone = true;
 
-            if (dashType == DashType.Horizontal) //Superdash
+            if (m_dashType == DashType.Horizontal) //Superdash
             {
                 player.jumpState.SetCustomJumpHeight(playerData.SuperDashYVelocity);
                 player.SetVelocityX(playerData.SuperDashXVelocity * player.facingXDirection);
-            } else if (dashType == DashType.DiagonalDown) //Hyperdash
+            } else if (m_dashType == DashType.DiagonalDown) //Hyperdash
             {
                 player.jumpState.SetCustomJumpHeight(playerData.HyperdashYVelocity);
                 player.SetVelocityX(playerData.HyperdashXVelocity * player.facingXDirection);
@@ -106,18 +106,17 @@ public class PlayerDashState : PlayerAbilityState
         float xDirection = xInput;
         Vector2 direction;
 
-        //TODO: Fixer pour que ca marche en swap gravity.
-        if (xInput != 0 && yInput < 0) /* Diagonale vers le bas */
+        if (m_dashType == DashType.DiagonalDown)
         {
             yDirection = yDirection * playerData.diagonalDownDashYMultiplier;
             direction = new Vector2(xDirection, yDirection).normalized;
         }
-        else if (xInput != 0 && yInput > 0)/* Diagonale vers le haut */
+        else if (m_dashType == DashType.DiagonalUp)
         {
             yDirection = yDirection * playerData.diagonalUpDashYMultiplier;
             direction = new Vector2(xDirection, yDirection).normalized;
         }
-        else if (xInput == 0 && yInput != 0) /* Up and Down */
+        else if (m_dashType == DashType.Up || m_dashType == DashType.Down)
         {
             yDirection = yDirection * playerData.verticalDashYMultiplier;
             direction = new Vector2(0f, yDirection);
@@ -137,6 +136,7 @@ public class PlayerDashState : PlayerAbilityState
 
     private void StartDash()
     {
+        m_dashType = GetDashType();
         m_hasRegainedDash = false;
         m_elapsedTime = 0f;
         m_dashDirection = GetDirection();
@@ -154,13 +154,14 @@ public class PlayerDashState : PlayerAbilityState
             );
     }
 
+
     private DashType GetDashType()
     {
-        if (m_dashDirection.x != 0 && m_dashDirection.y == 0) return DashType.Horizontal;
-        if (m_dashDirection.x == 0 && Mathf.Sign(m_dashDirection.y) == player.facingYDirection) return DashType.Up;
-        if (m_dashDirection.x == 0 && Mathf.Sign(m_dashDirection.y) != player.facingYDirection) return DashType.Down;
-        if (m_dashDirection.x != 0 && Mathf.Sign(m_dashDirection.y) == player.facingYDirection) return DashType.DiagonalUp;
-        if (m_dashDirection.x != 0 && Mathf.Sign(m_dashDirection.y) != player.facingYDirection) return DashType.DiagonalDown;
+        if (xInput != 0 && yInput == 0) return DashType.Horizontal;
+        if (xInput == 0 && yInput == player.facingYDirection) return DashType.Up;
+        if (xInput == 0 && yInput != player.facingYDirection) return DashType.Down;
+        if (xInput != 0 && yInput == player.facingYDirection) return DashType.DiagonalUp;
+        if (xInput != 0 && yInput != player.facingYDirection) return DashType.DiagonalDown;
         return DashType.Horizontal;
     }
 }

@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour, IDamageable
 {
+    #region Constants
+    private int Y_LIMIT = 750;
+    #endregion
     #region Components
     public Rigidbody2D rigidBody {  get; private set; }
     public Animator animator { get; private set; }
@@ -30,15 +33,16 @@ public class PlayerController : MonoBehaviour, IDamageable
     public int facingXDirection { get; private set; }
     public int facingYDirection { get; private set; }
     private float m_health;
+    public bool isInteracting;
     public float health { get => m_health; set => m_health = value; }
-    public Vector2 currentCheckpoint;
+    public Vector2 currentSpawnPoint { get; private set; }
 
-    public Vector2 currentVelocity;
+    public Vector2 currentVelocity { get; private set; }
     #endregion
     #region UnityCallbacks
     private void Awake()
     {
-        currentCheckpoint = transform.position;
+        currentSpawnPoint = transform.position;
         facingYDirection = 1;
         facingXDirection = 1;
         health = m_playerData.playerHealth;
@@ -65,6 +69,7 @@ public class PlayerController : MonoBehaviour, IDamageable
 
     private void Update()
     {
+        if (CheckIfShouldDie()) stateMachine.SetState(diedState);
         currentVelocity = rigidBody.linearVelocity;
         stateMachine.currentState.LogicUpdate();
     }
@@ -97,9 +102,14 @@ public class PlayerController : MonoBehaviour, IDamageable
     public void Respawn()
     {
         playergravityController.SetDefaultGravity();
-        transform.position = currentCheckpoint;
+        transform.position = currentSpawnPoint;
         stateMachine.SetState(idleState);
         SetPhysics(true);
+    }
+
+    public void ClaimCheckpoint(Vector2 newSpawnPosition)
+    {
+        currentSpawnPoint = newSpawnPosition;
     }
     #endregion
     #region Check Functions
@@ -126,10 +136,9 @@ public class PlayerController : MonoBehaviour, IDamageable
         return Mathf.Sign(currentVelocity.y) == facingYDirection;
     }
 
-    private bool IsDead()
-    {
-        return health <= 0f;
-    }
+    public bool IsDead() => health <= 0f;
+    private bool CheckIfShouldDie() => Mathf.Abs(transform.position.y) > Y_LIMIT;    
+    
     #endregion
     #region Set Functions
     public void SetVelocityX(float velocity)
@@ -165,6 +174,8 @@ public class PlayerController : MonoBehaviour, IDamageable
 
     public void AdjustVelocityX_Constant(float velocity, float interval)
     {
+        if (currentVelocity.x == velocity) return;
+        interval = Mathf.Abs(interval);
         if (currentVelocity.x > velocity) interval *= -1;
         float newVelocity = currentVelocity.x + interval;
         if (interval < 0)
@@ -179,9 +190,19 @@ public class PlayerController : MonoBehaviour, IDamageable
 
     public void AdjustVelocityY_Constant(float velocity, float interval)
     {
+        if (currentVelocity.y == velocity) return;
+        interval = Mathf.Abs(interval);
         if (currentVelocity.x > velocity) interval *= -1;
-        float newVelocity = currentVelocity.y + interval;
-        SetVelocityY(newVelocity);
+        float newVelocity = currentVelocity.x + interval;
+        if (interval < 0)
+        {
+            if (newVelocity < velocity) newVelocity = velocity;
+        }
+        else
+        {
+            if (newVelocity > velocity) newVelocity = velocity;
+        }
+        SetVelocityX(newVelocity);
     }
 
     public void SetPhysics(bool isEnabled)

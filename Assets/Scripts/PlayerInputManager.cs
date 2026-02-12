@@ -10,6 +10,7 @@ public class PlayerInputManager : MonoBehaviour
     public bool JumpInput { get; private set; }
     public bool JumpInputStop { get; private set; }
     public bool DashInput { get; private set; }
+    public bool InteractInput { get; private set; }
     public bool SwapGravityInput { get; private set; }
 
     [SerializeField] private float m_jumpInputHoldTime = 0.2f;
@@ -54,6 +55,18 @@ public class PlayerInputManager : MonoBehaviour
         }
     }
 
+    public void OnInteract(InputAction.CallbackContext context)
+    {
+        if (context.started)
+        {
+            InteractInput = true;
+        }
+        else if (context.canceled)
+        {
+            InteractInput = false;
+        }
+    }
+
     public void OnSwapGravity(InputAction.CallbackContext context)
     {
         if (context.started)
@@ -68,6 +81,7 @@ public class PlayerInputManager : MonoBehaviour
 
     public void UseJumpInput() => JumpInput = false;
     public void UseDashInput() => DashInput = false;
+    public void UseInteractInput() => InteractInput = false;
     public void UseSwapGravityInput() => SwapGravityInput = false;
     private void CheckJumpInputHoldTime()
     {
@@ -83,4 +97,6 @@ public class PlayerInputManager : MonoBehaviour
             DashInput = false;
         }
     }
+
+    //TODO: Add disable input
 }

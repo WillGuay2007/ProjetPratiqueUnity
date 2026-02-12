@@ -2,7 +2,7 @@ using System.Collections;
 using UnityEngine;
 using TMPro;
 
-public class DialogueUI : MonoBehaviour
+public class DialogueManager : MonoBehaviour
 {
     [SerializeField] private TMP_Text m_textLabel;
     [SerializeField] private DialogueObject m_testDialogue;
@@ -14,7 +14,6 @@ public class DialogueUI : MonoBehaviour
     {
         m_typeWriterEffect = GetComponent<TypeWriterEffect>();
         CloseDialogueBox();
-        //ShowDialogue(m_testDialogue);
     }
 
     public void ShowDialogue(DialogueObject dialogueObject)
