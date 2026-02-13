@@ -53,7 +53,6 @@ public class PlayerController : MonoBehaviour, IDamageable
         input = GetComponent<PlayerInputManager>();
         gravity = GetComponent<PlayerGravityController>();
         movement = GetComponent<PlayerMovementController>();
-        currentVelocity = rigidBody.linearVelocity;
         stateMachine = new PlayerStateMachine(this);
         idleState = new PlayerIdleState(this, stateMachine, m_playerData, "Idle");
         moveState = new PlayerMoveState(this, stateMachine, m_playerData, "Move");
@@ -128,12 +127,12 @@ public class PlayerController : MonoBehaviour, IDamageable
 
     public bool IsFalling()
     {
-        return Mathf.Sign(currentVelocity.y) == -facingYDirection;
+        return Mathf.Sign(movement.velocity.y) == -facingYDirection;
     }
 
     public bool IsGoingUp()
     {
-        return Mathf.Sign(currentVelocity.y) == facingYDirection;
+        return Mathf.Sign(movement.velocity.y) == facingYDirection;
     }
 
     public bool IsDead() => health <= 0f;
