@@ -1,12 +1,14 @@
+using System.Collections;
 using UnityEngine;
 
 public class Sign : Interactable
 {
     [SerializeField] private DialogueManager m_dialogueManager;
     [SerializeField] private DialogueObject m_dialogueToSay;
-    protected override void Interact()
+    protected override IEnumerator Interact()
     {
-        m_dialogueManager.ShowDialogue(m_dialogueToSay);
+        yield return m_dialogueManager.ShowDialogue(m_dialogueToSay);
+        yield return new WaitForSeconds(1);
         DisableInteracting();
     }
 }

@@ -36,11 +36,11 @@ public class PlayerInAirState : PlayerState
 
         CheckCoyoteTime();
 
-        xInput = player.playerInputManager.NormInputX;
-        yInput = player.playerInputManager.NormInputY;
-        m_jumpInput = player.playerInputManager.JumpInput;
-        m_jumpInputStop = player.playerInputManager.JumpInputStop;
-        m_dashInput = player.playerInputManager.DashInput;
+        xInput = player.input.NormInputX;
+        yInput = player.input.NormInputY;
+        m_jumpInput = player.input.JumpInput;
+        m_jumpInputStop = player.input.JumpInputStop;
+        m_dashInput = player.input.DashInput;
 
         CheckJumpMultiplier();
 
@@ -49,18 +49,18 @@ public class PlayerInAirState : PlayerState
             stateMachine.SetState(player.moveState);
         }
         else if (m_jumpInput && player.jumpState.CanJump()) {
-            player.playerInputManager.UseJumpInput();
+            player.input.UseJumpInput();
             stateMachine.SetState(player.jumpState);
         }
         else if (m_dashInput && player.dashState.CanDash() && (xInput != 0 || yInput != 0))
         {
-            player.playerInputManager.UseDashInput();
+            player.input.UseDashInput();
             stateMachine.SetState(player.dashState);
         }
         else
         {
             player.CheckIfShouldFlipX(xInput);
-            player.AdjustVelocityX_Constant(xInput * playerData.movementVelocity, playerData.airFrictionX);
+            player.movement.AdjustVelocityX_Constant(xInput * playerData.movementVelocity, playerData.airFrictionX);
         }
     }
 
@@ -84,11 +84,11 @@ public class PlayerInAirState : PlayerState
         {
             if (m_jumpInputStop)
             {
-                player.SetVelocityY(player.currentVelocity.y * playerData.jumpHoldMultiplier);
+                player.movement.SetVelocityY(player.movement.velocity.y * playerData.jumpHoldMultiplier);
                 m_isJumping = false;
             }
-            else if (player.facingYDirection == 1 && player.currentVelocity.y < 0
-            || player.facingYDirection == -1 && player.currentVelocity.y > 0)
+            else if (player.facingYDirection == 1 && player.movement.velocity.y < 0
+            || player.facingYDirection == -1 && player.movement.velocity.y > 0)
             {
                 m_isJumping = false;
             }

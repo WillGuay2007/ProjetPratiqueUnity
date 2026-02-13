@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public abstract class Interactable : MonoBehaviour
@@ -20,12 +21,12 @@ public abstract class Interactable : MonoBehaviour
     private void Update()
     {
         if (m_player.isInteracting) return;
-        m_isInteractInputActive = m_player.playerInputManager.InteractInput;
+        m_isInteractInputActive = m_player.input.InteractInput;
         if (m_isInteractInputActive && m_canInteract)
         {
+            m_player.input.UseInteractInput();
             m_player.isInteracting = true;
-            m_player.playerInputManager.UseInteractInput();
-            Interact();
+            StartCoroutine(Interact());
         }
     }
 
@@ -34,6 +35,6 @@ public abstract class Interactable : MonoBehaviour
         return collision.gameObject.GetComponent<PlayerController>() != null;
     }
 
-    protected abstract void Interact();
+    protected abstract IEnumerator Interact();
     protected void DisableInteracting() => m_player.isInteracting = false;
 }

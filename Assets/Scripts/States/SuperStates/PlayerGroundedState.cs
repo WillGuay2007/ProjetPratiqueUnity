@@ -17,19 +17,19 @@ public class PlayerGroundedState : PlayerState
     {
         if (m_swapGravityInput)
         {
-            player.playerInputManager.UseSwapGravityInput();
-            player.playergravityController.SwapPlayerGravity();
+            player.input.UseSwapGravityInput();
+            player.gravity.SwapPlayerGravity();
         }
 
         if (m_jumpInput && player.jumpState.CanJump())
         {
-            player.playerInputManager.UseJumpInput();
+            player.input.UseJumpInput();
             stateMachine.SetState(player.jumpState);
             return true;
         }
         else if (m_dashInput && player.dashState.CanDash() && (xInput != 0 || yInput != 0))
         {
-            player.playerInputManager.UseDashInput();
+            player.input.UseDashInput();
             stateMachine.SetState(player.dashState);
             return true;
         }
@@ -64,11 +64,11 @@ public class PlayerGroundedState : PlayerState
     public override void LogicUpdate()
     {
         base.LogicUpdate();
-        xInput = player.playerInputManager.NormInputX;
-        yInput = player.playerInputManager.NormInputY;
-        m_jumpInput = player.playerInputManager.JumpInput;
-        m_dashInput = player.playerInputManager.DashInput;
-        m_swapGravityInput = player.playerInputManager.SwapGravityInput;
+        xInput = player.input.NormInputX;
+        yInput = player.input.NormInputY;
+        m_jumpInput = player.input.JumpInput;
+        m_dashInput = player.input.DashInput;
+        m_swapGravityInput = player.input.SwapGravityInput;
     }
 
     public override void PhysicsUpdate()

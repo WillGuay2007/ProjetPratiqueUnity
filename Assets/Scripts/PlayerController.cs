@@ -12,8 +12,9 @@ public class PlayerController : MonoBehaviour, IDamageable
     public Animator animator { get; private set; }
     public CapsuleCollider2D capsuleCollider { get; private set; }
     public SpriteRenderer spriteRenderer { get; private set; }
-    public PlayerInputManager playerInputManager { get; private set; }
-    public PlayerGravityController playergravityController { get; private set; }
+    public PlayerInputManager input { get; private set; }
+    public PlayerGravityController gravity { get; private set; }
+    public PlayerMovementController movement { get; private set; }
 
     [SerializeField] private PlayerData m_playerData;
     #endregion
@@ -37,7 +38,6 @@ public class PlayerController : MonoBehaviour, IDamageable
     public float health { get => m_health; set => m_health = value; }
     public Vector2 currentSpawnPoint { get; private set; }
 
-    public Vector2 currentVelocity { get; private set; }
     #endregion
     #region UnityCallbacks
     private void Awake()
@@ -50,8 +50,9 @@ public class PlayerController : MonoBehaviour, IDamageable
         rigidBody = GetComponent<Rigidbody2D>();
         spriteRenderer = GetComponent<SpriteRenderer>();
         capsuleCollider = GetComponent<CapsuleCollider2D>();
-        playerInputManager = GetComponent<PlayerInputManager>();
-        playergravityController = GetComponent<PlayerGravityController>();
+        input = GetComponent<PlayerInputManager>();
+        gravity = GetComponent<PlayerGravityController>();
+        movement = GetComponent<PlayerMovementController>();
         currentVelocity = rigidBody.linearVelocity;
         stateMachine = new PlayerStateMachine(this);
         idleState = new PlayerIdleState(this, stateMachine, m_playerData, "Idle");
@@ -70,7 +71,6 @@ public class PlayerController : MonoBehaviour, IDamageable
     private void Update()
     {
         if (CheckIfShouldDie()) stateMachine.SetState(diedState);
-        currentVelocity = rigidBody.linearVelocity;
         stateMachine.currentState.LogicUpdate();
     }
 
@@ -101,7 +101,7 @@ public class PlayerController : MonoBehaviour, IDamageable
 
     public void Respawn()
     {
-        playergravityController.SetDefaultGravity();
+        gravity.SetDefaultGravity();
         transform.position = currentSpawnPoint;
         stateMachine.SetState(idleState);
         SetPhysics(true);
@@ -141,69 +141,7 @@ public class PlayerController : MonoBehaviour, IDamageable
     
     #endregion
     #region Set Functions
-    public void SetVelocityX(float velocity)
-    {
-        rigidBody.linearVelocityX = velocity;
-    }
-
-    public void SetVelocityY(float velocity) 
-    {
-        rigidBody.linearVelocityY = velocity;
-    }
-
-    public void ResetVelocity() => rigidBody.linearVelocity = Vector2.zero;
-
-    public void SetVelocity(Vector2 velocity)
-    {
-        rigidBody.linearVelocity = velocity;
-    }
-
-    public void AdjustVelocityX_Lerp(float velocity, float friction)
-    {
-        if (friction > 1) friction = 1;
-        float targetVelocityX = Mathf.Lerp(currentVelocity.x, velocity, friction);
-        SetVelocityX(targetVelocityX);
-    }
-
-    public void AdjustVelocityY_Lerp(float velocity, float friction)
-    {
-        if (friction > 1) friction = 1;
-        float targetVelocityY = Mathf.Lerp(currentVelocity.y, velocity, friction);
-        SetVelocityX(targetVelocityY);
-    }
-
-    public void AdjustVelocityX_Constant(float velocity, float interval)
-    {
-        if (currentVelocity.x == velocity) return;
-        interval = Mathf.Abs(interval);
-        if (currentVelocity.x > velocity) interval *= -1;
-        float newVelocity = currentVelocity.x + interval;
-        if (interval < 0)
-        {
-            if (newVelocity < velocity) newVelocity = velocity;
-        } else
-        {
-            if (newVelocity > velocity) newVelocity = velocity;
-        }
-            SetVelocityX(newVelocity);
-    }
-
-    public void AdjustVelocityY_Constant(float velocity, float interval)
-    {
-        if (currentVelocity.y == velocity) return;
-        interval = Mathf.Abs(interval);
-        if (currentVelocity.x > velocity) interval *= -1;
-        float newVelocity = currentVelocity.x + interval;
-        if (interval < 0)
-        {
-            if (newVelocity < velocity) newVelocity = velocity;
-        }
-        else
-        {
-            if (newVelocity > velocity) newVelocity = velocity;
-        }
-        SetVelocityX(newVelocity);
-    }
+    
 
     public void SetPhysics(bool isEnabled)
     {

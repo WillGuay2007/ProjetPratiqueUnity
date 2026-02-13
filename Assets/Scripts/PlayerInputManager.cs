@@ -12,7 +12,7 @@ public class PlayerInputManager : MonoBehaviour
     public bool DashInput { get; private set; }
     public bool InteractInput { get; private set; }
     public bool SwapGravityInput { get; private set; }
-
+    private bool m_isInputEnabled = true;
     [SerializeField] private float m_jumpInputHoldTime = 0.2f;
     [SerializeField] private float m_dashBuffer = 0.2f;
     private float m_jumpInputStartTime;
@@ -20,12 +20,27 @@ public class PlayerInputManager : MonoBehaviour
 
     private void Update()
     {
+        if (!m_isInputEnabled) return;
         CheckJumpInputHoldTime();
         CheckDashInputHoldTime();
     }
 
+    public void SetInputEnabled(bool enabled)
+    {
+        if (enabled)
+        {
+            m_isInputEnabled = true;
+        }
+        else
+        {
+            ClearInputs();
+            m_isInputEnabled = false;
+        }
+    }
+
     public void OnMove(InputAction.CallbackContext context)
     {
+        if (!m_isInputEnabled) return;
         RawMovementInput = context.ReadValue<Vector2>();
         NormInputX = (int)(RawMovementInput * Vector2.right).normalized.x;
         NormInputY = (int)(RawMovementInput* Vector2.up).normalized.y;
@@ -33,6 +48,7 @@ public class PlayerInputManager : MonoBehaviour
 
     public void OnJump(InputAction.CallbackContext context)
     {
+        if (!m_isInputEnabled) return;
         if (context.started)
         {
             JumpInput = true;
@@ -48,6 +64,7 @@ public class PlayerInputManager : MonoBehaviour
 
     public void OnDash(InputAction.CallbackContext context)
     {
+        if (!m_isInputEnabled) return;
         if (context.started)
         {
             m_dashInputStartTime = Time.time;
@@ -57,6 +74,7 @@ public class PlayerInputManager : MonoBehaviour
 
     public void OnInteract(InputAction.CallbackContext context)
     {
+        if (!m_isInputEnabled) return;
         if (context.started)
         {
             InteractInput = true;
@@ -69,6 +87,7 @@ public class PlayerInputManager : MonoBehaviour
 
     public void OnSwapGravity(InputAction.CallbackContext context)
     {
+        if (!m_isInputEnabled) return;
         if (context.started)
         {
             SwapGravityInput = true;
@@ -98,5 +117,15 @@ public class PlayerInputManager : MonoBehaviour
         }
     }
 
-    //TODO: Add disable input
+    private void ClearInputs()
+    {
+        JumpInput = false;
+        DashInput = false;
+        InteractInput = false;
+        SwapGravityInput = false;
+        RawMovementInput = Vector2.zero;
+        NormInputX = 0;
+        NormInputY = 0;
+    }
+
 }

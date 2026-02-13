@@ -27,7 +27,14 @@ public class TypeWriterEffect : MonoBehaviour
             charIndex = Mathf.Clamp(charIndex, 0, textToType.Length);
 
             textLabel.text = textToType.Substring(0, charIndex);
-            yield return null;
+            if(Input.GetKeyDown(KeyCode.E))
+            {
+                break;
+            }
+            else
+            {
+                yield return null;
+            }
         }
 
         textLabel.text = textToType;

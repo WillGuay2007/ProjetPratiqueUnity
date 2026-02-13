@@ -23,8 +23,8 @@ public class PlayerAbilityState : PlayerState
         base.Enter();
         isAbilityDone = false;
 
-        xInput = player.playerInputManager.NormInputX;
-        yInput = player.playerInputManager.NormInputY;
+        xInput = player.input.NormInputX;
+        yInput = player.input.NormInputY;
 
     }
 
@@ -37,8 +37,8 @@ public class PlayerAbilityState : PlayerState
     {
         base.LogicUpdate();
 
-        xInput = player.playerInputManager.NormInputX;
-        yInput = player.playerInputManager.NormInputY;
+        xInput = player.input.NormInputX;
+        yInput = player.input.NormInputY;
 
         if (isAbilityDone)
         {

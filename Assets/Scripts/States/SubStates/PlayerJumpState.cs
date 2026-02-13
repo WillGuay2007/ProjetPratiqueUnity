@@ -16,7 +16,7 @@ public class PlayerJumpState : PlayerAbilityState
         base.Enter();
         float jumpHeight = m_customJumpHeight != 0 ? m_customJumpHeight : playerData.jumpVelocity;
         jumpHeight *= player.facingYDirection;
-        player.SetVelocityY(jumpHeight);
+        player.movement.SetVelocityY(jumpHeight);
         isAbilityDone = true;
         DecreaseAmountOfJumpsLeft();
         player.inAirState.SetIsJumping();
