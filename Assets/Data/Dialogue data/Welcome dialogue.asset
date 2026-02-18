@@ -14,4 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_dialogue:
   - Hello! Welcome to the game.
-  - Make sure to not die!
+  - The controls are simple! However, let's not overload you with information...
+  - They will be gradually introduced!

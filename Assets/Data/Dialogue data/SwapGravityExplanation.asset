@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_dialogue:
   - By pressing "F", you can swap gravity.
-  - You can use this fact to your advandage since you need to go up.
+  - However, you can only do it while grounded. Use this fact wisely
   - Trust the process!
