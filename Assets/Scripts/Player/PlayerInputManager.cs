@@ -11,6 +11,7 @@ public class PlayerInputManager : MonoBehaviour
     public bool JumpInputStop { get; private set; }
     public bool DashInput { get; private set; }
     public bool InteractInput { get; private set; }
+    public bool GrabInput { get; private set; }
     public bool SwapGravityInput { get; private set; }
     private bool m_isInputEnabled = true;
     [SerializeField] private float m_jumpInputHoldTime = 0.2f;
@@ -46,6 +47,18 @@ public class PlayerInputManager : MonoBehaviour
         NormInputY = (int)(RawMovementInput* Vector2.up).normalized.y;
     }
 
+    public void OnGrab(InputAction.CallbackContext context)
+    {
+        if (!m_isInputEnabled) return;
+        if (context.started)
+        {
+            GrabInput = true;
+        }
+        else if (context.canceled)
+        {
+            GrabInput = false;
+        }
+    }
     public void OnJump(InputAction.CallbackContext context)
     {
         if (!m_isInputEnabled) return;

@@ -47,7 +47,7 @@ public class StandingBird : MonoBehaviour
             );
         bool isFlyingTowardPlayer = Mathf.Sign(chosenVelocity.x) != playerFacingDirection;
 
-        if (chosenVelocity.y < 0) chosenVelocity *= -1; //Je veut pas qu'il vole vers le bas.
+        if (chosenVelocity.y < 0) chosenVelocity.y *= -1; //Je veut pas qu'il vole vers le bas.
         if (isFlyingTowardPlayer) chosenVelocity.x *= -1f; //Pour qu'il s'enfuie du joueur et pas aller vers lui 
         if (playerFacingDirection == 1) m_birdRenderer.flipX = true;
 

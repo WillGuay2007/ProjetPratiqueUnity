@@ -10,8 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 51d814b7c213fff4bad299bc82408235, type: 3}
-  m_Name: Test
+  m_Name: DashTutorial
   m_EditorClassIdentifier: 
   m_dialogue:
-  - Hello! This is a test dialogue.
-  - Goodbye!
+  - Here, try dashing up right.
+  - Be careful tho, the platform to land on is 2 blocks wide
+  - Once you reach the platform, just do a horizontal dash while holding d.
+  - Be careful!
