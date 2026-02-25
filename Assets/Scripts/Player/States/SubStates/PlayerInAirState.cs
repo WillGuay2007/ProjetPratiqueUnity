@@ -10,6 +10,8 @@ public class PlayerInAirState : PlayerState
     private bool m_coyoteTime;
     private bool m_jumpInputStop;
     private bool m_isJumping;
+    private bool m_isTouchingWall;
+    private bool m_grabInput;
     public PlayerInAirState(PlayerController playerController, PlayerStateMachine plrStateMachine, PlayerData plrData, string animBool) : base(playerController, plrStateMachine, plrData, animBool)
     {
     }
@@ -18,6 +20,7 @@ public class PlayerInAirState : PlayerState
     {
         base.DoChecks();
         m_isGrounded = player.CheckIfOnGround();
+        m_isTouchingWall = player.CheckIfIsTouchingWall();
     }
 
     public override void Enter()
@@ -34,17 +37,24 @@ public class PlayerInAirState : PlayerState
     {
         base.LogicUpdate();
 
-        CheckCoyoteTime();
-
         xInput = player.input.NormInputX;
         yInput = player.input.NormInputY;
         m_jumpInput = player.input.JumpInput;
         m_jumpInputStop = player.input.JumpInputStop;
         m_dashInput = player.input.DashInput;
+        m_grabInput = player.input.GrabInput;
+
+        if (m_isTouchingWall)
+        {
+            if (m_grabInput) player.stateMachine.SetState(player.grabState);
+            else if (player.IsFalling()) player.stateMachine.SetState(player.wallSlideState);
+        }
+
+        CheckCoyoteTime();
 
         CheckJumpMultiplier();
 
-        if (m_isGrounded && player.rigidBody.linearVelocity.y < 0.01f)
+        if (m_isGrounded && Mathf.Abs(player.rigidBody.linearVelocity.y) < 0.01f) //Abs parce que je dois considerer le gravity swap.
         {
             stateMachine.SetState(player.moveState);
         }
@@ -87,8 +97,7 @@ public class PlayerInAirState : PlayerState
                 player.movement.SetVelocityY(player.movement.velocity.y * playerData.jumpHoldMultiplier);
                 m_isJumping = false;
             }
-            else if (player.facingYDirection == 1 && player.movement.velocity.y < 0
-            || player.facingYDirection == -1 && player.movement.velocity.y > 0)
+            else if (player.IsFalling())
             {
                 m_isJumping = false;
             }

@@ -4,54 +4,29 @@ public class PlayerGroundedState : PlayerState
 {
     protected int xInput;
     protected int yInput;
+    protected bool isStillGrounded;
     private bool m_jumpInput;
     private bool m_dashInput;
+    private bool m_grabInput;
     private bool m_isGrounded;
     private bool m_swapGravityInput;
-
+    private bool m_isTouchingWall;
     public PlayerGroundedState(PlayerController playerController, PlayerStateMachine plrStateMachine, PlayerData plrData, string animBool) : base(playerController, plrStateMachine, plrData, animBool)
     {
-    }
-
-    protected bool HandleGroundedTransitions()
-    {
-        if (m_swapGravityInput)
-        {
-            player.input.UseSwapGravityInput();
-            player.gravity.SwapPlayerGravity();
-        }
-
-        if (m_jumpInput && player.jumpState.CanJump())
-        {
-            player.input.UseJumpInput();
-            stateMachine.SetState(player.jumpState);
-            return true;
-        }
-        else if (m_dashInput && player.dashState.CanDash() && (xInput != 0 || yInput != 0))
-        {
-            player.input.UseDashInput();
-            stateMachine.SetState(player.dashState);
-            return true;
-        }
-        else if (!m_isGrounded)
-        {
-            player.inAirState.StartCoyoteTime();
-            stateMachine.SetState(player.inAirState);
-            return true;
-        }
-        return false;
     }
 
     public override void DoChecks()
     {
         base.DoChecks();
         m_isGrounded = player.CheckIfOnGround();
+        m_isTouchingWall = player.CheckIfIsTouchingWall();
     }
 
     public override void Enter()
     {
         base.Enter();
 
+        isStillGrounded = true;
         player.jumpState.ResetAmoutOfJumpsLeft();
         player.dashState.ResetAmountOfDashesLeft();
     }
@@ -66,9 +41,41 @@ public class PlayerGroundedState : PlayerState
         base.LogicUpdate();
         xInput = player.input.NormInputX;
         yInput = player.input.NormInputY;
+        m_grabInput = player.input.GrabInput;
         m_jumpInput = player.input.JumpInput;
         m_dashInput = player.input.DashInput;
         m_swapGravityInput = player.input.SwapGravityInput;
+
+        if (m_swapGravityInput)
+        {
+            player.input.UseSwapGravityInput();
+            player.gravity.SwapPlayerGravity();
+        }
+
+        if (m_isTouchingWall && m_grabInput)
+        {
+            player.stateMachine.SetState(player.grabState);
+            isStillGrounded = false;
+        }
+        else if (m_isTouchingWall && !m_isGrounded) player.stateMachine.SetState(player.wallSlideState);
+        else if (m_jumpInput && player.jumpState.CanJump())
+        {
+            player.input.UseJumpInput();
+            stateMachine.SetState(player.jumpState);
+            isStillGrounded = false;
+        }
+        else if (m_dashInput && player.dashState.CanDash() && (xInput != 0 || yInput != 0))
+        {
+            player.input.UseDashInput();
+            stateMachine.SetState(player.dashState);
+            isStillGrounded = false;
+        }
+        else if (!m_isGrounded)
+        {
+            player.inAirState.StartCoyoteTime();
+            stateMachine.SetState(player.inAirState);
+            isStillGrounded = false;
+        }
     }
 
     public override void PhysicsUpdate()

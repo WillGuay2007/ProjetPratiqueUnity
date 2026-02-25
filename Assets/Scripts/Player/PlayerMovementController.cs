@@ -43,9 +43,11 @@ public class PlayerMovementController : MonoBehaviour
     public void AdjustVelocityX_Constant(float velocity, float interval)
     {
         if (m_rb.linearVelocityX == velocity) return;
-        interval = Mathf.Abs(interval);
+
         if (m_rb.linearVelocityX > velocity) interval *= -1;
+
         float newVelocity = m_rb.linearVelocityX + interval;
+
         if (interval < 0)
         {
             if (newVelocity < velocity) newVelocity = velocity;
@@ -61,10 +63,7 @@ public class PlayerMovementController : MonoBehaviour
     {
         if (m_rb.linearVelocityY == velocity) return;
 
-        interval = Mathf.Abs(interval);
-
-        if (m_rb.linearVelocityY > velocity)
-            interval *= -1;
+        if (m_rb.linearVelocityY > velocity) interval *= -1;
 
         float newVelocity = m_rb.linearVelocityY + interval;
 

@@ -25,7 +25,7 @@ public class PlayerMoveState : PlayerGroundedState
     {
         base.LogicUpdate();
 
-        if (HandleGroundedTransitions()) return;
+        if (!isStillGrounded) return;
 
         player.CheckIfShouldFlipX(xInput);
 

@@ -32,7 +32,12 @@ MonoBehaviour:
   HyperdashYVelocity: 13
   SuperDashXVelocity: 30
   SuperDashYVelocity: 21
+  maxWallSlideVelocity: 25
+  wallSlideFriction: 0.5
+  wallSlideExitXVelocity: 15
+  wallClimbSpeed: 5
   groundCheckRadius: 0.2
   whatIsGround:
     serializedVersion: 2
     m_Bits: 8
+  wallCheckRayLength: 0.7

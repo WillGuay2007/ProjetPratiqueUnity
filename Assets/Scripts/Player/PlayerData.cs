@@ -36,8 +36,17 @@ public class PlayerData : ScriptableObject
     public float SuperDashXVelocity = 25f;
     public float SuperDashYVelocity = 21f;
 
+    [Header("Wall Slide state")]
+    public float maxWallSlideVelocity = 5f;
+    public float wallSlideFriction = 0.1f;
+    public float wallSlideExitXVelocity = 25f;
+
+    [Header("Wall Climb state")]
+    public float wallClimbSpeed = 5f;
+
     [Header("Check variables")]
     public float groundCheckRadius = 0.2f;
     public LayerMask whatIsGround;
+    public float wallCheckRayLength = 1f;
 
 }

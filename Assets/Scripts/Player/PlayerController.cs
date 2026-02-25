@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class PlayerController : MonoBehaviour, IDamageable
 {
@@ -29,6 +30,9 @@ public class PlayerController : MonoBehaviour, IDamageable
     public PlayerInAirState inAirState { get; private set; }
     public PlayerDashState dashState { get; private set; }
     public PlayerDiedState diedState { get; private set; }
+    public PlayerGrabState grabState { get; private set; }
+    public PlayerWallSlideState wallSlideState { get; private set; }
+    public PlayerClimbState climbState { get; private set; }
     #endregion
     #region Other variables
     public int facingXDirection { get; private set; }
@@ -60,6 +64,9 @@ public class PlayerController : MonoBehaviour, IDamageable
         inAirState = new PlayerInAirState(this, stateMachine, m_playerData, "InAir");
         dashState = new PlayerDashState(this, stateMachine, m_playerData, "InAir");
         diedState = new PlayerDiedState(this, stateMachine, m_playerData, "Died");
+        grabState = new PlayerGrabState(this, stateMachine, m_playerData, "Grab");
+        climbState = new PlayerClimbState(this, stateMachine, m_playerData, "Climb");
+        wallSlideState = new PlayerWallSlideState(this, stateMachine, m_playerData, "Slide");
     }
 
     private void Start()
@@ -133,6 +140,11 @@ public class PlayerController : MonoBehaviour, IDamageable
     public bool IsGoingUp()
     {
         return Mathf.Sign(movement.velocity.y) == facingYDirection;
+    }
+
+    public bool CheckIfIsTouchingWall()
+    {
+        return Physics2D.Raycast(transform.position, Vector2.right * facingXDirection, m_playerData.wallCheckRayLength, m_playerData.whatIsGround); //Ground est considéré comme un wall.
     }
 
     public bool IsDead() => health <= 0f;

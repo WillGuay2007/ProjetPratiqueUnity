@@ -25,6 +25,11 @@ public class PlayerGravityController : MonoBehaviour
         m_player.FlipY();
     }
 
+    public void SetDefaultGravityConsideringGravSwap()
+    {
+        m_rigidbody.gravityScale = m_originalPlayerGravity * m_player.facingYDirection;
+    }
+
     public void DisablePlayerGravity()
     {
         m_rigidbody.gravityScale = 0f;
