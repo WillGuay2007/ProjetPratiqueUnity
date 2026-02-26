@@ -35,6 +35,35 @@ public class PlayerClimbState : PlayerTouchWallState
             stateMachine.SetState(player.inAirState);
             return;
         }
+        else if (jumpInput)
+        {
+            if (yInput < 0)
+            {
+                player.FlipX();
+                if (xInput == player.facingXDirection)
+                {
+                    player.movement.SetVelocityX(playerData.ClimbDownXBoost * player.facingXDirection * playerData.ClimbDownFaceAwayXBoostMultiplier);
+                } else
+                {
+                    player.movement.SetVelocityX(playerData.ClimbDownXBoost * player.facingXDirection);
+                }
+            }
+            else
+            {
+                player.input.DisableGrabInputForSeconds(playerData.GrabInputDeactivationDelayAfterBounce);
+                player.input.UseJumpInput();
+                if (xInput != 0f && xInput != player.facingXDirection)
+                {
+                    player.movement.SetVelocityX(playerData.wallBounceXVelocity * -player.facingXDirection);
+                }
+                player.stateMachine.SetState(player.jumpState);
+            }
+        }
+        else if (yInput == 0f)
+        {
+            stateMachine.SetState(player.grabState);
+            return;
+        }
     }
 
     public override void PhysicsUpdate()

@@ -33,9 +33,12 @@ MonoBehaviour:
   SuperDashXVelocity: 30
   SuperDashYVelocity: 21
   maxWallSlideVelocity: 25
-  wallSlideFriction: 0.5
-  wallSlideExitXVelocity: 15
+  wallSlideFriction: 0.35
+  wallBounceXVelocity: 10
   wallClimbSpeed: 5
+  GrabInputDeactivationDelayAfterBounce: 0.2
+  ClimbDownXBoost: 30
+  ClimbDownFaceAwayXBoostMultiplier: 1.5
   groundCheckRadius: 0.2
   whatIsGround:
     serializedVersion: 2

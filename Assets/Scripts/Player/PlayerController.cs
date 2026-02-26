@@ -86,7 +86,7 @@ public class PlayerController : MonoBehaviour, IDamageable
     }
     #endregion
     #region Other Functions
-    private void FlipX()
+    public void FlipX()
     {
         facingXDirection *= -1;
         transform.Rotate(0f, 180f, 0f);
@@ -142,9 +142,22 @@ public class PlayerController : MonoBehaviour, IDamageable
         return Mathf.Sign(movement.velocity.y) == facingYDirection;
     }
 
-    public bool CheckIfIsTouchingWall()
+    public bool CheckIfFacingWall()
     {
         return Physics2D.Raycast(transform.position, Vector2.right * facingXDirection, m_playerData.wallCheckRayLength, m_playerData.whatIsGround); //Ground est considéré comme un wall.
+    }
+
+    public bool CheckIfTouchingWall()
+    {
+        if (Physics2D.Raycast(transform.position, Vector2.right * facingXDirection, m_playerData.wallCheckRayLength, m_playerData.whatIsGround))
+        {
+            return true;
+        }
+        else if (Physics2D.Raycast(transform.position, -Vector2.right * facingXDirection, m_playerData.wallCheckRayLength, m_playerData.whatIsGround))
+        {
+            return true;
+        }
+        return false;
     }
 
     public bool IsDead() => health <= 0f;

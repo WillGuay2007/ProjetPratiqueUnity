@@ -35,5 +35,10 @@ public class PlayerJumpState : PlayerAbilityState
 
     public void ResetAmoutOfJumpsLeft() => m_amountOfJumpsLeft = playerData.amountOfJumps;
     public void DecreaseAmountOfJumpsLeft() => m_amountOfJumpsLeft--;
+    public void IncreaseAmountOfJumpsLeft()
+    {
+        m_amountOfJumpsLeft++;
+        Mathf.Clamp(m_amountOfJumpsLeft, 0, playerData.amountOfJumps);
+    }
     public void SetCustomJumpHeight(float amount) => m_customJumpHeight = amount;
 }

@@ -10,8 +10,9 @@ public class PlayerInAirState : PlayerState
     private bool m_coyoteTime;
     private bool m_jumpInputStop;
     private bool m_isJumping;
-    private bool m_isTouchingWall;
+    private bool m_isFacingWall;
     private bool m_grabInput;
+    private bool m_isTouchingWall;
     public PlayerInAirState(PlayerController playerController, PlayerStateMachine plrStateMachine, PlayerData plrData, string animBool) : base(playerController, plrStateMachine, plrData, animBool)
     {
     }
@@ -20,7 +21,8 @@ public class PlayerInAirState : PlayerState
     {
         base.DoChecks();
         m_isGrounded = player.CheckIfOnGround();
-        m_isTouchingWall = player.CheckIfIsTouchingWall();
+        m_isFacingWall = player.CheckIfFacingWall();
+        m_isTouchingWall = player.CheckIfTouchingWall();
     }
 
     public override void Enter()
@@ -44,17 +46,26 @@ public class PlayerInAirState : PlayerState
         m_dashInput = player.input.DashInput;
         m_grabInput = player.input.GrabInput;
 
-        if (m_isTouchingWall)
-        {
-            if (m_grabInput) player.stateMachine.SetState(player.grabState);
-            else if (player.IsFalling()) player.stateMachine.SetState(player.wallSlideState);
-        }
-
         CheckCoyoteTime();
 
         CheckJumpMultiplier();
 
-        if (m_isGrounded && Mathf.Abs(player.rigidBody.linearVelocity.y) < 0.01f) //Abs parce que je dois considerer le gravity swap.
+        if (m_isFacingWall && m_grabInput)
+        {
+            player.stateMachine.SetState(player.grabState);
+        }
+        else if (m_isFacingWall && player.IsFalling())
+        {
+            player.stateMachine.SetState(player.wallSlideState);
+        }
+        else if (m_isTouchingWall && m_jumpInput)
+        {
+            player.input.UseJumpInput();
+            int faceWallMultiplier = m_isFacingWall ? 1 : -1;
+            player.movement.SetVelocityX(playerData.wallBounceXVelocity * -player.facingXDirection * faceWallMultiplier);
+            player.stateMachine.SetState(player.jumpState);
+        }
+        else if (m_isGrounded && Mathf.Abs(player.rigidBody.linearVelocity.y) < 0.01f) //Abs parce que je dois considerer le gravity swap.
         {
             stateMachine.SetState(player.moveState);
         }

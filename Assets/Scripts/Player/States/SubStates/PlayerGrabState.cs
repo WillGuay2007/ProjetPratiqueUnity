@@ -5,7 +5,7 @@ public class PlayerGrabState : PlayerTouchWallState
     public PlayerGrabState(PlayerController playerController, PlayerStateMachine plrStateMachine, PlayerData plrData, string animBool) : base(playerController, plrStateMachine, plrData, animBool)
     {
     }
-
+    
     public override void DoChecks()
     {
         base.DoChecks();
@@ -30,17 +30,27 @@ public class PlayerGrabState : PlayerTouchWallState
         if (!isStillOnWall) return;
         if (!grabInput)
         {
-            if (isTouchingWall)
+            if (isFacingWall)
             {
                 player.stateMachine.SetState(player.wallSlideState);
             }
-            else
-            {
-                player.stateMachine.SetState(player.inAirState);
-            }
             return;
         }
-        if (yInput != 0f) player.stateMachine.SetState(player.climbState);
+        else if (jumpInput)
+        {
+            player.input.DisableGrabInputForSeconds(playerData.GrabInputDeactivationDelayAfterBounce);
+            player.input.UseJumpInput();
+            if (xInput != 0f && xInput != player.facingXDirection)
+            {
+                player.movement.SetVelocityX(playerData.wallBounceXVelocity * -player.facingXDirection);
+            }
+            player.stateMachine.SetState(player.jumpState);
+        }
+        else if (yInput != 0f) {
+            player.stateMachine.SetState(player.climbState);
+            return;
+        }
+
     }
 
     public override void PhysicsUpdate()

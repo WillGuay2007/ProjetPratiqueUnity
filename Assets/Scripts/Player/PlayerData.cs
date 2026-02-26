@@ -39,10 +39,17 @@ public class PlayerData : ScriptableObject
     [Header("Wall Slide state")]
     public float maxWallSlideVelocity = 5f;
     public float wallSlideFriction = 0.1f;
-    public float wallSlideExitXVelocity = 25f;
+    public float wallBounceXVelocity = 25f;
 
     [Header("Wall Climb state")]
     public float wallClimbSpeed = 5f;
+
+    [Header("Grab + Climb state")]
+    public float GrabInputDeactivationDelayAfterBounce = 0.2f;
+
+    [Header("Climb state")]
+    public float ClimbDownXBoost = 30f;
+    public float ClimbDownFaceAwayXBoostMultiplier = 1.5f;
 
     [Header("Check variables")]
     public float groundCheckRadius = 0.2f;

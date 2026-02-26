@@ -2,12 +2,13 @@ using UnityEngine;
 
 public class PlayerTouchWallState : PlayerState
 {
-    protected bool isTouchingWall;
+    protected bool isFacingWall;
     private bool m_isGrounded;
     protected int xInput;
     protected int yInput;
     protected bool grabInput;
     protected bool isStillOnWall;
+    protected bool jumpInput;
     public PlayerTouchWallState(PlayerController playerController, PlayerStateMachine plrStateMachine, PlayerData plrData, string animBool) : base(playerController, plrStateMachine, plrData, animBool)
     {
     }
@@ -15,7 +16,7 @@ public class PlayerTouchWallState : PlayerState
     public override void DoChecks()
     {
         base.DoChecks();
-        isTouchingWall = player.CheckIfIsTouchingWall();
+        isFacingWall = player.CheckIfFacingWall();
         m_isGrounded = player.CheckIfOnGround();
     }
 
@@ -36,7 +37,8 @@ public class PlayerTouchWallState : PlayerState
         grabInput = player.input.GrabInput;
         xInput = player.input.NormInputX;
         yInput = player.input.NormInputY;
-        if (!isTouchingWall)
+        jumpInput = player.input.JumpInput;
+        if (!isFacingWall)
         {
             if (m_isGrounded)
             {

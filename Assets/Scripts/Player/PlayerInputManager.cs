@@ -14,6 +14,7 @@ public class PlayerInputManager : MonoBehaviour
     public bool GrabInput { get; private set; }
     public bool SwapGravityInput { get; private set; }
     private bool m_isInputEnabled = true;
+    private bool m_isHoldingGrab;
     [SerializeField] private float m_jumpInputHoldTime = 0.2f;
     [SerializeField] private float m_dashBuffer = 0.2f;
     private float m_jumpInputStartTime;
@@ -52,10 +53,12 @@ public class PlayerInputManager : MonoBehaviour
         if (!m_isInputEnabled) return;
         if (context.started)
         {
+            m_isHoldingGrab = true;
             GrabInput = true;
         }
         else if (context.canceled)
         {
+            m_isHoldingGrab = false;
             GrabInput = false;
         }
     }
@@ -115,6 +118,13 @@ public class PlayerInputManager : MonoBehaviour
     public void UseDashInput() => DashInput = false;
     public void UseInteractInput() => InteractInput = false;
     public void UseSwapGravityInput() => SwapGravityInput = false;
+    public void DisableGrabInputForSeconds(float seconds) => StartCoroutine(DisableGrabInput(seconds));
+    private IEnumerator DisableGrabInput(float seconds)
+    {
+        GrabInput = false;
+        yield return new WaitForSeconds(seconds);
+        if (m_isHoldingGrab) GrabInput = true;
+    }
     private void CheckJumpInputHoldTime()
     {
         if (Time.time >= m_jumpInputStartTime + m_jumpInputHoldTime)

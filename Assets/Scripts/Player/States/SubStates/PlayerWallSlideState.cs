@@ -24,29 +24,38 @@ public class PlayerWallSlideState : PlayerTouchWallState
     {
         base.Exit();
         player.gravity.SetDefaultGravityConsideringGravSwap();
-        player.movement.SetVelocityX(playerData.wallSlideExitXVelocity * player.facingXDirection);
     }
 
     public override void LogicUpdate()
     {
         base.LogicUpdate();
-        if (!isStillOnWall) return;
+        if (!isStillOnWall)
+        {
+            return;
+        }
         if (grabInput)
         {
             player.stateMachine.SetState(player.grabState);
             return;
         }
-        if (m_isGrounded)
+        else if (m_isGrounded)
         {
             player.stateMachine.SetState(player.idleState);
             return;
         }
-        if (xInput != player.facingXDirection && xInput != 0f)
+        else if (jumpInput)
+        {
+            player.stateMachine.SetState(player.jumpState);
+            player.movement.SetVelocityX(playerData.wallBounceXVelocity * -player.facingXDirection);
+            return;
+        }
+        else if (xInput != player.facingXDirection && xInput != 0f)
         {
             player.CheckIfShouldFlipX(xInput);
             player.stateMachine.SetState(player.inAirState);
             return;
         }
+        
         player.movement.SetVelocityX(0);
         player.movement.AdjustVelocityY_Constant(-Mathf.Abs(playerData.maxWallSlideVelocity) * player.facingYDirection, playerData.wallSlideFriction);
     }
