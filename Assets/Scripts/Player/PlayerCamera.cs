@@ -4,11 +4,7 @@ public class PlayerCamera : MonoBehaviour
 {
     [SerializeField] private GameObject m_Player;
     [SerializeField] private float m_Speed;
-    private Vector3 m_offset;
-    void Awake()
-    {
-        m_offset = transform.position - m_Player.transform.position;
-    }
+    private Vector3 m_offset = new Vector3(0,0,-15);
 
     void Update()
     {

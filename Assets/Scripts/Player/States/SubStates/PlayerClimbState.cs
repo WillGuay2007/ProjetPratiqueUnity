@@ -37,7 +37,7 @@ public class PlayerClimbState : PlayerTouchWallState
         }
         else if (jumpInput)
         {
-            if (yInput < 0)
+            if (yInput != player.facingYDirection)
             {
                 player.FlipX();
                 if (xInput == player.facingXDirection)
