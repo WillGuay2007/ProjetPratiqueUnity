@@ -40,5 +40,5 @@ public class PlayerJumpState : PlayerAbilityState
         m_amountOfJumpsLeft++;
         Mathf.Clamp(m_amountOfJumpsLeft, 0, playerData.amountOfJumps);
     }
-    public void SetCustomJumpHeight(float amount) => m_customJumpHeight = amount;
+    public void SetCustomJumpHeight(float amount) => m_customJumpHeight = amount; //Appeler avant d'entrer dans le jump state
 }
