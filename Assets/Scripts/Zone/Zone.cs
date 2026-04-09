@@ -7,7 +7,7 @@ public class Zone : MonoBehaviour
 
     private void Awake()
     {
-        foreach (var effect in GetComponents<IZoneEffect>())
+        foreach (IZoneEffect effect in GetComponents<IZoneEffect>())
         {
             effects.Add(effect);
         }
@@ -16,7 +16,7 @@ public class Zone : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (!collision.GetComponent<PlayerController>()) return;
-        foreach (var effect in effects)
+        foreach (IZoneEffect effect in effects)
         {
             effect.Apply();
         }
@@ -25,7 +25,7 @@ public class Zone : MonoBehaviour
     private void OnTriggerExit2D(Collider2D collision)
     {
         if (!collision.GetComponent<PlayerController>()) return;
-        foreach (var effect in effects)
+        foreach (IZoneEffect effect in effects)
         {
             effect.Unapply();
         }

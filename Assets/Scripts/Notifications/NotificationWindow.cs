@@ -5,6 +5,12 @@ public class NotificationWindow : Window
 {
     [SerializeField] private GameObject m_notificationCardPrefab;
 
+    private void Awake()
+    {
+        GameObject notifPrefab = Instantiate(m_notificationCardPrefab, transform);
+        Destroy(notifPrefab);
+    }
+
     public void AddNotification(string message, float destroyTimer)
     {
         GameObject notifPrefab = Instantiate(m_notificationCardPrefab, transform);

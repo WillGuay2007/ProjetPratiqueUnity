@@ -45,6 +45,7 @@ public class PlayerGrabState : PlayerTouchWallState
                 player.movement.SetVelocityX(playerData.wallBounceXVelocity * -player.facingXDirection);
             }
             player.stateMachine.SetState(player.jumpState);
+            return;
         }
         else if (yInput != 0f) {
             player.stateMachine.SetState(player.climbState);

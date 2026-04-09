@@ -35,7 +35,7 @@ public class AudioController : MonoBehaviour
     public static AudioController Instance {
         get
         {
-            if (m_instance == null) print("AudioController does not exist.");
+            //if (m_instance == null) print("AudioController does not exist.");
             return m_instance; 
         } 
     }
