@@ -2,15 +2,18 @@ using UnityEngine;
 
 public class NotificationZoneEffect : MonoBehaviour, IZoneEffect
 {
+    [SerializeField] private MonoBehaviour m_notificationService;
+    private INotificationService NotificationService => m_notificationService as INotificationService;
+
     [SerializeField] string enterMessage;
     [SerializeField] string exitMessage;
     public void Apply()
     {
-        NotificationController.Instance.Notify(enterMessage);
+        NotificationService.Notify(enterMessage);
     }
 
     public void Unapply()
     {
-        NotificationController.Instance.Notify(exitMessage);
+        NotificationService.Notify(exitMessage);
     }
 }

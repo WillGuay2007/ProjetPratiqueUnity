@@ -1,7 +1,11 @@
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class CheckpointSystem : MonoBehaviour
 {
+
+    [SerializeField] private MonoBehaviour m_notificationService;
+    private INotificationService NotificationService => m_notificationService as INotificationService;
 
     private bool isClaimed;
 
@@ -13,6 +17,7 @@ public class CheckpointSystem : MonoBehaviour
         if (player != null)
         {
             ClaimCheckpoint();
+            NotificationService.Notify("Reached checkpoint " + name.Filter(false, true) + "!");
             player.ClaimCheckpoint(transform.position);
         }
     }
