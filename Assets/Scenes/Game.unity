@@ -695,7 +695,7 @@ Transform:
   m_GameObject: {fileID: 141233832}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -53.49, y: 2.07, z: 0}
+  m_LocalPosition: {x: -53.49, y: 2.134, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -758,8 +758,8 @@ CapsuleCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0.045726776, y: -0.14539379}
-  m_Size: {x: 0.8785248, y: 1.9384569}
+  m_Offset: {x: 0.0045000017, y: -0.16502327}
+  m_Size: {x: 0.9, y: 1.9200464}
   m_Direction: 0
 --- !u!114 &141233839
 MonoBehaviour:
@@ -1346,11 +1346,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c635a169854cace4fb589f211a8bb89f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_fadeDuration: 5
+  m_fadeDuration: 0.5
   m_musicSource1: {fileID: 152623410}
   m_musicSource2: {fileID: 152623409}
   m_soundSource: {fileID: 152623408}
-  m_soundEntries: []
+  m_soundEntries:
+  - sound: 0
+    clip: {fileID: 8300000, guid: 77bb46c62728d5e48b5a53df8b974832, type: 3}
+  - sound: 2
+    clip: {fileID: 8300000, guid: 5c38e4a87fa031f43b70969d1c312aa1, type: 3}
+  - sound: 1
+    clip: {fileID: 8300000, guid: aef71184fc4826b4ca8e47ebbed5b5af, type: 3}
+  - sound: 3
+    clip: {fileID: 8300000, guid: 2b42133b345aeb94ead2c398009b5ee3, type: 3}
   m_defaultMusic: {fileID: 8300000, guid: 3e9c3b10ea16a2145976dac80267e335, type: 3}
 --- !u!1 &165790583
 GameObject:
@@ -9163,7 +9171,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_textLabel: {fileID: 1656615980}
-  m_testDialogue: {fileID: 11400000, guid: 9e40fae6d4d4a5c469530d61710e2f29, type: 2}
   m_dialogueBox: {fileID: 17056359}
   m_playerController: {fileID: 141233841}
 --- !u!114 &288829835
@@ -9628,6 +9635,7 @@ GameObject:
   - component: {fileID: 381159366}
   - component: {fileID: 381159365}
   - component: {fileID: 381159364}
+  - component: {fileID: 381159368}
   m_Layer: 0
   m_Name: Zone (1)
   m_TagString: Untagged
@@ -9735,6 +9743,21 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 16.919998, y: 32.540627}
   m_EdgeRadius: 0
+--- !u!114 &381159368
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 381159362}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8e78266e17e2af54980d06c2222b0a71, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_postProcessController: {fileID: 2103240098}
+  m_vignetteIntensity: 0.3
+  m_vignetteFadeDuration: 1
 --- !u!4 &394980758 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7218983789353136716, guid: 20b0e412f20abc6418b877330c4a106d, type: 3}

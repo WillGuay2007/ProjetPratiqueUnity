@@ -5,7 +5,6 @@ using TMPro;
 public class DialogueManager : MonoBehaviour
 {
     [SerializeField] private TMP_Text m_textLabel;
-    [SerializeField] private DialogueObject m_testDialogue;
     [SerializeField] private GameObject m_dialogueBox;
     [SerializeField] private PlayerController m_playerController;
 

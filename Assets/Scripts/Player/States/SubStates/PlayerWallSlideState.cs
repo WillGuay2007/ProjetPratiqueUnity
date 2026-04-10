@@ -29,30 +29,30 @@ public class PlayerWallSlideState : PlayerTouchWallState
     public override void LogicUpdate()
     {
         base.LogicUpdate();
-        if (!isStillOnWall)
+        if (transitioned)
         {
             return;
         }
         if (grabInput)
         {
-            player.stateMachine.SetState(player.grabState);
+            Transition(player.grabState);
             return;
         }
         else if (m_isGrounded)
         {
-            player.stateMachine.SetState(player.idleState);
+            Transition(player.idleState);
             return;
         }
         else if (jumpInput)
         {
-            player.stateMachine.SetState(player.jumpState);
+            Transition(player.jumpState);
             player.movement.SetVelocityX(playerData.wallBounceXVelocity * -player.facingXDirection);
             return;
         }
         else if (xInput != player.facingXDirection && xInput != 0f)
         {
             player.CheckIfShouldFlipX(xInput);
-            player.stateMachine.SetState(player.inAirState);
+            Transition(player.inAirState);
             return;
         }
         

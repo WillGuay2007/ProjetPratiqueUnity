@@ -27,12 +27,12 @@ public class PlayerClimbState : PlayerTouchWallState
     public override void LogicUpdate()
     {
         base.LogicUpdate();
-        if (!isStillOnWall) return;
+        if (transitioned) return;
         player.movement.SetVelocityX(0);
         player.movement.SetVelocityY(yInput * playerData.wallClimbSpeed);
         if (!grabInput)
         {
-            stateMachine.SetState(player.inAirState);
+            Transition(player.inAirState);
             return;
         }
         else if (jumpInput)
@@ -56,12 +56,12 @@ public class PlayerClimbState : PlayerTouchWallState
                 {
                     player.movement.SetVelocityX(playerData.wallBounceXVelocity * -player.facingXDirection);
                 }
-                player.stateMachine.SetState(player.jumpState);
+                Transition(player.jumpState);
             }
         }
         else if (yInput == 0f)
         {
-            stateMachine.SetState(player.grabState);
+            Transition(player.grabState);
             return;
         }
     }

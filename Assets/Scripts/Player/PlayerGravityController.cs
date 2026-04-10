@@ -37,6 +37,7 @@ public class PlayerGravityController : MonoBehaviour
 
     public void SwapPlayerGravity()
     {
+        AudioController.Instance.PlaySound(AudioController.Sounds.GravitySwap);
         m_rigidbody.gravityScale *= -1;
         m_player.FlipY();
     }

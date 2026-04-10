@@ -7,7 +7,8 @@ public class A_Star
 {
     public static List<Node> FindPath(Node startNode, Node endNode)
     {
-        List<Node> OpenSet = new List<Node>() { startNode };
+        SortedList<(float F, int x, int y), Node> OpenSet = new SortedList<(float F, int x, int y), Node>();
+        OpenSet.Add((startNode.F, startNode.GridX, startNode.GridY), startNode);
         List<Node> ClosedSet = new List<Node>();
 
         startNode.SetG(0);
@@ -15,13 +16,9 @@ public class A_Star
 
         while (OpenSet.Count > 0)
         {
-            Node current = OpenSet[0];
-            foreach(Node node in OpenSet)
-            {
-                if (node.F < current.F || node.F == current.F && node.H < current.H) current = node;
-            }
+            Node current = OpenSet.Values[0];
+            OpenSet.RemoveAt(0);
             ClosedSet.Add(current);
-            OpenSet.Remove(current);
 
             if (current == endNode)
             {
@@ -40,19 +37,22 @@ public class A_Star
             {
                 if (!neighbor.IsTraversable) continue;
                 if (ClosedSet.Contains(neighbor)) continue;
-                bool inSearch = OpenSet.Contains(neighbor);
+                bool inSearch = OpenSet.ContainsValue(neighbor);
                 float costToNeighbor = current.G + current.GetDistance(neighbor);
 
-                if (!inSearch || costToNeighbor < neighbor.G)
+                if (!inSearch)
                 {
                     neighbor.SetG(costToNeighbor);
+                    neighbor.SetH(neighbor.GetDistance(endNode));
                     neighbor.SetConnection(current);
-
-                    if (!inSearch)
-                    {
-                        neighbor.SetH(neighbor.GetDistance(endNode));
-                        OpenSet.Add(neighbor);
-                    }
+                    OpenSet.Add((neighbor.F, neighbor.GridX, neighbor.GridY), neighbor);
+                }
+                else if (costToNeighbor < neighbor.G)
+                {
+                    OpenSet.Remove((neighbor.F, neighbor.GridX, neighbor.GridY));
+                    neighbor.SetG(costToNeighbor);
+                    neighbor.SetConnection(current);
+                    OpenSet.Add((neighbor.F, neighbor.GridX, neighbor.GridY), neighbor);
                 }
             }
         }

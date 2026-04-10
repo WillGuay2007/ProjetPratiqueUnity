@@ -39,6 +39,7 @@ public class StandingBird : MonoBehaviour
     private IEnumerator FlyAway(float playerFacingDirection)
     {
         DisableAnimatorBools();
+        AudioController.Instance.PlaySound(AudioController.Sounds.BirdFlyAway);
         m_birdAnimator.SetBool("Flying", true);
 
         Vector2 chosenVelocity = new Vector2(

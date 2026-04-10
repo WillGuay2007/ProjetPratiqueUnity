@@ -7,6 +7,9 @@ public class AudioController : MonoBehaviour
     public enum Sounds
     {
         PlayerJump,
+        PlayerDash,
+        BirdFlyAway,
+        GravitySwap
     }
 
     [System.Serializable]
@@ -25,7 +28,7 @@ public class AudioController : MonoBehaviour
 
     private float m_musicVolume = 1f;
 
-    private Dictionary<Sounds, AudioClip> m_sounds = new();
+    private Dictionary<Sounds, AudioClip> m_sounds = new(); //TODO: Make it possible to have multiple sounds for an enum so it pick random
 
     private bool m_isMusicSource1Active = true;
 

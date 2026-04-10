@@ -7,7 +7,6 @@ public class PlayerTouchWallState : PlayerState
     protected int xInput;
     protected int yInput;
     protected bool grabInput;
-    protected bool isStillOnWall;
     protected bool jumpInput;
     public PlayerTouchWallState(PlayerController playerController, PlayerStateMachine plrStateMachine, PlayerData plrData, string animBool) : base(playerController, plrStateMachine, plrData, animBool)
     {
@@ -23,7 +22,6 @@ public class PlayerTouchWallState : PlayerState
     public override void Enter()
     {
         base.Enter();
-        isStillOnWall = true;
     }
 
     public override void Exit()
@@ -42,12 +40,11 @@ public class PlayerTouchWallState : PlayerState
         {
             if (m_isGrounded)
             {
-                player.stateMachine.SetState(player.idleState);
+                Transition(player.idleState);
             } else
             {
-                player.stateMachine.SetState(player.inAirState);
+                Transition(player.inAirState);
             }
-            isStillOnWall = false;
         }
     }
 

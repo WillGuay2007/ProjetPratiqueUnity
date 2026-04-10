@@ -32,6 +32,7 @@ public class PlayerDashState : PlayerAbilityState
     public override void Enter()
     {
         base.Enter();
+        AudioController.Instance.PlaySound(AudioController.Sounds.PlayerDash);
         StartDash();
     }
 
@@ -82,7 +83,7 @@ public class PlayerDashState : PlayerAbilityState
                 player.movement.SetVelocityX(playerData.HyperdashXVelocity * player.facingXDirection);
             }
 
-            stateMachine.SetState(player.jumpState);
+            Transition(player.jumpState);
                 
             return;
             }

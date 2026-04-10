@@ -6,6 +6,7 @@ public abstract class PlayerState
     protected PlayerStateMachine stateMachine;
     protected PlayerData playerData;
     protected float startTime;
+    protected bool transitioned; //Pour que quand une classe parent change de state, les enfants run pas.
     private string animBoolName;
 
     protected PlayerState(PlayerController playerController, PlayerStateMachine plrStateMachine, PlayerData plrData, string animBool)
@@ -17,6 +18,7 @@ public abstract class PlayerState
     }
 
     public virtual void Enter() {
+        transitioned = false;
         //Debug.Log("Entering " + GetType().Name);
         DoChecks();
         player.animator.SetBool(animBoolName, true);
@@ -30,4 +32,10 @@ public abstract class PlayerState
         DoChecks();
     }
     public virtual void DoChecks(){ }
+
+    protected void Transition(PlayerState newState)
+    {
+        transitioned = true;
+        stateMachine.SetState(newState);
+    }
 }

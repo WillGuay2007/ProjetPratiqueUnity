@@ -52,31 +52,31 @@ public class PlayerInAirState : PlayerState
 
         if (m_isFacingWall && m_grabInput)
         {
-            player.stateMachine.SetState(player.grabState);
+            Transition(player.grabState);
         }
         else if (m_isFacingWall && player.IsFalling())
         {
-            player.stateMachine.SetState(player.wallSlideState);
+            Transition(player.wallSlideState);
         }
         else if (m_isTouchingWall && m_jumpInput)
         {
             player.input.UseJumpInput();
             int faceWallMultiplier = m_isFacingWall ? 1 : -1;
             player.movement.SetVelocityX(playerData.wallBounceXVelocity * -player.facingXDirection * faceWallMultiplier);
-            player.stateMachine.SetState(player.jumpState);
+            Transition(player.jumpState);
         }
         else if (m_isGrounded && Mathf.Abs(player.rigidBody.linearVelocity.y) < 0.01f) //Abs parce que je dois considerer le gravity swap.
         {
-            stateMachine.SetState(player.moveState);
+            Transition(player.moveState);
         }
         else if (m_jumpInput && player.jumpState.CanJump()) {
             player.input.UseJumpInput();
-            stateMachine.SetState(player.jumpState);
+            Transition(player.jumpState);
         }
         else if (m_dashInput && player.dashState.CanDash() && (xInput != 0 || yInput != 0))
         {
             player.input.UseDashInput();
-            stateMachine.SetState(player.dashState);
+            Transition(player.dashState);
         }
         else
         {

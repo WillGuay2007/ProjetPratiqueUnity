@@ -14,6 +14,7 @@ public class PlayerJumpState : PlayerAbilityState
     public override void Enter()
     {
         base.Enter();
+        AudioController.Instance.PlaySound(AudioController.Sounds.PlayerJump);
         float jumpHeight = m_customJumpHeight != 0 ? m_customJumpHeight : playerData.jumpVelocity;
         jumpHeight *= player.facingYDirection;
         player.movement.SetVelocityY(jumpHeight);

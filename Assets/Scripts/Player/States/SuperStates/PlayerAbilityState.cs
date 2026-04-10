@@ -42,7 +42,7 @@ public class PlayerAbilityState : PlayerState
 
         if (isAbilityDone)
         {
-            stateMachine.SetState(player.inAirState);
+            Transition(player.inAirState);
         }
 
     }
