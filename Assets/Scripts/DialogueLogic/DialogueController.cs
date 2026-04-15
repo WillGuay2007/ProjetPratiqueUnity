@@ -4,23 +4,23 @@ using TMPro;
 
 public class DialogueController : MonoBehaviour
 {
-    [SerializeField] private TMP_Text m_textLabel;
-    [SerializeField] private GameObject m_dialogueBox;
     [SerializeField] private PlayerController m_playerController;
+    [SerializeField] DialogueWindow m_dialogueWindow;
+    [SerializeField] private MonoBehaviour dialogueStrategy; //TEMPORARY, should be migrated to scriptable objects when I can.
+    private IDialogueStrategy DialogueStrategy => dialogueStrategy as IDialogueStrategy;
 
-    private TypeWriterEffect m_typeWriterEffect;
+
 
     private void Start()
     {
-        m_typeWriterEffect = GetComponent<TypeWriterEffect>();
-        CloseDialogueBox();
+        EndDialogue();
     }
 
     public Coroutine ShowDialogue(DialogueObject dialogueObject)
     {
         m_playerController.SetPhysics(false);
         m_playerController.InputController.SetInputEnabled(false);
-        m_dialogueBox.SetActive(true);
+        HUDController.Instance.OpenWindow(m_dialogueWindow);
         return StartCoroutine(StepThroughDialogue(dialogueObject));
     }
 
@@ -28,20 +28,17 @@ public class DialogueController : MonoBehaviour
     {
         foreach(string dialogue in dialogueObject.Dialogue)
         {
-            yield return null;
-            yield return m_typeWriterEffect.Run(dialogue, m_textLabel);
-            yield return null;
-            yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.E));
-        } //TODO: Rendre ceci plus lisable. les 2 yield return null fixent le double input de GetKeyDown();
+            yield return m_dialogueWindow.SetText(dialogue, DialogueStrategy);
+        }
 
-        CloseDialogueBox();
+        EndDialogue();
     }
 
-    private void CloseDialogueBox()
+    private void EndDialogue()
     {
         m_playerController.InputController.SetInputEnabled(true);
         m_playerController.SetPhysics(true);
-        m_dialogueBox.SetActive(false);
-        m_textLabel.text = string.Empty;
+        HUDController.Instance.CloseWindow(m_dialogueWindow);
+        m_dialogueWindow.ResetWindow();
     }
 }
