@@ -14,14 +14,14 @@ public class PlayerGrabState : PlayerTouchWallState
     public override void Enter()
     {
         base.Enter();
-        player.gravity.DisablePlayerGravity();
-        player.movement.ResetVelocity();
+        player.GravityController.DisablePlayerGravity();
+        player.MovementController.ResetVelocity();
     }
 
     public override void Exit()
     {
         base.Exit();
-        player.gravity.SetDefaultGravityConsideringGravSwap();
+        player.GravityController.SetDefaultGravityConsideringGravSwap();
     }
 
     public override void LogicUpdate()
@@ -38,11 +38,11 @@ public class PlayerGrabState : PlayerTouchWallState
         }
         else if (jumpInput)
         {
-            player.input.DisableGrabInputForSeconds(playerData.GrabInputDeactivationDelayAfterBounce);
-            player.input.UseJumpInput();
+            player.InputController.DisableGrabInputForSeconds(playerData.GrabInputDeactivationDelayAfterBounce);
+            player.InputController.UseJumpInput();
             if (xInput != 0f && xInput != player.facingXDirection)
             {
-                player.movement.SetVelocityX(playerData.wallBounceXVelocity * -player.facingXDirection);
+                player.MovementController.SetVelocityX(playerData.wallBounceXVelocity * -player.facingXDirection);
             }
             Transition(player.jumpState);
             return;

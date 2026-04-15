@@ -16,14 +16,14 @@ public class PlayerWallSlideState : PlayerTouchWallState
     public override void Enter()
     {
         base.Enter();
-        player.gravity.DisablePlayerGravity();
-        player.movement.SetVelocityX(0);
+        player.GravityController.DisablePlayerGravity();
+        player.MovementController.SetVelocityX(0);
     }
 
     public override void Exit()
     {
         base.Exit();
-        player.gravity.SetDefaultGravityConsideringGravSwap();
+        player.GravityController.SetDefaultGravityConsideringGravSwap();
     }
 
     public override void LogicUpdate()
@@ -46,7 +46,7 @@ public class PlayerWallSlideState : PlayerTouchWallState
         else if (jumpInput)
         {
             Transition(player.jumpState);
-            player.movement.SetVelocityX(playerData.wallBounceXVelocity * -player.facingXDirection);
+            player.MovementController.SetVelocityX(playerData.wallBounceXVelocity * -player.facingXDirection);
             return;
         }
         else if (xInput != player.facingXDirection && xInput != 0f)
@@ -56,8 +56,8 @@ public class PlayerWallSlideState : PlayerTouchWallState
             return;
         }
         
-        player.movement.SetVelocityX(0);
-        player.movement.AdjustVelocityY_Constant(-Mathf.Abs(playerData.maxWallSlideVelocity) * player.facingYDirection, playerData.wallSlideFriction);
+        player.MovementController.SetVelocityX(0);
+        player.MovementController.AdjustVelocityY_Constant(-Mathf.Abs(playerData.maxWallSlideVelocity) * player.facingYDirection, playerData.wallSlideFriction);
     }
 
     public override void PhysicsUpdate()

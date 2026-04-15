@@ -34,24 +34,17 @@ public class AudioController : MonoBehaviour
 
     private Coroutine m_crossFadeCoroutine;
 
-    private static AudioController m_instance;
-    public static AudioController Instance {
-        get
-        {
-            //if (m_instance == null) print("AudioController does not exist.");
-            return m_instance; 
-        } 
-    }
+    public static AudioController Instance;
 
     private void Awake()
     {
-        if (Instance != null)
+        if (Instance != null && Instance != this)
         {
             Destroy(gameObject);
             return;
         }
-        m_instance = this;
-        DontDestroyOnLoad(m_instance);
+        Instance = this;
+        DontDestroyOnLoad(Instance);
 
         foreach (var entry in m_soundEntries)
         {
@@ -132,5 +125,6 @@ public class AudioController : MonoBehaviour
             m_musicSource2.volume = 0f;
             m_isMusicSource1Active = true;
         }
+        m_crossFadeCoroutine = null;
     }
 }

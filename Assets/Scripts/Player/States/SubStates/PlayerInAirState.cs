@@ -39,12 +39,12 @@ public class PlayerInAirState : PlayerState
     {
         base.LogicUpdate();
 
-        xInput = player.input.NormInputX;
-        yInput = player.input.NormInputY;
-        m_jumpInput = player.input.JumpInput;
-        m_jumpInputStop = player.input.JumpInputStop;
-        m_dashInput = player.input.DashInput;
-        m_grabInput = player.input.GrabInput;
+        xInput = player.InputController.NormInputX;
+        yInput = player.InputController.NormInputY;
+        m_jumpInput = player.InputController.JumpInput;
+        m_jumpInputStop = player.InputController.JumpInputStop;
+        m_dashInput = player.InputController.DashInput;
+        m_grabInput = player.InputController.GrabInput;
 
         CheckCoyoteTime();
 
@@ -60,9 +60,9 @@ public class PlayerInAirState : PlayerState
         }
         else if (m_isTouchingWall && m_jumpInput)
         {
-            player.input.UseJumpInput();
+            player.InputController.UseJumpInput();
             int faceWallMultiplier = m_isFacingWall ? 1 : -1;
-            player.movement.SetVelocityX(playerData.wallBounceXVelocity * -player.facingXDirection * faceWallMultiplier);
+            player.MovementController.SetVelocityX(playerData.wallBounceXVelocity * -player.facingXDirection * faceWallMultiplier);
             Transition(player.jumpState);
         }
         else if (m_isGrounded && Mathf.Abs(player.rigidBody.linearVelocity.y) < 0.01f) //Abs parce que je dois considerer le gravity swap.
@@ -70,18 +70,18 @@ public class PlayerInAirState : PlayerState
             Transition(player.moveState);
         }
         else if (m_jumpInput && player.jumpState.CanJump()) {
-            player.input.UseJumpInput();
+            player.InputController.UseJumpInput();
             Transition(player.jumpState);
         }
         else if (m_dashInput && player.dashState.CanDash() && (xInput != 0 || yInput != 0))
         {
-            player.input.UseDashInput();
+            player.InputController.UseDashInput();
             Transition(player.dashState);
         }
         else
         {
             player.CheckIfShouldFlipX(xInput);
-            player.movement.AdjustVelocityX_Constant(xInput * playerData.movementVelocity, playerData.airFrictionX);
+            player.MovementController.AdjustVelocityX_Constant(xInput * playerData.movementVelocity, playerData.airFrictionX);
         }
     }
 
@@ -105,7 +105,7 @@ public class PlayerInAirState : PlayerState
         {
             if (m_jumpInputStop)
             {
-                player.movement.SetVelocityY(player.movement.velocity.y * playerData.jumpHoldMultiplier);
+                player.MovementController.SetVelocityY(player.MovementController.velocity.y * playerData.jumpHoldMultiplier);
                 m_isJumping = false;
             }
             else if (player.IsFalling())

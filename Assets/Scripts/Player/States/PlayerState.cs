@@ -6,7 +6,7 @@ public abstract class PlayerState
     protected PlayerStateMachine stateMachine;
     protected PlayerData playerData;
     protected float startTime;
-    protected bool transitioned; //Pour que quand une classe parent change de state, les enfants run pas.
+    protected bool transitioned; //Pour que quand une classe parent change de state, les enfants run pas. Exemple: If transitioned return
     private string animBoolName;
 
     protected PlayerState(PlayerController playerController, PlayerStateMachine plrStateMachine, PlayerData plrData, string animBool)

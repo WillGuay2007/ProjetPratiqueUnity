@@ -37,17 +37,17 @@ public class PlayerGroundedState : PlayerState
     public override void LogicUpdate()
     {
         base.LogicUpdate();
-        xInput = player.input.NormInputX;
-        yInput = player.input.NormInputY;
-        m_grabInput = player.input.GrabInput;
-        m_jumpInput = player.input.JumpInput;
-        m_dashInput = player.input.DashInput;
-        m_swapGravityInput = player.input.SwapGravityInput;
+        xInput = player.InputController.NormInputX;
+        yInput = player.InputController.NormInputY;
+        m_grabInput = player.InputController.GrabInput;
+        m_jumpInput = player.InputController.JumpInput;
+        m_dashInput = player.InputController.DashInput;
+        m_swapGravityInput = player.InputController.SwapGravityInput;
 
         if (m_swapGravityInput)
         {
-            player.input.UseSwapGravityInput();
-            player.gravity.SwapPlayerGravity();
+            player.InputController.UseSwapGravityInput();
+            player.GravityController.SwapPlayerGravity();
         }
 
         if (m_isTouchingWall && m_grabInput)
@@ -57,12 +57,12 @@ public class PlayerGroundedState : PlayerState
         else if (m_isTouchingWall && !m_isGrounded) Transition(player.wallSlideState);
         else if (m_jumpInput && player.jumpState.CanJump())
         {
-            player.input.UseJumpInput();
+            player.InputController.UseJumpInput();
             Transition(player.jumpState);
         }
         else if (m_dashInput && player.dashState.CanDash() && (xInput != 0 || yInput != 0))
         {
-            player.input.UseDashInput();
+            player.InputController.UseDashInput();
             Transition(player.dashState);
         }
         else if (!m_isGrounded)

@@ -12,7 +12,7 @@ public class PlayerIdleState : PlayerGroundedState
 
         if (transitioned) return;
 
-        player.movement.SetVelocityX(0);
+        player.MovementController.SetVelocityX(0);
         if (xInput != 0f)
         {
             Transition(player.moveState);

@@ -2,7 +2,7 @@ using System.Collections;
 using UnityEngine;
 using TMPro;
 
-public class DialogueManager : MonoBehaviour
+public class DialogueController : MonoBehaviour
 {
     [SerializeField] private TMP_Text m_textLabel;
     [SerializeField] private GameObject m_dialogueBox;
@@ -19,7 +19,7 @@ public class DialogueManager : MonoBehaviour
     public Coroutine ShowDialogue(DialogueObject dialogueObject)
     {
         m_playerController.SetPhysics(false);
-        m_playerController.input.SetInputEnabled(false);
+        m_playerController.InputController.SetInputEnabled(false);
         m_dialogueBox.SetActive(true);
         return StartCoroutine(StepThroughDialogue(dialogueObject));
     }
@@ -39,7 +39,7 @@ public class DialogueManager : MonoBehaviour
 
     private void CloseDialogueBox()
     {
-        m_playerController.input.SetInputEnabled(true);
+        m_playerController.InputController.SetInputEnabled(true);
         m_playerController.SetPhysics(true);
         m_dialogueBox.SetActive(false);
         m_textLabel.text = string.Empty;

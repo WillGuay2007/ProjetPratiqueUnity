@@ -9,7 +9,7 @@ public class PlayerDiedState : PlayerState
     public override void Enter()
     {
         base.Enter();
-        player.movement.ResetVelocity();
+        player.MovementController.ResetVelocity();
         player.SetPhysics(false);
         //Respawn est géré grace à un animation event.
     }

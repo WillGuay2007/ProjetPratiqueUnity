@@ -34,10 +34,10 @@ public abstract class Interactable : MonoBehaviour
     private void Update()
     {
         if (m_player.isInteracting) return;
-        m_isInteractInputActive = m_player.input.InteractInput;
+        m_isInteractInputActive = m_player.InputController.InteractInput;
         if (m_isInteractInputActive && m_canInteract)
         {
-            m_player.input.UseInteractInput();
+            m_player.InputController.UseInteractInput();
             m_player.isInteracting = true;
             StartCoroutine(Interact());
         }

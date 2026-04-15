@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class Sign : Interactable
 {
-    [SerializeField] private DialogueManager m_dialogueManager;
+    [SerializeField] private DialogueController m_dialogueManager;
     [SerializeField] private DialogueObject m_dialogueToSay;
     protected override IEnumerator Interact()
     {

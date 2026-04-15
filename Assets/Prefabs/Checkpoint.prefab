@@ -10,8 +10,8 @@ GameObject:
   m_Component:
   - component: {fileID: 1379758802101751206}
   - component: {fileID: 2017496188529879335}
-  - component: {fileID: 1802699603806491718}
   - component: {fileID: 8518434707692965579}
+  - component: {fileID: 1433006255693240884}
   m_Layer: 0
   m_Name: Checkpoint
   m_TagString: Untagged
@@ -89,18 +89,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &1802699603806491718
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5874396806407236154}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5316d6b476f6be949897b99ce00d06d1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!61 &8518434707692965579
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -147,3 +135,17 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 1.92, y: 2.42}
   m_EdgeRadius: 0
+--- !u!114 &1433006255693240884
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5874396806407236154}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4e3b5b538abc4241a265e30ec393b93, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_checkpointIndex: 0
+  IsClaimed: 0

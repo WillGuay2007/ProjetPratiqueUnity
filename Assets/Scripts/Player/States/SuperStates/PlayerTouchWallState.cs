@@ -32,10 +32,10 @@ public class PlayerTouchWallState : PlayerState
     public override void LogicUpdate()
     {
         base.LogicUpdate();
-        grabInput = player.input.GrabInput;
-        xInput = player.input.NormInputX;
-        yInput = player.input.NormInputY;
-        jumpInput = player.input.JumpInput;
+        grabInput = player.InputController.GrabInput;
+        xInput = player.InputController.NormInputX;
+        yInput = player.InputController.NormInputY;
+        jumpInput = player.InputController.JumpInput;
         if (!isFacingWall)
         {
             if (m_isGrounded)

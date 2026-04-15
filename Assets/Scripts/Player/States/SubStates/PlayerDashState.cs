@@ -40,13 +40,13 @@ public class PlayerDashState : PlayerAbilityState
     {
         base.Exit();
         if (player.IsFalling()) return;
-        player.movement.SetVelocityY(player.movement.velocity.y * playerData.dashEndYMultiplier);
+        player.MovementController.SetVelocityY(player.MovementController.velocity.y * playerData.dashEndYMultiplier);
     }
 
     public override void LogicUpdate()
     {
         base.LogicUpdate();
-        m_jumpInput = player.input.JumpInput;
+        m_jumpInput = player.InputController.JumpInput;
         player.CheckIfShouldFlipX(xInput);
         if (isAbilityDone) return;
         m_elapsedTime += Time.deltaTime;
@@ -70,17 +70,17 @@ public class PlayerDashState : PlayerAbilityState
             //Grounded jump logic
             if (m_jumpInput)
             {
-            player.input.UseJumpInput();
+            player.InputController.UseJumpInput();
             isAbilityDone = true;
 
             if (m_dashType == DashType.Horizontal) //Superdash
             {
                 player.jumpState.SetCustomJumpHeight(playerData.SuperDashYVelocity);
-                player.movement.SetVelocityX(playerData.SuperDashXVelocity * player.facingXDirection);
+                player.MovementController.SetVelocityX(playerData.SuperDashXVelocity * player.facingXDirection);
             } else if (m_dashType == DashType.DiagonalDown) //Hyperdash
             {
                 player.jumpState.SetCustomJumpHeight(playerData.HyperdashYVelocity);
-                player.movement.SetVelocityX(playerData.HyperdashXVelocity * player.facingXDirection);
+                player.MovementController.SetVelocityX(playerData.HyperdashXVelocity * player.facingXDirection);
             }
 
             Transition(player.jumpState);
@@ -141,14 +141,14 @@ public class PlayerDashState : PlayerAbilityState
         m_hasRegainedDash = false;
         m_elapsedTime = 0f;
         m_dashDirection = GetDirection();
-        player.movement.ResetVelocity();
+        player.MovementController.ResetVelocity();
         SetDirectionVelocity();
         DecreaseAmountOfDashesLeft();
     }
 
     private void SetDirectionVelocity()
     {
-        player.movement.SetVelocity(
+        player.MovementController.SetVelocity(
             new Vector2(
                 m_dashDirection.x * playerData.dashSpeed,
                 m_dashDirection.y * playerData.dashSpeed)

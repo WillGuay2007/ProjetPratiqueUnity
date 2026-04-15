@@ -13,9 +13,10 @@ public class PlayerController : MonoBehaviour, IDamageable
     public Animator animator { get; private set; }
     public CapsuleCollider2D capsuleCollider { get; private set; }
     public SpriteRenderer spriteRenderer { get; private set; }
-    public PlayerInputManager input { get; private set; }
-    public PlayerGravityController gravity { get; private set; }
-    public PlayerMovementController movement { get; private set; }
+    public PlayerInputManager InputController { get; private set; }
+    public PlayerGravityController GravityController { get; private set; }
+    public PlayerMovementController MovementController { get; private set; }
+    public PlayerCheckpointController CheckpointController { get; private set; }
 
     [SerializeField] private PlayerData m_playerData;
     #endregion
@@ -54,9 +55,10 @@ public class PlayerController : MonoBehaviour, IDamageable
         rigidBody = GetComponent<Rigidbody2D>();
         spriteRenderer = GetComponent<SpriteRenderer>();
         capsuleCollider = GetComponent<CapsuleCollider2D>();
-        input = GetComponent<PlayerInputManager>();
-        gravity = GetComponent<PlayerGravityController>();
-        movement = GetComponent<PlayerMovementController>();
+        InputController = GetComponent<PlayerInputManager>();
+        GravityController = GetComponent<PlayerGravityController>();
+        MovementController = GetComponent<PlayerMovementController>();
+        CheckpointController = GetComponent<PlayerCheckpointController>();
         stateMachine = new PlayerStateMachine(this);
         idleState = new PlayerIdleState(this, stateMachine, m_playerData, "Idle");
         moveState = new PlayerMoveState(this, stateMachine, m_playerData, "Move");
@@ -71,6 +73,7 @@ public class PlayerController : MonoBehaviour, IDamageable
 
     private void Start()
     {
+        CheckpointController.SetDefaultSpawnPosition(transform.position);
         stateMachine.Initialize(idleState);
     }
 
@@ -107,16 +110,12 @@ public class PlayerController : MonoBehaviour, IDamageable
 
     public void Respawn()
     {
-        gravity.SetDefaultGravity();
-        transform.position = currentSpawnPoint;
+        GravityController.SetDefaultGravity();
+        transform.position = CheckpointController.CheckpointSpawn;
         stateMachine.SetState(idleState);
         SetPhysics(true);
     }
 
-    public void ClaimCheckpoint(Vector2 newSpawnPosition)
-    {
-        currentSpawnPoint = newSpawnPosition;
-    }
     #endregion
     #region Check Functions
     public void CheckIfShouldFlipX(int xInput)
@@ -134,12 +133,12 @@ public class PlayerController : MonoBehaviour, IDamageable
 
     public bool IsFalling()
     {
-        return Mathf.Sign(movement.velocity.y) == -facingYDirection;
+        return Mathf.Sign(MovementController.velocity.y) == -facingYDirection;
     }
 
     public bool IsGoingUp()
     {
-        return Mathf.Sign(movement.velocity.y) == facingYDirection;
+        return Mathf.Sign(MovementController.velocity.y) == facingYDirection;
     }
 
     public bool CheckIfFacingWall()
