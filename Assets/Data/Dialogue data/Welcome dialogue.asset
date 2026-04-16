@@ -12,7 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 51d814b7c213fff4bad299bc82408235, type: 3}
   m_Name: Welcome dialogue
   m_EditorClassIdentifier: 
-  m_dialogue:
-  - Hello! Welcome to the game.
-  - The controls are simple! However, let's not overload you with information...
-  - Just avoid the spikes for now!
+  m_dialogueLines:
+  - text: Hello! Welcome to the game!
+    strategyType: 0
+  - text: The goal is simple...
+    strategyType: 0
+  - text: Just don't die...
+    strategyType: 2

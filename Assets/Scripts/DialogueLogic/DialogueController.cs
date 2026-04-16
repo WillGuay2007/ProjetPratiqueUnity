@@ -6,8 +6,25 @@ public class DialogueController : MonoBehaviour
 {
     [SerializeField] private PlayerController m_playerController;
     [SerializeField] DialogueWindow m_dialogueWindow;
-    [SerializeField] private MonoBehaviour dialogueStrategy; //TEMPORARY, should be migrated to scriptable objects when I can.
-    private IDialogueStrategy DialogueStrategy => dialogueStrategy as IDialogueStrategy;
+    [SerializeField] private MonoBehaviour m_defaultDialogueStrategy;
+
+    #region Dialogue strategies
+    [Header("Dialogue strategies")]
+    [SerializeField] private MonoBehaviour m_normalStrategy;
+    [SerializeField] private MonoBehaviour m_fearStrategy;
+    #endregion
+    private IDialogueStrategy DefaultDialogueStrategy => m_defaultDialogueStrategy as IDialogueStrategy;
+
+
+    private IDialogueStrategy GetStrategy(DialogueStrategyType type)
+    {
+        return type switch
+        {
+            DialogueStrategyType.Fear => m_fearStrategy as IDialogueStrategy,
+            DialogueStrategyType.Normal => m_normalStrategy as IDialogueStrategy,
+            _ => DefaultDialogueStrategy
+        };
+    }
 
 
 
@@ -18,6 +35,11 @@ public class DialogueController : MonoBehaviour
 
     public Coroutine ShowDialogue(DialogueObject dialogueObject)
     {
+        if (DefaultDialogueStrategy == null)
+        {
+            Debug.LogError("Default dialogue strategy is null.");
+            return null;
+        }
         m_playerController.SetPhysics(false);
         m_playerController.InputController.SetInputEnabled(false);
         HUDController.Instance.OpenWindow(m_dialogueWindow);
@@ -26,11 +48,11 @@ public class DialogueController : MonoBehaviour
 
     private IEnumerator StepThroughDialogue(DialogueObject dialogueObject)
     {
-        foreach(string dialogue in dialogueObject.Dialogue)
+        foreach (DialogueLine line in dialogueObject.DialogueLines)
         {
-            yield return m_dialogueWindow.SetText(dialogue, DialogueStrategy);
+            IDialogueStrategy strategy = GetStrategy(line.strategyType);
+            yield return m_dialogueWindow.SetText(line.text, strategy);
         }
-
         EndDialogue();
     }
 

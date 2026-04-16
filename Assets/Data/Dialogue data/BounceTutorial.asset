@@ -12,8 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 51d814b7c213fff4bad299bc82408235, type: 3}
   m_Name: BounceTutorial
   m_EditorClassIdentifier: 
-  m_dialogue:
-  - Here, try bouncing against the wall.
-  - Once you reach the 2x2, just grab on it.
-  - Jumping while climbing wont push you back!
-  - After, just dash up and go to the right!
+  m_dialogueLines:
+  - text: Here, I would recommend you practice bouncing.
+    strategyType: 0
+  - text: Try bouncing on the wall then grabbing on the 2 blocks platform
+    strategyType: 0
+  - text: You shouldnt skip it because otherwise, the next secion will get harder.
+    strategyType: 0
+  - text: A lot harder.
+    strategyType: 2

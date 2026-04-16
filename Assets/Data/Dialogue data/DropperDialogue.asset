@@ -12,7 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 51d814b7c213fff4bad299bc82408235, type: 3}
   m_Name: DropperDialogue
   m_EditorClassIdentifier: 
-  m_dialogue:
-  - Here, you will need to go down then dash right
-  - Make sure to grab the wall after dashing.
-  - Let's see how you do!
+  m_dialogueLines:
+  - text: Alright. There is also many ways to do this section.
+    strategyType: 0
+  - text: You either climb down and dash right
+    strategyType: 0
+  - text: Or drop and dash like a pro
+    strategyType: 2
+  - text: A third way is also possible but it will be showcased in the next section.
+    strategyType: 1

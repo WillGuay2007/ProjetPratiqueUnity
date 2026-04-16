@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 51d814b7c213fff4bad299bc82408235, type: 3}
   m_Name: ClimbTutorial
   m_EditorClassIdentifier: 
-  m_dialogue:
-  - Here, you cannot swap gravity.
-  - I mean you can but it's a bad idea...
-  - Anyways, try climbing up by holding "L" when close to a wall
-  - Good luck!
+  m_dialogueLines:
+  - text: For this section, you can either climb with "L" or bounce
+    strategyType: 0
+  - text: If you want to look cool, do it by bouncing!
+    strategyType: 0

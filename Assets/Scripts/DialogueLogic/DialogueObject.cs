@@ -1,11 +1,17 @@
 using UnityEngine;
 
+public enum DialogueStrategyType { Default, Normal, Fear }
+
+[System.Serializable]
+public class DialogueLine
+{
+    [TextArea] public string text;
+    public DialogueStrategyType strategyType;
+}
+
 [CreateAssetMenu(menuName = "Dialogue/DialogueObject")]
 public class DialogueObject : ScriptableObject
 {
-    [SerializeField][TextArea] private string[] m_dialogue;
-    /*[SerializeField] private MonoBehaviour m_dialogueStrategy;*/ //TODO: Add a way to make this work
-
-    public string[] Dialogue => m_dialogue;
-    //public IDialogueStrategy DialogueStrategy => m_dialogueStrategy as IDialogueStrategy;
+    [SerializeField] private DialogueLine[] m_dialogueLines;
+    public DialogueLine[] DialogueLines => m_dialogueLines;
 }

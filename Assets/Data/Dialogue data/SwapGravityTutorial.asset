@@ -12,7 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 51d814b7c213fff4bad299bc82408235, type: 3}
   m_Name: SwapGravityTutorial
   m_EditorClassIdentifier: 
-  m_dialogue:
-  - By pressing "F", you can swap gravity.
-  - However, you can only do it while grounded. Use this fact wisely
-  - Trust the process!
+  m_dialogueLines:
+  - text: Yo.
+    strategyType: 0
+  - text: Press "F" and trust the process!
+    strategyType: 2

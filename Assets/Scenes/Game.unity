@@ -215,7 +215,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 17056360}
-  - component: {fileID: 17056361}
   - component: {fileID: 17056362}
   m_Layer: 5
   m_Name: DialogueWindow
@@ -245,19 +244,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 50}
   m_SizeDelta: {x: 1400, y: 200}
   m_Pivot: {x: 0.5, y: 0}
---- !u!114 &17056361
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 17056359}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c92cca6e519763d44b02f061c35d227c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_typeWriterSpeed: 20
 --- !u!114 &17056362
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -272,6 +258,77 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_layer: 100
   m_textLabel: {fileID: 1656615980}
+--- !u!1 &18871193
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 18871194}
+  - component: {fileID: 18871197}
+  - component: {fileID: 18871196}
+  - component: {fileID: 18871195}
+  m_Layer: 0
+  m_Name: FearDialogueStrategy
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &18871194
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 18871193}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1254390855}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &18871195
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 18871193}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c92cca6e519763d44b02f061c35d227c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_charactersPerSecond: 75
+--- !u!114 &18871196
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 18871193}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0cad0f7e3cb18224f8a7658795bc8125, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &18871197
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 18871193}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f89488a444267e347b0f49ddd8864ffc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &19204358 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5553303080351712565, guid: c252ea6e8ec60f84884a4206cf3f9e56, type: 3}
@@ -24479,7 +24536,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_playerController: {fileID: 141233841}
   m_dialogueWindow: {fileID: 17056362}
-  dialogueStrategy: {fileID: 574158884}
+  m_defaultDialogueStrategy: {fileID: 574158884}
+  m_normalStrategy: {fileID: 574158884}
+  m_fearStrategy: {fileID: 18871197}
 --- !u!114 &288829835
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -25961,6 +26020,7 @@ GameObject:
   m_Component:
   - component: {fileID: 574158883}
   - component: {fileID: 574158884}
+  - component: {fileID: 574158885}
   m_Layer: 0
   m_Name: NormalDialogueStrategy
   m_TagString: Untagged
@@ -25995,7 +26055,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4dfdd346cbbf004385439a61ab80770, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_typeWriterEffect: {fileID: 17056361}
+--- !u!114 &574158885
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 574158882}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c92cca6e519763d44b02f061c35d227c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_charactersPerSecond: 50
 --- !u!1001 &576079942
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -33906,6 +33978,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 574158883}
+  - {fileID: 18871194}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1258334249
