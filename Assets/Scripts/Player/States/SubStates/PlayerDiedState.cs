@@ -10,7 +10,7 @@ public class PlayerDiedState : PlayerState
     {
         base.Enter();
         player.MovementController.ResetVelocity();
-        player.SetPhysics(false);
+        player.GravityController.SetPhysics(false);
         //Respawn est géré grace à un animation event.
     }
 }

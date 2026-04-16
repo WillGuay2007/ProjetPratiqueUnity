@@ -40,7 +40,7 @@ public class DialogueController : MonoBehaviour
             Debug.LogError("Default dialogue strategy is null.");
             return null;
         }
-        m_playerController.SetPhysics(false);
+        m_playerController.GravityController.SetPhysics(false);
         m_playerController.InputController.SetInputEnabled(false);
         HUDController.Instance.OpenWindow(m_dialogueWindow);
         return StartCoroutine(StepThroughDialogue(dialogueObject));
@@ -59,7 +59,7 @@ public class DialogueController : MonoBehaviour
     private void EndDialogue()
     {
         m_playerController.InputController.SetInputEnabled(true);
-        m_playerController.SetPhysics(true);
+        m_playerController.GravityController.SetPhysics(true);
         HUDController.Instance.CloseWindow(m_dialogueWindow);
         m_dialogueWindow.ResetWindow();
     }

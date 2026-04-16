@@ -21,11 +21,11 @@ public abstract class PlayerState
         transitioned = false;
         //Debug.Log("Entering " + GetType().Name);
         DoChecks();
-        player.animator.SetBool(animBoolName, true);
+        player.Animator.SetBool(animBoolName, true);
         startTime = Time.time;
     }
     public virtual void Exit() {
-        player.animator.SetBool(animBoolName, false);
+        player.Animator.SetBool(animBoolName, false);
     }
     public virtual void LogicUpdate() { }
     public virtual void PhysicsUpdate() {

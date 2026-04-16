@@ -41,15 +41,11 @@ public class StandingBird : MonoBehaviour
         DisableAnimatorBools();
         AudioController.Instance.PlaySound(AudioController.Sounds.BirdFlyAway);
         m_birdAnimator.SetBool("Flying", true);
-
-        Vector2 chosenVelocity = new Vector2(
-            Random.Range(m_minimumXForDirection, 1f),
-            Random.Range(m_minimumYForDirection, 1f)
-            );
-        bool isFlyingTowardPlayer = Mathf.Sign(chosenVelocity.x) != playerFacingDirection;
+        Vector2 chosenVelocity = PickRandomVelocity();
+        
 
         if (chosenVelocity.y < 0) chosenVelocity.y *= -1; //Je veut pas qu'il vole vers le bas.
-        if (isFlyingTowardPlayer) chosenVelocity.x *= -1f; //Pour qu'il s'enfuie du joueur et pas aller vers lui 
+        if (IsFlyingTowardPlayer(playerFacingDirection, chosenVelocity)) chosenVelocity.x *= -1f; //Pour qu'il s'enfuie du joueur et pas aller vers lui 
         if (playerFacingDirection == 1) m_birdRenderer.flipX = true;
 
         float zAngle = Mathf.Atan(chosenVelocity.y / chosenVelocity.x) * Mathf.Rad2Deg;
@@ -59,5 +55,18 @@ public class StandingBird : MonoBehaviour
 
         yield return new WaitForSeconds(m_birdDespawnTime);
         Destroy(gameObject);
+    }
+
+    private static bool IsFlyingTowardPlayer(float playerFacingDirection, Vector2 chosenVelocity)
+    {
+        return Mathf.Sign(chosenVelocity.x) != playerFacingDirection;
+    }
+
+    private Vector2 PickRandomVelocity()
+    {
+        return new Vector2(
+            Random.Range(m_minimumXForDirection, 1f),
+            Random.Range(m_minimumYForDirection, 1f)
+            );
     }
 }

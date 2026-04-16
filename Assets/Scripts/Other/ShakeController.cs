@@ -17,6 +17,7 @@ public class ShakeController : MonoBehaviour
         }
     }
 
+    //TODO: Make it work and a way to stop the shake if needed.
     public void SetAmbientShake(Transform transformToShake, float amplitude)
     {
         StartCoroutine(StartAmbientShakeCoroutine(transformToShake, amplitude));
@@ -33,12 +34,15 @@ public class ShakeController : MonoBehaviour
 
     private IEnumerator StartImpactShakeCoroutine(Transform transformToShake, float amplitude, float duration)
     {
+        Vector3 originalPosition = transformToShake.localPosition;
         while (duration > 0)
         {
             yield return new WaitForEndOfFrame();
             Vector3 shakeOffset = Random.insideUnitSphere * amplitude;
+            shakeOffset.z = 0;
             transformToShake.localPosition += shakeOffset;
             duration -= Time.deltaTime;
         }
+        transformToShake.localPosition = originalPosition;
     }
 }

@@ -36,6 +36,11 @@ public class PlayerCameraController : MonoBehaviour
         StartCoroutine(StartCameraShake(shakeAmount, shakeSpeed));
     }
 
+    public void SetImpactShake(float intensity, float duration)
+    {
+        ShakeController.Instance.SetImpactShake(transform, intensity, duration);
+    }
+
     private IEnumerator StartCameraShake(float shakeAmplitude, float shakeSpeed)
     {
         Vector3 originalPosition = transform.position;

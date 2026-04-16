@@ -3,16 +3,17 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
+//TODO: REFACTOR LA CLASSE (Prioritée). Ca commence a être une God class.
 public class PlayerController : MonoBehaviour, IDamageable
 {
     #region Constants
     private int Y_LIMIT = 750;
     #endregion
     #region Components
-    public Rigidbody2D rigidBody {  get; private set; }
-    public Animator animator { get; private set; }
-    public CapsuleCollider2D capsuleCollider { get; private set; }
-    public SpriteRenderer spriteRenderer { get; private set; }
+    public Rigidbody2D RigidBody {  get; private set; }
+    public Animator Animator { get; private set; }
+    public CapsuleCollider2D CapsuleCollider { get; private set; }
+    public SpriteRenderer SpriteRenderer { get; private set; }
     public PlayerInputManager InputController { get; private set; }
     public PlayerGravityController GravityController { get; private set; }
     public PlayerMovementController MovementController { get; private set; }
@@ -47,14 +48,13 @@ public class PlayerController : MonoBehaviour, IDamageable
     #region UnityCallbacks
     private void Awake()
     {
-        currentSpawnPoint = transform.position;
         facingYDirection = 1;
         facingXDirection = 1;
         health = m_playerData.playerHealth;
-        animator = GetComponent<Animator>();
-        rigidBody = GetComponent<Rigidbody2D>();
-        spriteRenderer = GetComponent<SpriteRenderer>();
-        capsuleCollider = GetComponent<CapsuleCollider2D>();
+        Animator = GetComponent<Animator>();
+        RigidBody = GetComponent<Rigidbody2D>();
+        SpriteRenderer = GetComponent<SpriteRenderer>();
+        CapsuleCollider = GetComponent<CapsuleCollider2D>();
         InputController = GetComponent<PlayerInputManager>();
         GravityController = GetComponent<PlayerGravityController>();
         MovementController = GetComponent<PlayerMovementController>();
@@ -79,7 +79,7 @@ public class PlayerController : MonoBehaviour, IDamageable
 
     private void Update()
     {
-        if (CheckIfShouldDie()) stateMachine.SetState(diedState);
+        if (CheckIfIsOutOfBounds()) stateMachine.SetState(diedState);
         stateMachine.currentState.LogicUpdate();
     }
 
@@ -113,7 +113,7 @@ public class PlayerController : MonoBehaviour, IDamageable
         GravityController.SetDefaultGravity();
         transform.position = CheckpointController.CheckpointSpawn;
         stateMachine.SetState(idleState);
-        SetPhysics(true);
+        GravityController.SetPhysics(true);
     }
 
     #endregion
@@ -160,16 +160,7 @@ public class PlayerController : MonoBehaviour, IDamageable
     }
 
     public bool IsDead() => health <= 0f;
-    private bool CheckIfShouldDie() => Mathf.Abs(transform.position.y) > Y_LIMIT;    
+    private bool CheckIfIsOutOfBounds() => Mathf.Abs(transform.position.y) > Y_LIMIT;    
     
     #endregion
-    #region Set Functions
-    
-
-    public void SetPhysics(bool isEnabled)
-    {
-        rigidBody.simulated = isEnabled;
-    }
-    #endregion
-
 }

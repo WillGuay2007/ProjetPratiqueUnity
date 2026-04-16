@@ -9,7 +9,7 @@ public class PlayerGravityController : MonoBehaviour
     private void Start()
     {
         m_player = GetComponent<PlayerController>();
-        m_originalPlayerGravity = m_player.rigidBody.gravityScale;
+        m_originalPlayerGravity = m_player.RigidBody.gravityScale;
         m_rigidbody = GetComponent<Rigidbody2D>();
     }
 
@@ -40,5 +40,10 @@ public class PlayerGravityController : MonoBehaviour
         AudioController.Instance.PlaySound(AudioController.Sounds.GravitySwap);
         m_rigidbody.gravityScale *= -1;
         m_player.FlipY();
+    }
+
+    public void SetPhysics(bool isEnabled)
+    {
+        m_rigidbody.simulated = isEnabled;
     }
 }

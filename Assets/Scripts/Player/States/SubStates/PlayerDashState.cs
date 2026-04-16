@@ -32,6 +32,7 @@ public class PlayerDashState : PlayerAbilityState
     public override void Enter()
     {
         base.Enter();
+        //TODO: Find a way to acces the camera controller and put an impact shake.
         AudioController.Instance.PlaySound(AudioController.Sounds.PlayerDash);
         StartDash();
     }

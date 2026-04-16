@@ -65,7 +65,7 @@ public class PlayerInAirState : PlayerState
             player.MovementController.SetVelocityX(playerData.wallBounceXVelocity * -player.facingXDirection * faceWallMultiplier);
             Transition(player.jumpState);
         }
-        else if (m_isGrounded && Mathf.Abs(player.rigidBody.linearVelocity.y) < 0.01f) //Abs parce que je dois considerer le gravity swap.
+        else if (m_isGrounded && Mathf.Abs(player.RigidBody.linearVelocity.y) < 0.01f) //Abs parce que je dois considerer le gravity swap.
         {
             Transition(player.moveState);
         }

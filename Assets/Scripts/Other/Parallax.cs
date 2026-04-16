@@ -3,28 +3,29 @@ using UnityEngine.UIElements;
 
 public class Parallax : MonoBehaviour
 {
+    //TODO: Make more readable with clean code principles
     public GameObject cam;
-    [SerializeField] public float parallaxEffect; //Plus haut = moins rapide
-    private float m_startPos, m_length;
+    [SerializeField] private float parallaxEffect; //Plus haut = moins rapide
+    private float m_startPos, m_objectBoundsX;
     void Start()
     {
         m_startPos = transform.position.x;   
-        m_length = GetComponent<SpriteRenderer>().bounds.size.x;
+        m_objectBoundsX = GetComponent<SpriteRenderer>().bounds.size.x;
     }
 
     void LateUpdate()
     {
-        float distance = cam.transform.position.x * parallaxEffect; //La distance en x que le layer doit avoir
-        float movement = cam.transform.position.x * (1 - parallaxEffect); //La distance x parcourue relatif a la camera
+        float travelledDistanceRelativeToWorld = cam.transform.position.x * parallaxEffect; //La distance en x que le layer doit avoir
+        float travelledDistanceRelativeToCamera = cam.transform.position.x * (1 - parallaxEffect); //La distance x parcourue relatif a la camera
 
-        transform.position = new Vector3(m_startPos + distance, transform.position.y, transform.position.z);
+        transform.position = new Vector3(m_startPos + travelledDistanceRelativeToWorld, transform.position.y, transform.position.z);
 
-        if (movement > m_startPos + m_length)
+        if (travelledDistanceRelativeToCamera > m_startPos + m_objectBoundsX)
         {
-            m_startPos += m_length;
-        } else if (movement < m_startPos - m_length)
+            m_startPos += m_objectBoundsX;
+        } else if (travelledDistanceRelativeToCamera < m_startPos - m_objectBoundsX)
         {
-            m_startPos -= m_length;
+            m_startPos -= m_objectBoundsX;
         }
     }
 }
