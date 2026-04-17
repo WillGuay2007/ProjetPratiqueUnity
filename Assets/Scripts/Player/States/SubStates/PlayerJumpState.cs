@@ -16,11 +16,11 @@ public class PlayerJumpState : PlayerAbilityState
         base.Enter();
         AudioController.Instance.PlaySound(AudioController.Sounds.PlayerJump);
         float jumpHeight = m_customJumpHeight != 0 ? m_customJumpHeight : playerData.jumpVelocity;
-        jumpHeight *= player.facingYDirection;
+        jumpHeight *= player.DirectionController.facingYDirection;
         player.MovementController.SetVelocityY(jumpHeight);
         isAbilityDone = true;
         DecreaseAmountOfJumpsLeft();
-        player.inAirState.SetIsJumping();
+        stateMachine.inAirState.SetIsJumping();
     }
 
     public override void Exit()

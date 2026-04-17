@@ -8,37 +8,37 @@ public class PlayerData : ScriptableObject
     public float playerHealth = 100f;
 
     [Header("Move State")]
-    public float movementVelocity = 10f;
+    public float movementVelocity = 8f;
 
     [Header("Grounded State")]
-    public float groundFriction = 1f;
+    public float groundFriction = 1.5f;
 
     [Header("Jump State")]
-    public float jumpVelocity = 10f;
+    public float jumpVelocity = 16f;
     public float jumpHoldMultiplier = 0.5f;
     public int amountOfJumps = 1;
 
     [Header("In Air state")]
     public float coyoteTime = 0.2f;
-    public float airFrictionX = 2;
+    public float airFrictionX = 1;
 
     [Header("Dash state")]
     public float dashSpeed = 25f;
     public float dashDuration = 0.25f;
-    public float regainDashAtDuration = 0.20f;
+    public float regainDashAtDuration = 0.1f;
     public float diagonalDownDashYMultiplier= 0.5f;
     public float verticalDashYMultiplier = 0.75f;
-    public float diagonalUpDashYMultiplier = 0.7f;
+    public float diagonalUpDashYMultiplier = 0.85f;
     public int amountOfAirDashes = 1;
-    public float dashEndYMultiplier = 0.5f;
+    public float dashEndYMultiplier = 0.7f;
     public float HyperdashXVelocity = 40f;
-    public float HyperdashYVelocity = 10f;
-    public float SuperDashXVelocity = 25f;
+    public float HyperdashYVelocity = 13f;
+    public float SuperDashXVelocity = 30f;
     public float SuperDashYVelocity = 21f;
 
     [Header("Wall Slide state")]
-    public float maxWallSlideVelocity = 5f;
-    public float wallSlideFriction = 0.1f;
+    public float maxWallSlideVelocity = 25f;
+    public float wallSlideFriction = 0.35f;
     public float wallBounceXVelocity = 25f;
 
     [Header("Wall Climb state")]
@@ -54,6 +54,6 @@ public class PlayerData : ScriptableObject
     [Header("Check variables")]
     public float groundCheckRadius = 0.2f;
     public LayerMask whatIsGround;
-    public float wallCheckRayLength = 1f;
+    public float wallCheckRayLength = 0.7f;
 
 }

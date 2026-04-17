@@ -25,7 +25,7 @@ public class StandingBird : MonoBehaviour
     {
         PlayerController player = collision.GetComponent<PlayerController>();
         if (activeCoroutine != null || player == null) return;
-        activeCoroutine = StartCoroutine(FlyAway(player.facingXDirection));
+        activeCoroutine = StartCoroutine(FlyAway(player.DirectionController.facingXDirection));
     }
 
     private void DisableAnimatorBools()

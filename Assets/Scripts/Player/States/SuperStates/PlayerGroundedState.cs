@@ -17,16 +17,16 @@ public class PlayerGroundedState : PlayerState
     public override void DoChecks()
     {
         base.DoChecks();
-        m_isGrounded = player.CheckIfOnGround();
-        m_isTouchingWall = player.CheckIfFacingWall();
+        m_isGrounded = player.SurfaceDetector.IsOnGround();
+        m_isTouchingWall = player.SurfaceDetector.IsFacingWall();
     }
 
     public override void Enter()
     {
         base.Enter();
 
-        player.jumpState.ResetAmoutOfJumpsLeft();
-        player.dashState.ResetAmountOfDashesLeft();
+        stateMachine.jumpState.ResetAmoutOfJumpsLeft();
+        stateMachine.dashState.ResetAmountOfDashesLeft();
     }
 
     public override void Exit()
@@ -52,23 +52,23 @@ public class PlayerGroundedState : PlayerState
 
         if (m_isTouchingWall && m_grabInput)
         {
-            Transition(player.grabState);
+            Transition(stateMachine.grabState);
         }
-        else if (m_isTouchingWall && !m_isGrounded) Transition(player.wallSlideState);
-        else if (m_jumpInput && player.jumpState.CanJump())
+        else if (m_isTouchingWall && !m_isGrounded) Transition(stateMachine.wallSlideState);
+        else if (m_jumpInput && stateMachine.jumpState.CanJump())
         {
             player.InputController.UseJumpInput();
-            Transition(player.jumpState);
+            Transition(stateMachine.jumpState);
         }
-        else if (m_dashInput && player.dashState.CanDash() && (xInput != 0 || yInput != 0))
+        else if (m_dashInput && stateMachine.dashState.CanDash() && (xInput != 0 || yInput != 0))
         {
             player.InputController.UseDashInput();
-            Transition(player.dashState);
+            Transition(stateMachine.dashState);
         }
         else if (!m_isGrounded)
         {
-            player.inAirState.StartCoyoteTime();
-            Transition(player.inAirState);
+            stateMachine.inAirState.StartCoyoteTime();
+            Transition(stateMachine.inAirState);
         }
     }
 

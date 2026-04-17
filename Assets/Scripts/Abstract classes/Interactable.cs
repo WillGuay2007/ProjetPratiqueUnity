@@ -57,7 +57,7 @@ public abstract class Interactable : MonoBehaviour
 
     private bool CollisionIsPlayer(Collider2D collision)
     {
-        return collision.gameObject.GetComponent<PlayerController>() != null;
+        return collision.gameObject.CompareTag("Player");
     }
 
     protected abstract IEnumerator Interact();

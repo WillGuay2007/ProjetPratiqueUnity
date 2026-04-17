@@ -15,7 +15,7 @@ public class PlayerAbilityState : PlayerState
     public override void DoChecks()
     {
         base.DoChecks();
-        isGrounded = player.CheckIfOnGround();
+        isGrounded = player.SurfaceDetector.IsOnGround();
     }
 
     public override void Enter()
@@ -42,7 +42,7 @@ public class PlayerAbilityState : PlayerState
 
         if (isAbilityDone)
         {
-            Transition(player.inAirState);
+            Transition(stateMachine.inAirState);
         }
 
     }

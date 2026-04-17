@@ -4,7 +4,7 @@ public class CameraShakeEffect : MonoBehaviour, IZoneEffect
 {
     [SerializeField] private float m_cameraShakeAmplitude;
     [SerializeField] private float m_shakeSpeed;
-    [SerializeField] private PlayerCameraController m_camera;
+    [SerializeField] private CameraController m_camera;
 
     public void Apply()
     {

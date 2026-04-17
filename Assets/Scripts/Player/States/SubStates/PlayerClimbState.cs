@@ -27,7 +27,7 @@ public class PlayerClimbState : PlayerTouchWallState
         player.MovementController.SetVelocityY(yInput * playerData.wallClimbSpeed);
         if (!grabInput)
         {
-            Transition(player.inAirState);
+            Transition(stateMachine.inAirState);
             return;
         }
         else if (jumpInput)
@@ -42,39 +42,39 @@ public class PlayerClimbState : PlayerTouchWallState
                 player.InputController.UseJumpInput();
                 if (PlayerIsBufferingOppositeXInput())
                 {
-                    player.MovementController.SetVelocityX(playerData.wallBounceXVelocity * -player.facingXDirection);
+                    player.MovementController.SetVelocityX(playerData.wallBounceXVelocity * -player.DirectionController.facingXDirection);
                 }
-                Transition(player.jumpState);
+                Transition(stateMachine.jumpState);
             }
         }
         else if (yInput == 0f)
         {
-            Transition(player.grabState);
+            Transition(stateMachine.grabState);
             return;
         }
     }
 
     private bool PlayerIsBufferingOppositeXInput()
     {
-        return xInput != 0f && xInput != player.facingXDirection;
+        return xInput != 0f && xInput != player.DirectionController.facingXDirection;
     }
 
     private bool IsClimbingDown()
     {
-        return yInput != player.facingYDirection;
+        return yInput != player.DirectionController.facingYDirection;
     }
 
     //TO KEEP IN MIND: TRANSITION IS APPLIED THE NEXT FRAME BY THE SUPER STATE.
     private void ApplyBoostVelocity()
     {
-        player.FlipX();
-        if (xInput == player.facingXDirection)
+        player.DirectionController.FlipX();
+        if (xInput == player.DirectionController.facingXDirection)
         {
-            player.MovementController.SetVelocityX(playerData.ClimbDownXBoost * player.facingXDirection * playerData.ClimbDownFaceAwayXBoostMultiplier);
+            player.MovementController.SetVelocityX(playerData.ClimbDownXBoost * player.DirectionController.facingXDirection * playerData.ClimbDownFaceAwayXBoostMultiplier);
         }
         else
         {
-            player.MovementController.SetVelocityX(playerData.ClimbDownXBoost * player.facingXDirection);
+            player.MovementController.SetVelocityX(playerData.ClimbDownXBoost * player.DirectionController.facingXDirection);
         }
     }
    

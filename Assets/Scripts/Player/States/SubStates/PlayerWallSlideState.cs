@@ -10,7 +10,7 @@ public class PlayerWallSlideState : PlayerTouchWallState
     public override void DoChecks()
     {
         base.DoChecks();
-        m_isGrounded = player.CheckIfOnGround();
+        m_isGrounded = player.SurfaceDetector.IsOnGround();
     }
 
     public override void Enter()
@@ -35,29 +35,29 @@ public class PlayerWallSlideState : PlayerTouchWallState
         }
         if (grabInput)
         {
-            Transition(player.grabState);
+            Transition(stateMachine.grabState);
             return;
         }
         else if (m_isGrounded)
         {
-            Transition(player.idleState);
+            Transition(stateMachine.idleState);
             return;
         }
         else if (jumpInput)
         {
-            Transition(player.jumpState);
-            player.MovementController.SetVelocityX(playerData.wallBounceXVelocity * -player.facingXDirection);
+            Transition(stateMachine.jumpState);
+            player.MovementController.SetVelocityX(playerData.wallBounceXVelocity * -player.DirectionController.facingXDirection);
             return;
         }
-        else if (xInput != player.facingXDirection && xInput != 0f)
+        else if (xInput != player.DirectionController.facingXDirection && xInput != 0f)
         {
-            player.CheckIfShouldFlipX(xInput);
-            Transition(player.inAirState);
+            player.DirectionController.ShouldFlipX(xInput);
+            Transition(stateMachine.inAirState);
             return;
         }
         
         player.MovementController.SetVelocityX(0);
-        player.MovementController.AdjustVelocityY_Constant(-Mathf.Abs(playerData.maxWallSlideVelocity) * player.facingYDirection, playerData.wallSlideFriction);
+        player.MovementController.AccelerateYVelocity(-Mathf.Abs(playerData.maxWallSlideVelocity) * player.DirectionController.facingYDirection, playerData.wallSlideFriction);
     }
 
     public override void PhysicsUpdate()

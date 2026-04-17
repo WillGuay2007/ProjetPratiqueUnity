@@ -15,8 +15,8 @@ public class PlayerTouchWallState : PlayerState
     public override void DoChecks()
     {
         base.DoChecks();
-        isFacingWall = player.CheckIfFacingWall();
-        m_isGrounded = player.CheckIfOnGround();
+        isFacingWall = player.SurfaceDetector.IsFacingWall();
+        m_isGrounded = player.SurfaceDetector.IsOnGround();
     }
 
     public override void Enter()
@@ -40,10 +40,10 @@ public class PlayerTouchWallState : PlayerState
         {
             if (m_isGrounded)
             {
-                Transition(player.idleState);
+                Transition(stateMachine.idleState);
             } else
             {
-                Transition(player.inAirState);
+                Transition(stateMachine.inAirState);
             }
         }
     }

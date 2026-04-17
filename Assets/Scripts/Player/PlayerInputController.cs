@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 
 //TODO: Refactor la logique pas propre, donc tout.
-public class PlayerInputManager : MonoBehaviour
+public class PlayerInputController : MonoBehaviour
 {
     public Vector2 RawMovementInput {  get; private set; }
     public int NormInputX { get; private set; }

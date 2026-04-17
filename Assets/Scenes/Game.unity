@@ -766,14 +766,20 @@ GameObject:
   - component: {fileID: 141233837}
   - component: {fileID: 141233838}
   - component: {fileID: 141233840}
-  - component: {fileID: 141233839}
   - component: {fileID: 141233841}
   - component: {fileID: 141233842}
   - component: {fileID: 141233843}
   - component: {fileID: 141233844}
+  - component: {fileID: 141233845}
+  - component: {fileID: 141233846}
+  - component: {fileID: 141233847}
+  - component: {fileID: 141233848}
+  - component: {fileID: 141233849}
+  - component: {fileID: 141233850}
+  - component: {fileID: 141233851}
   m_Layer: 0
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -935,20 +941,6 @@ CapsuleCollider2D:
   m_Offset: {x: 0.0045000017, y: -0.16502327}
   m_Size: {x: 0.9, y: 1.9200464}
   m_Direction: 0
---- !u!114 &141233839
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 141233832}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0e796fd49cd00164e89c9aaed95c5dc0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_jumpInputHoldTime: 0.2
-  m_dashBuffer: 0.2
 --- !u!114 &141233840
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -976,8 +968,8 @@ MonoBehaviour:
   m_ActionEvents:
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 141233839}
-        m_TargetAssemblyTypeName: PlayerInputManager, Assembly-CSharp
+      - m_Target: {fileID: 141233848}
+        m_TargetAssemblyTypeName: PlayerInputController, Assembly-CSharp
         m_MethodName: OnMove
         m_Mode: 0
         m_Arguments:
@@ -1008,8 +1000,8 @@ MonoBehaviour:
     m_ActionName: 'Player/Crouch[/Keyboard/c]'
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 141233839}
-        m_TargetAssemblyTypeName: PlayerInputManager, Assembly-CSharp
+      - m_Target: {fileID: 141233848}
+        m_TargetAssemblyTypeName: PlayerInputController, Assembly-CSharp
         m_MethodName: OnJump
         m_Mode: 0
         m_Arguments:
@@ -1076,8 +1068,8 @@ MonoBehaviour:
     m_ActionName: UI/TrackedDeviceOrientation
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 141233839}
-        m_TargetAssemblyTypeName: PlayerInputManager, Assembly-CSharp
+      - m_Target: {fileID: 141233848}
+        m_TargetAssemblyTypeName: PlayerInputController, Assembly-CSharp
         m_MethodName: OnDash
         m_Mode: 0
         m_Arguments:
@@ -1092,8 +1084,8 @@ MonoBehaviour:
     m_ActionName: 'CustomActions/Dash[/Keyboard/leftShift]'
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 141233839}
-        m_TargetAssemblyTypeName: PlayerInputManager, Assembly-CSharp
+      - m_Target: {fileID: 141233848}
+        m_TargetAssemblyTypeName: PlayerInputController, Assembly-CSharp
         m_MethodName: OnSwapGravity
         m_Mode: 0
         m_Arguments:
@@ -1108,8 +1100,8 @@ MonoBehaviour:
     m_ActionName: 'CustomActions/SwapGravity[/Keyboard/f]'
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 141233839}
-        m_TargetAssemblyTypeName: PlayerInputManager, Assembly-CSharp
+      - m_Target: {fileID: 141233848}
+        m_TargetAssemblyTypeName: PlayerInputController, Assembly-CSharp
         m_MethodName: OnInteract
         m_Mode: 0
         m_Arguments:
@@ -1124,8 +1116,8 @@ MonoBehaviour:
     m_ActionName: 'CustomActions/Interact[/Keyboard/e]'
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 141233839}
-        m_TargetAssemblyTypeName: PlayerInputManager, Assembly-CSharp
+      - m_Target: {fileID: 141233848}
+        m_TargetAssemblyTypeName: PlayerInputController, Assembly-CSharp
         m_MethodName: OnGrab
         m_Mode: 0
         m_Arguments:
@@ -1156,7 +1148,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_playerData: {fileID: 11400000, guid: a63c3a37b3da6f64fb28955f1645eeb9, type: 2}
-  m_groundCheck: {fileID: 2013414433}
   isInteracting: 0
 --- !u!114 &141233842
 MonoBehaviour:
@@ -1195,6 +1186,93 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_notificationService: {fileID: 1857445785}
+--- !u!114 &141233845
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 141233832}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 37263b1fdf0e24649b5c34c688bf48ad, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &141233846
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 141233832}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 01c90bfa375ed0c41aaaafa7bdd48c46, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_groundCheck: {fileID: 2013414433}
+--- !u!114 &141233847
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 141233832}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 43f70814c3c5c20408626994e22afe1a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &141233848
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 141233832}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aba14b30cb1176749a42b4eee003bb0a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_jumpInputHoldTime: 0.2
+  m_dashBuffer: 0.2
+--- !u!114 &141233849
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 141233832}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 81a761c53deb12b428fda2b429f5c62b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &141233850
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 141233832}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d430f1eb5037a984ea2219216e122313, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &141233851
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 141233832}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 08f005d22a5cab94b913b746949cd7ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &152623406
 GameObject:
   m_ObjectHideFlags: 0
@@ -33255,10 +33333,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 519420028}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4b7defd952b0db54fa2e936342152c25, type: 3}
+  m_Script: {fileID: 11500000, guid: 22c18aa802be49e4d814997e362873fc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Player: {fileID: 141233832}
+  m_target: {fileID: 141233832}
   m_Speed: 1
 --- !u!1 &524195807
 GameObject:

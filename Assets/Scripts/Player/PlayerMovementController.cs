@@ -2,10 +2,12 @@ using UnityEngine;
 
 public class PlayerMovementController : MonoBehaviour
 {
-    private Rigidbody2D m_rb;
     public Vector2 velocity => m_rb.linearVelocity;
+    private Rigidbody2D m_rb;
+    private PlayerDirectionController m_directionController;
     private void Awake()
     {
+        m_directionController = GetComponent<PlayerDirectionController>();
         m_rb = GetComponent<Rigidbody2D>();
     }
 
@@ -26,56 +28,29 @@ public class PlayerMovementController : MonoBehaviour
         m_rb.linearVelocity = velocity;
     }
 
-    public void AdjustVelocityX_Lerp(float velocity, float friction)
+    private float AdjustVelocity(float current, float target, float interval)
     {
-        if (friction > 1) friction = 1;
-        float targetVelocityX = Mathf.Lerp(m_rb.linearVelocityX, velocity, friction);
-        SetVelocityX(targetVelocityX);
-    }
-
-    public void AdjustVelocityY_Lerp(float velocity, float friction)
-    {
-        if (friction > 1) friction = 1;
-        float targetVelocityY = Mathf.Lerp(m_rb.linearVelocityY, velocity, friction);
-        SetVelocityY(targetVelocityY);
-    }
-
-    public void AdjustVelocityX_Constant(float velocity, float interval)
-    {
-        if (m_rb.linearVelocityX == velocity) return;
-
-        if (m_rb.linearVelocityX > velocity) interval *= -1;
-
-        float newVelocity = m_rb.linearVelocityX + interval;
-
+        interval = Mathf.Abs(interval);
+        if (current == target) return current;
+        if (current > target) interval *= -1;
+        float newVelocity = current + interval;
         if (interval < 0)
-        {
-            if (newVelocity < velocity) newVelocity = velocity;
-        }
+            return Mathf.Max(newVelocity, target);
         else
-        {
-            if (newVelocity > velocity) newVelocity = velocity;
-        }
-        SetVelocityX(newVelocity);
+            return Mathf.Min(newVelocity, target);
     }
 
-    public void AdjustVelocityY_Constant(float velocity, float interval)
+    public void AccelerateXVelocity(float velocity, float interval) => SetVelocityX(AdjustVelocity(m_rb.linearVelocityX, velocity, interval));
+
+    public void AccelerateYVelocity(float velocity, float interval) => SetVelocityY(AdjustVelocity(m_rb.linearVelocityY, velocity, interval));
+
+    public bool IsFalling()
     {
-        if (m_rb.linearVelocityY == velocity) return;
+        return Mathf.Sign(velocity.y) == -m_directionController.facingYDirection;
+    }
 
-        if (m_rb.linearVelocityY > velocity) interval *= -1;
-
-        float newVelocity = m_rb.linearVelocityY + interval;
-
-        if (interval < 0)
-        {
-            if (newVelocity < velocity) newVelocity = velocity;
-        }
-        else
-        {
-            if (newVelocity > velocity) newVelocity = velocity;
-        }
-
-        SetVelocityY(newVelocity);
+    public bool IsGoingUp()
+    {
+        return Mathf.Sign(velocity.y) == m_directionController.facingYDirection;
     }
 }

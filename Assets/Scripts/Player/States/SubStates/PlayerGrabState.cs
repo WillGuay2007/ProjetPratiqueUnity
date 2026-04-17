@@ -5,11 +5,6 @@ public class PlayerGrabState : PlayerTouchWallState
     public PlayerGrabState(PlayerController playerController, PlayerStateMachine plrStateMachine, PlayerData plrData, string animBool) : base(playerController, plrStateMachine, plrData, animBool)
     {
     }
-    
-    public override void DoChecks()
-    {
-        base.DoChecks();
-    }
 
     public override void Enter()
     {
@@ -32,7 +27,7 @@ public class PlayerGrabState : PlayerTouchWallState
         {
             if (isFacingWall)
             {
-                Transition(player.wallSlideState);
+                Transition(stateMachine.wallSlideState);
             }
             return;
         }
@@ -40,22 +35,17 @@ public class PlayerGrabState : PlayerTouchWallState
         {
             player.InputController.DisableGrabInputForSeconds(playerData.GrabInputDeactivationDelayAfterBounce);
             player.InputController.UseJumpInput();
-            if (xInput != 0f && xInput != player.facingXDirection)
+            if (xInput != 0f && xInput != player.DirectionController.facingXDirection)
             {
-                player.MovementController.SetVelocityX(playerData.wallBounceXVelocity * -player.facingXDirection);
+                player.MovementController.SetVelocityX(playerData.wallBounceXVelocity * -player.DirectionController.facingXDirection);
             }
-            Transition(player.jumpState);
+            Transition(stateMachine.jumpState);
             return;
         }
         else if (yInput != 0f) {
-            Transition(player.climbState);
+            Transition(stateMachine.climbState);
             return;
         }
 
-    }
-
-    public override void PhysicsUpdate()
-    {
-        base.PhysicsUpdate();
     }
 }

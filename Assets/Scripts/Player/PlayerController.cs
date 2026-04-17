@@ -1,166 +1,57 @@
-using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.EventSystems;
 
-//TODO: REFACTOR LA CLASSE (Prioritée). Ca commence a être une God class.
-public class PlayerController : MonoBehaviour, IDamageable
+public class PlayerController : MonoBehaviour
 {
-    #region Constants
-    private int Y_LIMIT = 750;
-    #endregion
+    [SerializeField] private PlayerData m_playerData;
+
     #region Components
     public Rigidbody2D RigidBody {  get; private set; }
     public Animator Animator { get; private set; }
-    public CapsuleCollider2D CapsuleCollider { get; private set; }
-    public SpriteRenderer SpriteRenderer { get; private set; }
-    public PlayerInputManager InputController { get; private set; }
+    public PlayerStateMachine StateMachine { get; private set; }
+    public PlayerInputController InputController { get; private set; }
     public PlayerGravityController GravityController { get; private set; }
     public PlayerMovementController MovementController { get; private set; }
-    public PlayerCheckpointController CheckpointController { get; private set; }
-
-    [SerializeField] private PlayerData m_playerData;
+    public PlayerDirectionController DirectionController {  get; private set; }
+    public PlayerSurfaceDetector SurfaceDetector { get; private set; }
+    public PlayerHealthController HealthController { get; private set; }
+    public PlayerSpawnController SpawnController { get; private set; }
+    public PlayerBoundsController BoundsController { get; private set; }
+    public PlayerDeathController DeathController { get; private set; }
     #endregion
-    #region Check transforms
-    [SerializeField] private Transform m_groundCheck;
-    #endregion
-    #region State variables
-    public PlayerStateMachine stateMachine { get; private set; }
-    public PlayerIdleState idleState { get; private set; }
-    public PlayerMoveState moveState { get; private set; }
-    public PlayerJumpState jumpState { get; private set; }
-    public PlayerInAirState inAirState { get; private set; }
-    public PlayerDashState dashState { get; private set; }
-    public PlayerDiedState diedState { get; private set; }
-    public PlayerGrabState grabState { get; private set; }
-    public PlayerWallSlideState wallSlideState { get; private set; }
-    public PlayerClimbState climbState { get; private set; }
-    #endregion
-    #region Other variables
-    public int facingXDirection { get; private set; }
-    public int facingYDirection { get; private set; }
-    private float m_health;
     public bool isInteracting;
-    public float health { get => m_health; set => m_health = value; }
-    public Vector2 currentSpawnPoint { get; private set; }
 
-    #endregion
-    #region UnityCallbacks
     private void Awake()
     {
-        facingYDirection = 1;
-        facingXDirection = 1;
-        health = m_playerData.playerHealth;
         Animator = GetComponent<Animator>();
         RigidBody = GetComponent<Rigidbody2D>();
-        SpriteRenderer = GetComponent<SpriteRenderer>();
-        CapsuleCollider = GetComponent<CapsuleCollider2D>();
-        InputController = GetComponent<PlayerInputManager>();
+        InputController = GetComponent<PlayerInputController>();
         GravityController = GetComponent<PlayerGravityController>();
         MovementController = GetComponent<PlayerMovementController>();
-        CheckpointController = GetComponent<PlayerCheckpointController>();
-        stateMachine = new PlayerStateMachine(this);
-        idleState = new PlayerIdleState(this, stateMachine, m_playerData, "Idle");
-        moveState = new PlayerMoveState(this, stateMachine, m_playerData, "Move");
-        jumpState = new PlayerJumpState(this, stateMachine, m_playerData, "InAir");
-        inAirState = new PlayerInAirState(this, stateMachine, m_playerData, "InAir");
-        dashState = new PlayerDashState(this, stateMachine, m_playerData, "InAir");
-        diedState = new PlayerDiedState(this, stateMachine, m_playerData, "Died");
-        grabState = new PlayerGrabState(this, stateMachine, m_playerData, "Grab");
-        climbState = new PlayerClimbState(this, stateMachine, m_playerData, "Climb");
-        wallSlideState = new PlayerWallSlideState(this, stateMachine, m_playerData, "Slide");
+        DirectionController = GetComponent<PlayerDirectionController>();
+        SurfaceDetector = GetComponent<PlayerSurfaceDetector>();
+        HealthController = GetComponent<PlayerHealthController>();
+        SpawnController = GetComponent<PlayerSpawnController>();
+        BoundsController = GetComponent<PlayerBoundsController>();
+        DeathController = GetComponent<PlayerDeathController>();
+        StateMachine = new PlayerStateMachine(this, m_playerData);
     }
 
     private void Start()
     {
-        CheckpointController.SetDefaultSpawnPosition(transform.position);
-        stateMachine.Initialize(idleState);
+        SurfaceDetector.Initialize(m_playerData);
+        DeathController.Initialize(() => StateMachine.SetState(StateMachine.diedState));
+        HealthController.Initialize(m_playerData);
+        SpawnController.Initialize(() => StateMachine.ForceSetState(StateMachine.idleState));
+        StateMachine.Initialize();
     }
 
     private void Update()
     {
-        if (CheckIfIsOutOfBounds()) stateMachine.SetState(diedState);
-        stateMachine.currentState.LogicUpdate();
+        StateMachine.currentState.LogicUpdate();
     }
 
     private void FixedUpdate()
     {
-        stateMachine.currentState.PhysicsUpdate();
-    }
-    #endregion
-    #region Other Functions
-    public void FlipX()
-    {
-        facingXDirection *= -1;
-        transform.Rotate(0f, 180f, 0f);
-    }
-
-    public void FlipY()
-    {
-        facingYDirection *= -1;
-        transform.Rotate(0f, 180f, 0f);
-        transform.Rotate(0f, 0f, 180f);
-    }
-
-    public void Damage(float damage)
-    {
-        health -= damage;
-        if (IsDead()) stateMachine.SetState(diedState);
-    }
-
-    public void Respawn()
-    {
-        GravityController.SetDefaultGravity();
-        transform.position = CheckpointController.CheckpointSpawn;
-        stateMachine.SetState(idleState);
-        GravityController.SetPhysics(true);
-    }
-
-    #endregion
-    #region Check Functions
-    public void CheckIfShouldFlipX(int xInput)
-    {
-        if (xInput != 0 && xInput != facingXDirection)
-        {
-            FlipX();
-        }
-    }
-
-    public bool CheckIfOnGround()
-    {
-        return Physics2D.OverlapCircle(m_groundCheck.position, m_playerData.groundCheckRadius, m_playerData.whatIsGround);
-    }
-
-    public bool IsFalling()
-    {
-        return Mathf.Sign(MovementController.velocity.y) == -facingYDirection;
-    }
-
-    public bool IsGoingUp()
-    {
-        return Mathf.Sign(MovementController.velocity.y) == facingYDirection;
-    }
-
-    public bool CheckIfFacingWall()
-    {
-        return Physics2D.Raycast(transform.position, Vector2.right * facingXDirection, m_playerData.wallCheckRayLength, m_playerData.whatIsGround); //Ground est considéré comme un wall.
-    }
-
-    public bool CheckIfTouchingWall()
-    {
-        if (Physics2D.Raycast(transform.position, Vector2.right * facingXDirection, m_playerData.wallCheckRayLength, m_playerData.whatIsGround))
-        {
-            return true;
-        }
-        else if (Physics2D.Raycast(transform.position, -Vector2.right * facingXDirection, m_playerData.wallCheckRayLength, m_playerData.whatIsGround))
-        {
-            return true;
-        }
-        return false;
-    }
-
-    public bool IsDead() => health <= 0f;
-    private bool CheckIfIsOutOfBounds() => Mathf.Abs(transform.position.y) > Y_LIMIT;    
-    
-    #endregion
+        StateMachine.currentState.PhysicsUpdate();
+    }    
 }

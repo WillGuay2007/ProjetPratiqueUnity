@@ -3,7 +3,7 @@ using UnityEngine;
 public class CameraZoomEffect : MonoBehaviour, IZoneEffect
 {
     [SerializeField] private float m_cameraZOffset;
-    [SerializeField] private PlayerCameraController m_camera;
+    [SerializeField] private CameraController m_camera;
 
     public void Apply()
     {

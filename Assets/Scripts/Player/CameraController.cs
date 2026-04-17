@@ -1,9 +1,9 @@
 using System.Collections;
 using UnityEngine;
 
-public class PlayerCameraController : MonoBehaviour
+public class CameraController : MonoBehaviour
 {
-    [SerializeField] private GameObject m_Player;
+    [SerializeField] private GameObject m_target;
     [SerializeField] private float m_Speed;
     private bool m_isShaking = false;
     private Vector3 m_originalOffset = new Vector3(0, 0, -15);
@@ -66,12 +66,12 @@ public class PlayerCameraController : MonoBehaviour
 
     private void MoveCamera()
     {
-        float dist = Vector3.Distance(transform.position, m_Player.transform.position + m_offset);
+        float dist = Vector3.Distance(transform.position, m_target.transform.position + m_offset);
         if (dist >= 0.25f)
         {
             transform.position = Vector3.Lerp(
                 transform.position,
-                m_Player.transform.position + m_offset,
+                m_target.transform.position + m_offset,
                 Time.deltaTime * dist * m_Speed);
         }
     }

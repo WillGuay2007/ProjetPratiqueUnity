@@ -1,20 +1,20 @@
 using UnityEngine;
 
 //Cette classe a été concue pour être attachée au player. Sinon, ca marche pas.
-public class PlayerCheckpointController : MonoBehaviour
+public class PlayerCheckpointController : MonoBehaviour, ISpawnProvider
 {
-    public Vector2 CheckpointSpawn { get; private set; }
-    private int CurrentCheckpointIndex = 0;
+    private Vector2 m_checkpointSpawn;
+    private int m_currentCheckpointIndex = 0;
 
     [SerializeField] private MonoBehaviour m_notificationService;
     private INotificationService NotificationService => m_notificationService as INotificationService;
 
-    public void SetDefaultSpawnPosition(Vector2 spawnPosition)
+    private void Awake() => m_checkpointSpawn = transform.position;
+    public Vector2 ProvideSpawn()
     {
-        CheckpointSpawn = spawnPosition;
+        return m_checkpointSpawn;
     }
 
-    //Fonction root de logique.
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (!collision.TryGetComponent<PlayerCheckpoint>(out PlayerCheckpoint checkpoint)) return;
@@ -27,13 +27,13 @@ public class PlayerCheckpointController : MonoBehaviour
     {
         checkpoint.Claim();
         UpdateCurrentCheckpoint(checkpoint);
-        NotificationService.Notify("Player reached checkpoint " + CurrentCheckpointIndex);
+        NotificationService.Notify("Player reached checkpoint " + m_currentCheckpointIndex);
     }
 
     private void UpdateCurrentCheckpoint(PlayerCheckpoint checkpoint)
     {
-        CurrentCheckpointIndex = checkpoint.CheckpointIndex;
-        CheckpointSpawn = checkpoint.transform.position;
+        m_currentCheckpointIndex = checkpoint.CheckpointIndex;
+        m_checkpointSpawn = checkpoint.transform.position;
     }
 
     private bool ShouldProcessCheckpoint(PlayerCheckpoint checkpoint)
@@ -51,11 +51,11 @@ public class PlayerCheckpointController : MonoBehaviour
 
     private bool IsCheckpointSkipped(PlayerCheckpoint checkpoint)
     {
-        return checkpoint.CheckpointIndex > CurrentCheckpointIndex + 1;
+        return checkpoint.CheckpointIndex > m_currentCheckpointIndex + 1;
     }
 
     private bool IsNextCheckpoint(PlayerCheckpoint checkpoint)
     {
-        return checkpoint.CheckpointIndex - 1 == CurrentCheckpointIndex;
+        return checkpoint.CheckpointIndex - 1 == m_currentCheckpointIndex;
     }
 }

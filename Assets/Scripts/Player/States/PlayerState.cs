@@ -32,10 +32,13 @@ public abstract class PlayerState
         DoChecks();
     }
     public virtual void DoChecks(){ }
+    public virtual bool CanTransitionTo(PlayerState newState) => true;
+
 
     protected void Transition(PlayerState newState)
     {
         transitioned = true;
         stateMachine.SetState(newState);
     }
+
 }

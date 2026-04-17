@@ -12,12 +12,12 @@ public class PlayerMoveState : PlayerGroundedState
 
         if (transitioned) return;
 
-        player.CheckIfShouldFlipX(xInput);
+        player.DirectionController.ShouldFlipX(xInput);
 
-        player.MovementController.AdjustVelocityX_Constant(playerData.movementVelocity * xInput, playerData.groundFriction);
+        player.MovementController.AccelerateXVelocity(playerData.movementVelocity * xInput, playerData.groundFriction);
         if (xInput == 0 && player.MovementController.velocity.x == 0)
         {
-            Transition(player.idleState);
+            Transition(stateMachine.idleState);
         }
     }
 }

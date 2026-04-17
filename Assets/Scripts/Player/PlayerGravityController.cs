@@ -21,13 +21,13 @@ public class PlayerGravityController : MonoBehaviour
     public void SetDefaultGravity()
     {
         m_rigidbody.gravityScale = m_originalPlayerGravity;
-        if (m_player.facingYDirection == 1) return;
-        m_player.FlipY();
+        if (m_player.DirectionController.facingYDirection == 1) return;
+        m_player.DirectionController.FlipY();
     }
 
     public void SetDefaultGravityConsideringGravSwap()
     {
-        m_rigidbody.gravityScale = m_originalPlayerGravity * m_player.facingYDirection;
+        m_rigidbody.gravityScale = m_originalPlayerGravity * m_player.DirectionController.facingYDirection;
     }
 
     public void DisablePlayerGravity()
@@ -39,7 +39,7 @@ public class PlayerGravityController : MonoBehaviour
     {
         AudioController.Instance.PlaySound(AudioController.Sounds.GravitySwap);
         m_rigidbody.gravityScale *= -1;
-        m_player.FlipY();
+        m_player.DirectionController.FlipY();
     }
 
     public void SetPhysics(bool isEnabled)

@@ -32,7 +32,6 @@ public class PlayerDashState : PlayerAbilityState
     public override void Enter()
     {
         base.Enter();
-        //TODO: Find a way to acces the camera controller and put an impact shake.
         AudioController.Instance.PlaySound(AudioController.Sounds.PlayerDash);
         StartDash();
     }
@@ -40,7 +39,7 @@ public class PlayerDashState : PlayerAbilityState
     public override void Exit()
     {
         base.Exit();
-        if (player.IsFalling()) return;
+        if (player.MovementController.IsFalling()) return;
         player.MovementController.SetVelocityY(player.MovementController.velocity.y * playerData.dashEndYMultiplier);
     }
 
@@ -48,7 +47,7 @@ public class PlayerDashState : PlayerAbilityState
     {
         base.LogicUpdate();
         m_jumpInput = player.InputController.JumpInput;
-        player.CheckIfShouldFlipX(xInput);
+        player.DirectionController.ShouldFlipX(xInput);
         if (isAbilityDone) return;
         m_elapsedTime += Time.deltaTime;
 
@@ -76,15 +75,15 @@ public class PlayerDashState : PlayerAbilityState
 
             if (m_dashType == DashType.Horizontal) //Superdash
             {
-                player.jumpState.SetCustomJumpHeight(playerData.SuperDashYVelocity);
-                player.MovementController.SetVelocityX(playerData.SuperDashXVelocity * player.facingXDirection);
+                stateMachine.jumpState.SetCustomJumpHeight(playerData.SuperDashYVelocity);
+                player.MovementController.SetVelocityX(playerData.SuperDashXVelocity * player.DirectionController.facingXDirection);
             } else if (m_dashType == DashType.DiagonalDown) //Hyperdash
             {
-                player.jumpState.SetCustomJumpHeight(playerData.HyperdashYVelocity);
-                player.MovementController.SetVelocityX(playerData.HyperdashXVelocity * player.facingXDirection);
+                stateMachine.jumpState.SetCustomJumpHeight(playerData.HyperdashYVelocity);
+                player.MovementController.SetVelocityX(playerData.HyperdashXVelocity * player.DirectionController.facingXDirection);
             }
 
-            Transition(player.jumpState);
+            Transition(stateMachine.jumpState);
                 
             return;
             }
@@ -160,10 +159,10 @@ public class PlayerDashState : PlayerAbilityState
     private DashType GetDashType()
     {
         if (xInput != 0 && yInput == 0) return DashType.Horizontal;
-        if (xInput == 0 && yInput == player.facingYDirection) return DashType.Up;
-        if (xInput == 0 && yInput != player.facingYDirection) return DashType.Down;
-        if (xInput != 0 && yInput == player.facingYDirection) return DashType.DiagonalUp;
-        if (xInput != 0 && yInput != player.facingYDirection) return DashType.DiagonalDown;
+        if (xInput == 0 && yInput == player.DirectionController.facingYDirection) return DashType.Up;
+        if (xInput == 0 && yInput != player.DirectionController.facingYDirection) return DashType.Down;
+        if (xInput != 0 && yInput == player.DirectionController.facingYDirection) return DashType.DiagonalUp;
+        if (xInput != 0 && yInput != player.DirectionController.facingYDirection) return DashType.DiagonalDown;
         return DashType.Horizontal;
     }
 }

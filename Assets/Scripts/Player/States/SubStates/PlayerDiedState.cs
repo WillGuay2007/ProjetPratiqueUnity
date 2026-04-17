@@ -13,4 +13,6 @@ public class PlayerDiedState : PlayerState
         player.GravityController.SetPhysics(false);
         //Respawn est géré grace à un animation event.
     }
+
+    public override bool CanTransitionTo(PlayerState newState) => false;
 }
