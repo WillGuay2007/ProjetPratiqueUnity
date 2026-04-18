@@ -9,22 +9,20 @@ public class PlayerClimbState : PlayerTouchWallState
     public override void Enter()
     {
         base.Enter();
-        player.GravityController.DisablePlayerGravity();
-        player.MovementController.ResetVelocity();
+        stateMachine.Motor.Freeze();
     }
 
     public override void Exit()
     {
         base.Exit();
-        player.GravityController.SetDefaultGravityConsideringGravSwap();
+        stateMachine.Motor.ResetGravity();
     }
 
     public override void LogicUpdate()
     {
         base.LogicUpdate();
         if (transitioned) return;
-        player.MovementController.SetVelocityX(0);
-        player.MovementController.SetVelocityY(yInput * playerData.wallClimbSpeed);
+        stateMachine.Motor.ApplyClimbVelocity(yInput, playerData.wallClimbSpeed);
         if (!grabInput)
         {
             Transition(stateMachine.inAirState);
@@ -42,7 +40,7 @@ public class PlayerClimbState : PlayerTouchWallState
                 player.InputController.UseJumpInput();
                 if (PlayerIsBufferingOppositeXInput())
                 {
-                    player.MovementController.SetVelocityX(playerData.wallBounceXVelocity * -player.DirectionController.facingXDirection);
+                    stateMachine.Motor.ApplyHorizontalImpulse(playerData.wallBounceXVelocity * -stateMachine.Motor.GetFacingXDirection());
                 }
                 Transition(stateMachine.jumpState);
             }
@@ -56,26 +54,24 @@ public class PlayerClimbState : PlayerTouchWallState
 
     private bool PlayerIsBufferingOppositeXInput()
     {
-        return xInput != 0f && xInput != player.DirectionController.facingXDirection;
+        return xInput != 0f && xInput != stateMachine.Motor.GetFacingXDirection();
     }
 
     private bool IsClimbingDown()
     {
-        return yInput != player.DirectionController.facingYDirection;
+        return yInput != stateMachine.Motor.GetFacingYDirection();
     }
 
     //TO KEEP IN MIND: TRANSITION IS APPLIED THE NEXT FRAME BY THE SUPER STATE.
     private void ApplyBoostVelocity()
     {
-        player.DirectionController.FlipX();
-        if (xInput == player.DirectionController.facingXDirection)
-        {
-            player.MovementController.SetVelocityX(playerData.ClimbDownXBoost * player.DirectionController.facingXDirection * playerData.ClimbDownFaceAwayXBoostMultiplier);
-        }
-        else
-        {
-            player.MovementController.SetVelocityX(playerData.ClimbDownXBoost * player.DirectionController.facingXDirection);
-        }
+        stateMachine.Motor.FlipX();
+        float boostMultiplier = (xInput == stateMachine.Motor.GetFacingXDirection())
+            ? playerData.ClimbDownFaceAwayXBoostMultiplier
+            : 1f;
+        float boostVelocity = playerData.ClimbDownXBoost * stateMachine.Motor.GetFacingXDirection() * boostMultiplier;
+
+        stateMachine.Motor.ApplyHorizontalImpulse(boostVelocity);
     }
    
 }

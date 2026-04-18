@@ -11,7 +11,7 @@ public class PlayerController : MonoBehaviour
     public PlayerInputController InputController { get; private set; }
     public PlayerGravityController GravityController { get; private set; }
     public PlayerMovementController MovementController { get; private set; }
-    public PlayerDirectionController DirectionController {  get; private set; }
+    public PlayerDirectionController DirectionController { get; private set; }
     public PlayerSurfaceDetector SurfaceDetector { get; private set; }
     public PlayerHealthController HealthController { get; private set; }
     public PlayerSpawnController SpawnController { get; private set; }
@@ -33,7 +33,7 @@ public class PlayerController : MonoBehaviour
         SpawnController = GetComponent<PlayerSpawnController>();
         BoundsController = GetComponent<PlayerBoundsController>();
         DeathController = GetComponent<PlayerDeathController>();
-        StateMachine = new PlayerStateMachine(this, m_playerData);
+        StateMachine = new PlayerStateMachine(this, GetComponent<PlayerMotor>(), m_playerData);
     }
 
     private void Start()
@@ -47,11 +47,11 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
-        StateMachine.currentState.LogicUpdate();
+        StateMachine.CurrentState.LogicUpdate();
     }
 
     private void FixedUpdate()
     {
-        StateMachine.currentState.PhysicsUpdate();
+        StateMachine.CurrentState.PhysicsUpdate();
     }    
 }

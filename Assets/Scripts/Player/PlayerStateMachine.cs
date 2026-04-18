@@ -3,7 +3,8 @@ using UnityEngine;
 public class PlayerStateMachine
 {
     public PlayerController PlrController { get; private set; }
-    public PlayerState currentState { get; private set; }
+    public PlayerState CurrentState { get; private set; }
+    public IMotor Motor { get; private set; }
     private PlayerData m_playerData;
 
     #region States
@@ -18,9 +19,10 @@ public class PlayerStateMachine
     public PlayerClimbState climbState { get; private set; }
     #endregion
 
-    public PlayerStateMachine(PlayerController plrcontroller, PlayerData plrData)
+    public PlayerStateMachine(PlayerController plrcontroller, IMotor movementProvider, PlayerData plrData)
     {
         PlrController = plrcontroller;
+        Motor = movementProvider;
         m_playerData = plrData;
     }
 
@@ -36,26 +38,26 @@ public class PlayerStateMachine
         climbState = new PlayerClimbState(PlrController, this, m_playerData, "Climb");
         wallSlideState = new PlayerWallSlideState(PlrController, this, m_playerData, "Slide");
 
-        currentState = idleState;
-        currentState.Enter();
+        CurrentState = idleState;
+        CurrentState.Enter();
     }
 
     public void SetState(PlayerState newState)
     {
-        if (newState == currentState) return;
+        if (newState == CurrentState) return;
 
-        if (!currentState.CanTransitionTo(newState)) return;
+        if (!CurrentState.CanTransitionTo(newState)) return;
 
-        currentState?.Exit();
-        currentState = newState;
-        currentState.Enter();
+        CurrentState?.Exit();
+        CurrentState = newState;
+        CurrentState.Enter();
     }
 
     public void ForceSetState(PlayerState newState)
     {
-        if (newState == currentState) return;
-        currentState?.Exit();
-        currentState = newState;
-        currentState.Enter();
+        if (newState == CurrentState) return;
+        CurrentState?.Exit();
+        CurrentState = newState;
+        CurrentState.Enter();
     }
 }

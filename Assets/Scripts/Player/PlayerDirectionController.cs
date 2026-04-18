@@ -12,16 +12,18 @@ public class PlayerDirectionController : MonoBehaviour
             FlipX();
         }
     }
-    public void FlipX()
+    public int FlipX()
     {
         facingXDirection *= -1;
         transform.Rotate(0f, 180f, 0f);
+        return facingXDirection;
     }
 
-    public void FlipY()
+    public int FlipY()
     {
         facingYDirection *= -1;
         transform.Rotate(0f, 180f, 0f);
         transform.Rotate(0f, 0f, 180f);
+        return facingYDirection;
     }
 }
