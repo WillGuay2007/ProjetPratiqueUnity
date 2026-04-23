@@ -21,6 +21,7 @@ public class PlayerStateMachine
 
     public PlayerStateMachine(PlayerController plrcontroller, IMotor movementProvider, PlayerData plrData)
     {
+        GenericEventBus.Instance.Subscribe<PlayerRespawnEvent>((PlayerRespawnEvent) => ForceSetState(idleState));
         PlrController = plrcontroller;
         Motor = movementProvider;
         m_playerData = plrData;

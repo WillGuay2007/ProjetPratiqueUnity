@@ -9,7 +9,7 @@ public class PlayerClimbState : PlayerTouchWallState
     public override void Enter()
     {
         base.Enter();
-        stateMachine.Motor.Freeze();
+        stateMachine.Motor.Snap();
     }
 
     public override void Exit()
@@ -30,10 +30,7 @@ public class PlayerClimbState : PlayerTouchWallState
         }
         else if (jumpInput)
         {
-            if (IsClimbingDown())
-            {
-                ApplyBoostVelocity();
-            }
+            if (IsClimbingDown()) ApplyBoostVelocity();
             else
             {
                 player.InputController.DisableGrabInputForSeconds(playerData.GrabInputDeactivationDelayAfterBounce);

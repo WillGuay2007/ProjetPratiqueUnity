@@ -8,6 +8,7 @@ public class PlayerHealthController : MonoBehaviour, IDamageable
 
     private void Awake()
     {
+        GenericEventBus.Instance.Subscribe<PlayerRespawnEvent>(OnRespawn);
         m_deathController = GetComponent<PlayerDeathController>();
     }
 
@@ -30,10 +31,11 @@ public class PlayerHealthController : MonoBehaviour, IDamageable
 
     public void Kill() => Damage(m_health);
     public bool IsDead() => m_health <= 0f;
-
     public void Reset()
     {
         m_health = m_playerData.playerHealth;
         m_isDead = false;
     }
+
+    private void OnRespawn(PlayerRespawnEvent evt) => Reset();
 }

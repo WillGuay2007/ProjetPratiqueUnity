@@ -8,9 +8,10 @@ public class PlayerGravityController : MonoBehaviour
 
     private void Start()
     {
+        GenericEventBus.Instance.Subscribe<PlayerRespawnEvent>(OnRespawn);
         m_player = GetComponent<PlayerController>();
-        m_originalPlayerGravity = m_player.RigidBody.gravityScale;
         m_rigidbody = GetComponent<Rigidbody2D>();
+        m_originalPlayerGravity = m_rigidbody.gravityScale;
     }
 
     public void SetPlayerGravity(float newPlayerGravity)
@@ -45,5 +46,11 @@ public class PlayerGravityController : MonoBehaviour
     public void SetPhysics(bool isEnabled)
     {
         m_rigidbody.simulated = isEnabled;
+    }
+
+    public void OnRespawn(PlayerRespawnEvent evt)
+    {
+        SetDefaultGravity();
+        SetPhysics(true);
     }
 }

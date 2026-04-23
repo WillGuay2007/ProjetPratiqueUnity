@@ -41,7 +41,6 @@ public class PlayerController : MonoBehaviour
         SurfaceDetector.Initialize(m_playerData);
         DeathController.Initialize(() => StateMachine.SetState(StateMachine.diedState));
         HealthController.Initialize(m_playerData);
-        SpawnController.Initialize(() => StateMachine.ForceSetState(StateMachine.idleState));
         StateMachine.Initialize();
     }
 

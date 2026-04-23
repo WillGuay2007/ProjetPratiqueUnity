@@ -17,18 +17,17 @@ public class PlayerMotor : MonoBehaviour, IMotor
         throw new System.NotImplementedException();
     }
 
-    public void Freeze()
+    public void Snap()
     {
         m_gravityController.DisablePlayerGravity();
         m_movementController.ResetVelocity();
     }
-
-
     public void ApplyClimbVelocity(int yInput, float velocity)
     {
         m_movementController.SetVelocityX(0);
         m_movementController.SetVelocityY(yInput * velocity);
     }
+    public void ResetVelocity() => m_movementController.ResetVelocity();
     public void ResetGravity() => m_gravityController.SetDefaultGravityConsideringGravSwap();
     public void ApplyHorizontalImpulse(float v) { m_movementController.SetVelocityX(v); }
     public void ApplyVerticalImpulse(float v) { m_movementController.SetVelocityY(v); }

@@ -4,7 +4,8 @@ public interface IMotor
 {
     public void ApplyClimbVelocity(int yDirection, float velocity);
     public void Dash();
-    public void Freeze();
+    public void Snap();
+    public void ResetVelocity();
     public void ResetGravity();
     public void ApplyHorizontalImpulse(float velocity);
     public void ApplyVerticalImpulse(float velocity);
