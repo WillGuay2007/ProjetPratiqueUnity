@@ -33,11 +33,12 @@ public class PlayerController : MonoBehaviour
         SpawnController = GetComponent<PlayerSpawnController>();
         BoundsController = GetComponent<PlayerBoundsController>();
         DeathController = GetComponent<PlayerDeathController>();
-        StateMachine = new PlayerStateMachine(this, GetComponent<PlayerMotor>(), m_playerData);
     }
 
     private void Start()
     {
+        //TODO: Move back to awake when event bus is stable
+        StateMachine = new PlayerStateMachine(this, GetComponent<PlayerMotor>(), m_playerData);
         SurfaceDetector.Initialize(m_playerData);
         DeathController.Initialize(() => StateMachine.SetState(StateMachine.diedState));
         HealthController.Initialize(m_playerData);

@@ -6,14 +6,10 @@ public class PlayerHealthController : MonoBehaviour, IDamageable
     private PlayerData m_playerData;
     private PlayerDeathController m_deathController;
 
-    private void Awake()
+    public void Initialize(PlayerData playerData)
     {
         GenericEventBus.Instance.Subscribe<PlayerRespawnEvent>(OnRespawn);
         m_deathController = GetComponent<PlayerDeathController>();
-    }
-
-    public void Initialize(PlayerData playerData)
-    {
         m_playerData = playerData;
         m_health = playerData.playerHealth;
     }

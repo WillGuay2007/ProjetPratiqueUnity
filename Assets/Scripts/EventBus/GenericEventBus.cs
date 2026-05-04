@@ -2,6 +2,8 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
+//TODO: Lazy init because otherwise awake race condition
+
 public class GenericEventBus : MonoBehaviour
 {
     public const bool DEBUG = false;
@@ -13,12 +15,10 @@ public class GenericEventBus : MonoBehaviour
         if (Instance != null && Instance != this)
         {
             Destroy(gameObject);
+            return;
         }
-        else
-        {
-            Instance = this;
-            DontDestroyOnLoad(gameObject);
-        }
+        Instance = this;
+        DontDestroyOnLoad(gameObject);
     }
 
     public void Subscribe<T>(Action<T> callback) where T : IEvent
