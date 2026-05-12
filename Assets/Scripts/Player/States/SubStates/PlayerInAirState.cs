@@ -28,6 +28,7 @@ public class PlayerInAirState : PlayerState
     public override void Enter()
     {
         base.Enter();
+        stateMachine.PlayerInfosWindow.SetCanFlipText("Can switch gravity: False");
     }
 
     public override void Exit()

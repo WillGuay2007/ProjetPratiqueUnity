@@ -21,7 +21,7 @@ public class PlayerDashState : PlayerAbilityState
 
     public PlayerDashState(PlayerController playerController, PlayerStateMachine plrStateMachine, PlayerData plrData, string animBool) : base(playerController, plrStateMachine, plrData, animBool)
     {
-        m_amountOfAirDashesLeft = playerData.amountOfAirDashes;
+        m_amountOfAirDashesLeft = playerData.maxAmountOfDashes;
     }
 
     public override void DoChecks()
@@ -97,7 +97,7 @@ public class PlayerDashState : PlayerAbilityState
         base.PhysicsUpdate();
     }
 
-    public void ResetAmountOfDashesLeft() => m_amountOfAirDashesLeft = playerData.amountOfAirDashes;
+    public void ResetAmountOfDashesLeft() => m_amountOfAirDashesLeft = playerData.maxAmountOfDashes;
     public void DecreaseAmountOfDashesLeft() => m_amountOfAirDashesLeft -= 1;
     public bool CanDash() => m_amountOfAirDashesLeft > 0;
 
@@ -144,6 +144,7 @@ public class PlayerDashState : PlayerAbilityState
         player.MovementController.ResetVelocity();
         SetDirectionVelocity();
         DecreaseAmountOfDashesLeft();
+        stateMachine.PlayerInfosWindow.SetDashAmountText("Dash amount left: " + m_amountOfAirDashesLeft);
     }
 
     private void SetDirectionVelocity()

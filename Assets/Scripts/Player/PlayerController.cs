@@ -3,6 +3,7 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     [SerializeField] private PlayerData m_playerData;
+    [SerializeField] private PlayerInfosWindow m_playerInfosWindow;
 
     #region Components
     public Rigidbody2D RigidBody {  get; private set; }
@@ -37,11 +38,11 @@ public class PlayerController : MonoBehaviour
 
     private void Start()
     {
-        //TODO: Move back to awake when event bus is stable
-        StateMachine = new PlayerStateMachine(this, GetComponent<PlayerMotor>(), m_playerData);
         SurfaceDetector.Initialize(m_playerData);
         DeathController.Initialize(() => StateMachine.SetState(StateMachine.diedState));
         HealthController.Initialize(m_playerData);
+        //TODO: Move back new stateMachine to awake when event bus is stable
+        StateMachine = new PlayerStateMachine(this, GetComponent<PlayerMotor>(), m_playerInfosWindow, m_playerData);
         StateMachine.Initialize();
     }
 

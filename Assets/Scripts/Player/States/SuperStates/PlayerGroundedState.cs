@@ -24,7 +24,8 @@ public class PlayerGroundedState : PlayerState
     public override void Enter()
     {
         base.Enter();
-
+        stateMachine.PlayerInfosWindow.SetCanFlipText("Can switch gravity: True");
+        stateMachine.PlayerInfosWindow.SetDashAmountText("Dash amount left: " + playerData.maxAmountOfDashes);
         stateMachine.jumpState.ResetAmoutOfJumpsLeft();
         stateMachine.dashState.ResetAmountOfDashesLeft();
     }

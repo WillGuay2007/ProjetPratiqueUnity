@@ -29,7 +29,7 @@ public class PlayerData : ScriptableObject
     public float diagonalDownDashYMultiplier= 0.5f;
     public float verticalDashYMultiplier = 0.75f;
     public float diagonalUpDashYMultiplier = 0.85f;
-    public int amountOfAirDashes = 1;
+    public int maxAmountOfDashes = 1;
     public float dashEndYMultiplier = 0.7f;
     public float HyperdashXVelocity = 40f;
     public float HyperdashYVelocity = 13f;
