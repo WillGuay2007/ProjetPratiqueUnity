@@ -4,6 +4,7 @@ public class PlayerStateMachine
 {
     public PlayerController PlrController { get; private set; }
     public PlayerState CurrentState { get; private set; }
+    //Le motor est partiellement utilisé car je suis en train de migrer les states vers lui (Refactor)
     public IMotor Motor { get; private set; }
     private PlayerData m_playerData;
 

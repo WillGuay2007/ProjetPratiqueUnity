@@ -1,0 +1,34 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 51d814b7c213fff4bad299bc82408235, type: 3}
+  m_Name: JumpBuffer
+  m_EditorClassIdentifier: 
+  m_dialogueLines:
+  - text: When performing the wall boost, it is possible to buffer the jump input.
+    strategyType: 0
+  - text: This means that your jump input will still be on for 0.2 seconds before
+      deactivating.
+    strategyType: 0
+  - text: 'You can use this knowledge to do the following gameplay:'
+    strategyType: 0
+  - text: Start by climbing on the right wall, then apply the jump boost to the left
+      while holding jump.
+    strategyType: 0
+  - text: (Make sure you're close to the ground so that the 0.2 seconds buffer will
+      still be active)
+    strategyType: 0
+  - text: Then finally, dash left to grab on the wall inside of the cave.
+    strategyType: 0
+  - text: Then the rest is simply problem solving and logic.
+    strategyType: 0
+  - text: Good luck!
+    strategyType: 0
