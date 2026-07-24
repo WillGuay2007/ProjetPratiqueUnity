@@ -41,8 +41,8 @@ public class PlayerController : MonoBehaviour
         SurfaceDetector.Initialize(m_playerData);
         DeathController.Initialize(() => StateMachine.SetState(StateMachine.diedState));
         HealthController.Initialize(m_playerData);
-        //TODO: Move back new stateMachine to awake when event bus is stable
-        StateMachine = new PlayerStateMachine(this, GetComponent<PlayerMotor>(), m_playerInfosWindow, m_playerData);
+        //TODO: Move back new stateMachine to awake when event bus is static
+        StateMachine = new PlayerStateMachine(this, m_playerInfosWindow, m_playerData);
         StateMachine.Initialize();
     }
 

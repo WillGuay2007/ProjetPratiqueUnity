@@ -9,20 +9,22 @@ public class PlayerClimbState : PlayerTouchWallState
     public override void Enter()
     {
         base.Enter();
-        stateMachine.Motor.Snap();
+        stateMachine.PlrController.GravityController.DisablePlayerGravity();
+        stateMachine.PlrController.MovementController.ResetVelocity();
     }
 
     public override void Exit()
     {
         base.Exit();
-        stateMachine.Motor.ResetGravity();
+        stateMachine.PlrController.GravityController.SetDefaultGravityConsideringGravSwap();
     }
 
     public override void LogicUpdate()
     {
         base.LogicUpdate();
         if (transitioned) return;
-        stateMachine.Motor.ApplyClimbVelocity(yInput, playerData.wallClimbSpeed);
+        stateMachine.PlrController.MovementController.SetVelocityX(0);
+        stateMachine.PlrController.MovementController.SetVelocityY(yInput * playerData.wallClimbSpeed);
         if (!grabInput)
         {
             Transition(stateMachine.inAirState);
@@ -37,7 +39,7 @@ public class PlayerClimbState : PlayerTouchWallState
                 player.InputController.UseJumpInput();
                 if (PlayerIsBufferingOppositeXInput())
                 {
-                    stateMachine.Motor.ApplyHorizontalImpulse(playerData.wallBounceXVelocity * -stateMachine.Motor.GetFacingXDirection());
+                    stateMachine.PlrController.MovementController.SetVelocityX(playerData.wallBounceXVelocity * -stateMachine.PlrController.DirectionController.facingXDirection);
                 }
                 Transition(stateMachine.jumpState);
             }
@@ -51,24 +53,24 @@ public class PlayerClimbState : PlayerTouchWallState
 
     private bool PlayerIsBufferingOppositeXInput()
     {
-        return xInput != 0f && xInput != stateMachine.Motor.GetFacingXDirection();
+        return xInput != 0f && xInput != stateMachine.PlrController.DirectionController.facingYDirection;
     }
 
     private bool IsClimbingDown()
     {
-        return yInput != stateMachine.Motor.GetFacingYDirection();
+        return yInput != stateMachine.PlrController.DirectionController.facingYDirection;
     }
 
     //TO KEEP IN MIND: TRANSITION IS APPLIED THE NEXT FRAME BY THE SUPER STATE.
     private void ApplyBoostVelocity()
     {
-        stateMachine.Motor.FlipX();
-        float boostMultiplier = (xInput == stateMachine.Motor.GetFacingXDirection())
+        stateMachine.PlrController.DirectionController.FlipX();
+        float boostMultiplier = (xInput == stateMachine.PlrController.DirectionController.facingXDirection)
             ? playerData.ClimbDownFaceAwayXBoostMultiplier
             : 1f;
-        float boostVelocity = playerData.ClimbDownXBoost * stateMachine.Motor.GetFacingXDirection() * boostMultiplier;
+        float boostVelocity = playerData.ClimbDownXBoost * stateMachine.PlrController.DirectionController.facingXDirection * boostMultiplier;
 
-        stateMachine.Motor.ApplyHorizontalImpulse(boostVelocity);
+        stateMachine.PlrController.MovementController.SetVelocityX(boostVelocity);
     }
    
 }

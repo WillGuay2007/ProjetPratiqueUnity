@@ -12,7 +12,7 @@ public class PlayerIdleState : PlayerGroundedState
 
         if (transitioned) return;
 
-        stateMachine.Motor.ResetVelocity();
+        stateMachine.PlrController.MovementController.ResetVelocity();
         if (xInput != 0f)
         {
             Transition(stateMachine.moveState);

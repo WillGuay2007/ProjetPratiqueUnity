@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-//TODO: Lazy init because otherwise awake race condition
+//TODO: Make event bus static to avoid race conditions in awake.
 
 public class GenericEventBus : MonoBehaviour
 {

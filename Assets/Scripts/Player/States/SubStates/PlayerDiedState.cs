@@ -9,7 +9,8 @@ public class PlayerDiedState : PlayerState
     public override void Enter()
     {
         base.Enter();
-        stateMachine.Motor.Snap();
+        stateMachine.PlrController.GravityController.DisablePlayerGravity();
+        stateMachine.PlrController.MovementController.ResetVelocity();
         //Respawn est géré grace à un animation event.
     }
 

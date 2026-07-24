@@ -4,8 +4,6 @@ public class PlayerStateMachine
 {
     public PlayerController PlrController { get; private set; }
     public PlayerState CurrentState { get; private set; }
-    //Le motor est partiellement utilisé car je suis en train de migrer les states vers lui (Refactor)
-    public IMotor Motor { get; private set; }
     public PlayerInfosWindow PlayerInfosWindow { get; private set; }
     private PlayerData m_playerData;
 
@@ -21,12 +19,11 @@ public class PlayerStateMachine
     public PlayerClimbState climbState { get; private set; }
     #endregion
 
-    public PlayerStateMachine(PlayerController plrcontroller, IMotor movementProvider, PlayerInfosWindow playerInfosWindow, PlayerData plrData)
+    public PlayerStateMachine(PlayerController plrcontroller, PlayerInfosWindow playerInfosWindow, PlayerData plrData)
     {
         GenericEventBus.Instance.Subscribe<PlayerRespawnEvent>((PlayerRespawnEvent) => ForceSetState(idleState));
         PlrController = plrcontroller;
         PlayerInfosWindow = playerInfosWindow;
-        Motor = movementProvider;
         m_playerData = plrData;
     }
 
