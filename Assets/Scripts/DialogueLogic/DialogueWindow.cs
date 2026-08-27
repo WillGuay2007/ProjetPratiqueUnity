@@ -8,7 +8,7 @@ public class DialogueWindow : Window
     public TMP_Text TextLabel => m_textLabel;
 
 
-    public IEnumerator SetText(string text, IDialogueStrategy displayStrategy)
+    public IEnumerator SetText(string text, IDialogueDisplayStrategy displayStrategy)
     {
         yield return displayStrategy.DisplayDialogue(this, text);
     }

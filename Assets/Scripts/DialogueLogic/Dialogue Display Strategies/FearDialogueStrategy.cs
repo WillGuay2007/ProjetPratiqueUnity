@@ -1,7 +1,7 @@
 using System.Collections;
 using UnityEngine;
 
-public class FearDialogueStrategy : MonoBehaviour, IDialogueStrategy
+public class FearDialogueStrategy : MonoBehaviour, IDialogueDisplayStrategy
 {
     private TypeWriterEffect m_typeWriterEffect;
     private TextShakeEffect m_textShakeEffect;

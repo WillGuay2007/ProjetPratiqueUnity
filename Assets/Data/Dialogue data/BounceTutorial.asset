@@ -14,10 +14,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_dialogueLines:
   - text: Here, I would recommend you practice bouncing.
-    strategyType: 0
+    displayStrategy:
+      rid: -2
   - text: Try bouncing on the wall then grabbing on the 2 blocks platform
-    strategyType: 0
+    displayStrategy:
+      rid: -2
   - text: You shouldnt skip it because otherwise, the next secion will get harder.
-    strategyType: 0
+    displayStrategy:
+      rid: -2
   - text: A lot harder.
-    strategyType: 2
+    displayStrategy:
+      rid: -2
+  references:
+    version: 2
+    RefIds:
+    - rid: -2
+      type: {class: , ns: , asm: }

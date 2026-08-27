@@ -13,20 +13,7 @@ public class DialogueController : MonoBehaviour
     [SerializeField] private MonoBehaviour m_normalStrategy;
     [SerializeField] private MonoBehaviour m_fearStrategy;
     #endregion
-    private IDialogueStrategy DefaultDialogueStrategy => m_defaultDialogueStrategy as IDialogueStrategy;
-
-
-    private IDialogueStrategy GetStrategy(DialogueStrategyType type)
-    {
-        return type switch
-        {
-            DialogueStrategyType.Fear => m_fearStrategy as IDialogueStrategy,
-            DialogueStrategyType.Normal => m_normalStrategy as IDialogueStrategy,
-            _ => DefaultDialogueStrategy
-        };
-    }
-
-
+    private IDialogueDisplayStrategy DefaultDialogueStrategy => m_defaultDialogueStrategy as IDialogueDisplayStrategy;
 
     private void Start()
     {
@@ -50,7 +37,8 @@ public class DialogueController : MonoBehaviour
     {
         foreach (DialogueLine line in dialogueObject.DialogueLines)
         {
-            IDialogueStrategy strategy = GetStrategy(line.strategyType);
+            IDialogueDisplayStrategy strategy = DefaultDialogueStrategy;
+            if (line.displayStrategy != null) strategy = line.displayStrategy;
             yield return m_dialogueWindow.SetText(line.text, strategy);
         }
         EndDialogue();

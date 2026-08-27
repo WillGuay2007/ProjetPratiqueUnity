@@ -1,12 +1,12 @@
 using UnityEngine;
 
-public enum DialogueStrategyType { Default, Normal, Fear }
 
 [System.Serializable]
 public class DialogueLine
 {
     [TextArea] public string text;
-    public DialogueStrategyType strategyType;
+    [SerializeReference, SerializeReferenceDropdown]
+    public IDialogueDisplayStrategy displayStrategy;
 }
 
 [CreateAssetMenu(menuName = "Dialogue/DialogueObject")]

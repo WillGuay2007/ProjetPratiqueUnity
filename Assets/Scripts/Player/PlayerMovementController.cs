@@ -40,9 +40,9 @@ public class PlayerMovementController : MonoBehaviour
             return Mathf.Min(newVelocity, target);
     }
 
-    public void AccelerateXVelocity(float velocity, float interval) => SetVelocityX(AdjustVelocity(m_rb.linearVelocityX, velocity, interval));
+    public void AccelerateXVelocity(float velocity, float interval) => SetVelocityX(AdjustVelocity(m_rb.linearVelocityX, velocity, interval * Time.deltaTime));
 
-    public void AccelerateYVelocity(float velocity, float interval) => SetVelocityY(AdjustVelocity(m_rb.linearVelocityY, velocity, interval));
+    public void AccelerateYVelocity(float velocity, float interval) => SetVelocityY(AdjustVelocity(m_rb.linearVelocityY, velocity, interval * Time.deltaTime));
 
     public bool IsFalling()
     {

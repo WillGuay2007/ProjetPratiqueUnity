@@ -102,17 +102,15 @@ public class PlayerInAirState : PlayerState
 
     private void CheckJumpMultiplier()
     {
-        if (m_isJumping)
+        if (!m_isJumping) return;
+        if (m_jumpInputStop)
         {
-            if (m_jumpInputStop)
-            {
-                player.MovementController.SetVelocityY(player.MovementController.velocity.y * playerData.jumpHoldMultiplier);
-                m_isJumping = false;
-            }
-            else if (player.MovementController.IsFalling())
-            {
-                m_isJumping = false;
-            }
+            player.MovementController.SetVelocityY(player.MovementController.velocity.y * playerData.jumpHoldMultiplier);
+            m_isJumping = false;
+        }
+        else if (player.MovementController.IsFalling())
+        {
+            m_isJumping = false;
         }
     }
 

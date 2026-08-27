@@ -14,8 +14,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_dialogueLines:
   - text: Hello! Welcome to the game!
-    strategyType: 0
+    displayStrategy:
+      rid: -2
   - text: The goal is simple...
-    strategyType: 0
+    displayStrategy:
+      rid: -2
   - text: Just don't die...
-    strategyType: 2
+    displayStrategy:
+      rid: -2
+  references:
+    version: 2
+    RefIds:
+    - rid: -2
+      type: {class: , ns: , asm: }

@@ -1,7 +1,7 @@
 using System.Collections;
 using UnityEngine;
 
-public class NormalDialogueStrategy : MonoBehaviour, IDialogueStrategy
+public class NormalDialogueStrategy : MonoBehaviour, IDialogueDisplayStrategy
 {
     private const float SHAKE_DURATION = 0.25f;
     private const float SHAKE_AMPLITUDE = 5f;

@@ -11,7 +11,7 @@ public class PlayerData : ScriptableObject
     public float movementVelocity = 8f;
 
     [Header("Grounded State")]
-    public float groundFriction = 1.5f;
+    public float groundFriction = 90f;
 
     [Header("Jump State")]
     public float jumpVelocity = 16f;
@@ -20,7 +20,7 @@ public class PlayerData : ScriptableObject
 
     [Header("In Air state")]
     public float coyoteTime = 0.2f;
-    public float airFrictionX = 1;
+    public float airFrictionX = 60f;
 
     [Header("Dash state")]
     public float dashSpeed = 25f;
@@ -38,7 +38,7 @@ public class PlayerData : ScriptableObject
 
     [Header("Wall Slide state")]
     public float maxWallSlideVelocity = 25f;
-    public float wallSlideFriction = 0.35f;
+    public float wallSlideFriction = 21f;
     public float wallBounceXVelocity = 25f;
 
     [Header("Wall Climb state")]
