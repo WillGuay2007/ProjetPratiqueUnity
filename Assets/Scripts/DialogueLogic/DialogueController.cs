@@ -38,7 +38,7 @@ public class DialogueController : MonoBehaviour
         foreach (DialogueLine line in dialogueObject.DialogueLines)
         {
             IDialogueDisplayStrategy strategy = DefaultDialogueStrategy;
-            if (line.displayStrategy != null) strategy = line.displayStrategy;
+            if (line.displayStrategy != null) strategy = (IDialogueDisplayStrategy)line.displayStrategy;
             yield return m_dialogueWindow.SetText(line.text, strategy);
         }
         EndDialogue();

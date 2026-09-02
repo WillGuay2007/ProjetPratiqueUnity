@@ -5,8 +5,8 @@ using UnityEngine;
 public class DialogueLine
 {
     [TextArea] public string text;
-    [SerializeReference, SerializeReferenceDropdown]
-    public IDialogueDisplayStrategy displayStrategy;
+    [SerializeField, Interface(typeof(IDialogueDisplayStrategy))]
+    public UnityEngine.Object displayStrategy = null;
 }
 
 [CreateAssetMenu(menuName = "Dialogue/DialogueObject")]
