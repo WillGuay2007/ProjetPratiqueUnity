@@ -2,6 +2,13 @@ using UnityEngine;
 
 public class PlayerDirectionController : MonoBehaviour
 {
+    SpriteRenderer PlayerSpriteRenderer;
+
+    private void Awake()
+    {
+        PlayerSpriteRenderer = GetComponent<SpriteRenderer>();
+    }
+
     public int facingXDirection { get; private set; } = 1;
     public int facingYDirection { get; private set; } = 1;
 
@@ -15,7 +22,7 @@ public class PlayerDirectionController : MonoBehaviour
     public int FlipX()
     {
         facingXDirection *= -1;
-        transform.Rotate(0f, 180f, 0f);
+        PlayerSpriteRenderer.flipX = !PlayerSpriteRenderer.flipX;
         return facingXDirection;
     }
 

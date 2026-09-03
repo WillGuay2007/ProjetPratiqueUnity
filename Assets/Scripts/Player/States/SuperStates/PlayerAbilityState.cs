@@ -28,11 +28,6 @@ public class PlayerAbilityState : PlayerState
 
     }
 
-    public override void Exit()
-    {
-        base.Exit();
-    }
-
     public override void LogicUpdate()
     {
         base.LogicUpdate();
@@ -45,10 +40,5 @@ public class PlayerAbilityState : PlayerState
             Transition(stateMachine.inAirState);
         }
 
-    }
-
-    public override void PhysicsUpdate()
-    {
-        base.PhysicsUpdate();
     }
 }

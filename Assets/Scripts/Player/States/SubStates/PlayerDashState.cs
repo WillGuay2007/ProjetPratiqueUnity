@@ -33,6 +33,7 @@ public class PlayerDashState : PlayerAbilityState
     {
         base.Enter();
         AudioController.Instance.PlaySound(AudioController.Sounds.PlayerDash);
+        player.SmearFramesController.SpawnSmearFrames(5);
         StartDash();
     }
 

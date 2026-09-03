@@ -18,6 +18,7 @@ public class PlayerController : MonoBehaviour
     public PlayerSpawnController SpawnController { get; private set; }
     public PlayerBoundsController BoundsController { get; private set; }
     public PlayerDeathController DeathController { get; private set; }
+    public PlayerSmearFramesController SmearFramesController { get; private set; }
     #endregion
     public bool isInteracting;
 
@@ -34,6 +35,7 @@ public class PlayerController : MonoBehaviour
         SpawnController = GetComponent<PlayerSpawnController>();
         BoundsController = GetComponent<PlayerBoundsController>();
         DeathController = GetComponent<PlayerDeathController>();
+        SmearFramesController = GetComponent<PlayerSmearFramesController>();
     }
 
     private void Start()

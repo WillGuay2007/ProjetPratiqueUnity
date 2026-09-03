@@ -789,6 +789,7 @@ GameObject:
   - component: {fileID: 141233849}
   - component: {fileID: 141233850}
   - component: {fileID: 141233851}
+  - component: {fileID: 141233852}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -1290,6 +1291,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 08f005d22a5cab94b913b746949cd7ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &141233852
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 141233832}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d35562014cd3ac94db8b987558454dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerSmearFrames
+  SpriteClonePrefab: {fileID: 1376492675903843041, guid: 306a7257d85943549afb1a7dd0db1425, type: 3}
+  DirectionController: {fileID: 141233845}
 --- !u!1 &152623406
 GameObject:
   m_ObjectHideFlags: 0
