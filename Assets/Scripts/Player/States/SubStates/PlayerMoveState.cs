@@ -14,10 +14,16 @@ public class PlayerMoveState : PlayerGroundedState
 
         player.DirectionController.ShouldFlipX(xInput);
 
-        player.MovementController.AccelerateXVelocity(playerData.movementVelocity * xInput, playerData.groundFriction);
         if (xInput == 0 && player.MovementController.velocity.x == 0)
         {
             Transition(stateMachine.idleState);
         }
+    }
+
+    public override void PhysicsUpdate()
+    {
+        base.PhysicsUpdate();
+        if (transitioned) return;
+        player.MovementController.AccelerateXVelocity(playerData.movementVelocity * xInput, playerData.groundFriction);
     }
 }

@@ -32,6 +32,8 @@ public class PlayerDashState : PlayerAbilityState
     public override void Enter()
     {
         base.Enter();
+        stateMachine.inAirState.CancelJumping(); //Sinon, le hold est pris en compte dans la air state.
+        player.GravityController.DisablePlayerGravity();
         AudioController.Instance.PlaySound(AudioController.Sounds.PlayerDash);
         player.SmearFramesController.SpawnSmearFrames(5);
         StartDash();
@@ -40,7 +42,8 @@ public class PlayerDashState : PlayerAbilityState
     public override void Exit()
     {
         base.Exit();
-        if (player.MovementController.IsFalling()) return;
+        player.GravityController.SetDefaultGravityConsideringGravSwap();
+        if (player.MovementController.IsFalling()) return; //Donc si super ou hyper dash
         player.MovementController.SetVelocityY(player.MovementController.velocity.y * playerData.dashEndYMultiplier);
     }
 
@@ -89,13 +92,13 @@ public class PlayerDashState : PlayerAbilityState
             return;
             }
         } 
-        
-        SetDirectionVelocity();
     }
 
     public override void PhysicsUpdate()
     {
         base.PhysicsUpdate();
+        if (transitioned) return;
+        SetDirectionVelocity();
     }
 
     public void ResetAmountOfDashesLeft() => m_amountOfAirDashesLeft = playerData.maxAmountOfDashes;

@@ -37,7 +37,7 @@ MonoBehaviour:
   wallBounceXVelocity: 12
   wallClimbSpeed: 5
   GrabInputDeactivationDelayAfterBounce: 0.2
-  ClimbDownXBoost: 30
+  ClimbDownXBoost: 35
   ClimbDownFaceAwayXBoostMultiplier: 1.5
   groundCheckRadius: 0.2
   whatIsGround:

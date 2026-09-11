@@ -79,16 +79,16 @@ public class PlayerInAirState : PlayerState
             player.InputController.UseDashInput();
             Transition(stateMachine.dashState);
         }
-        else
-        {
-            player.DirectionController.ShouldFlipX(xInput);
-            player.MovementController.AccelerateXVelocity(xInput * playerData.movementVelocity, playerData.airFrictionX);
-        }
     }
 
     public override void PhysicsUpdate()
     {
         base.PhysicsUpdate();
+        if (!transitioned)
+        {
+            player.DirectionController.ShouldFlipX(xInput);
+            player.MovementController.AccelerateXVelocity(xInput * playerData.movementVelocity, playerData.airFrictionX);
+        }
     }
 
     private void CheckCoyoteTime()
@@ -116,4 +116,5 @@ public class PlayerInAirState : PlayerState
 
     public void StartCoyoteTime() => m_coyoteTime = true;
     public void SetIsJumping() => m_isJumping = true;
+    public void CancelJumping() => m_isJumping = false;
 }

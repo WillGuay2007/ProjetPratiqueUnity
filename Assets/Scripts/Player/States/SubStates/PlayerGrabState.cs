@@ -33,7 +33,7 @@ public class PlayerGrabState : PlayerTouchWallState
         }
         else if (jumpInput)
         {
-            player.InputController.DisableGrabInputForSeconds(playerData.GrabInputDeactivationDelayAfterBounce);
+            player.InputController.IgnoreGrabInputForSeconds(playerData.GrabInputDeactivationDelayAfterBounce);
             player.InputController.UseJumpInput();
             if (xInput != 0f && xInput != player.DirectionController.facingXDirection)
             {

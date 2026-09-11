@@ -29,10 +29,7 @@ public class PlayerWallSlideState : PlayerTouchWallState
     public override void LogicUpdate()
     {
         base.LogicUpdate();
-        if (transitioned)
-        {
-            return;
-        }
+        if (transitioned) return;
         if (grabInput)
         {
             Transition(stateMachine.grabState);
@@ -46,6 +43,8 @@ public class PlayerWallSlideState : PlayerTouchWallState
         else if (jumpInput)
         {
             Transition(stateMachine.jumpState);
+            player.InputController.IgnoreWallBounceForSeconds(0.25f);
+            player.InputController.IgnoreJumpInputForSeconds(0.25f); //Sinon le joueur va trigger le jump 2 fois puisque dans le in air state, il ya un wall bounce check aussi.
             player.MovementController.SetVelocityX(playerData.wallBounceXVelocity * -player.DirectionController.facingXDirection);
             return;
         }
@@ -55,13 +54,13 @@ public class PlayerWallSlideState : PlayerTouchWallState
             Transition(stateMachine.inAirState);
             return;
         }
-        
-        player.MovementController.SetVelocityX(0);
-        player.MovementController.AccelerateYVelocity(-Mathf.Abs(playerData.maxWallSlideVelocity) * player.DirectionController.facingYDirection, playerData.wallSlideFriction);
     }
 
     public override void PhysicsUpdate()
     {
         base.PhysicsUpdate();
+        if (transitioned) return;
+        player.MovementController.SetVelocityX(0);
+        player.MovementController.AccelerateYVelocity(-Mathf.Abs(playerData.maxWallSlideVelocity) * player.DirectionController.facingYDirection, playerData.wallSlideFriction);
     }
 }

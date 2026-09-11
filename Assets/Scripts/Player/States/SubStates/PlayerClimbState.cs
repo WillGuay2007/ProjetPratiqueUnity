@@ -19,12 +19,18 @@ public class PlayerClimbState : PlayerTouchWallState
         player.GravityController.SetDefaultGravityConsideringGravSwap();
     }
 
+    public override void PhysicsUpdate()
+    {
+        base.PhysicsUpdate();
+        if (transitioned) return;
+        player.MovementController.SetVelocityX(0);
+        player.MovementController.SetVelocityY(yInput * playerData.wallClimbSpeed);
+    }
+
     public override void LogicUpdate()
     {
         base.LogicUpdate();
         if (transitioned) return;
-        player.MovementController.SetVelocityX(0);
-        player.MovementController.SetVelocityY(yInput * playerData.wallClimbSpeed);
         if (!grabInput)
         {
             Transition(stateMachine.inAirState);
@@ -35,7 +41,7 @@ public class PlayerClimbState : PlayerTouchWallState
             if (IsClimbingDown()) ApplyBoostVelocity();
             else
             {
-                player.InputController.DisableGrabInputForSeconds(playerData.GrabInputDeactivationDelayAfterBounce);
+                player.InputController.IgnoreGrabInputForSeconds(playerData.GrabInputDeactivationDelayAfterBounce);
                 player.InputController.UseJumpInput();
                 if (PlayerIsBufferingOppositeXInput())
                 {
@@ -61,16 +67,18 @@ public class PlayerClimbState : PlayerTouchWallState
         return yInput != player.DirectionController.facingYDirection;
     }
 
-    //TO KEEP IN MIND: TRANSITION IS APPLIED THE NEXT FRAME BY THE SUPER STATE.
     private void ApplyBoostVelocity()
     {
-        player.DirectionController.FlipX();
-        float boostMultiplier = (xInput == player.DirectionController.facingXDirection)
+        player.InputController.IgnoreJumpInputForSeconds(0.1f); //Je veut que le buffer reste actif, dont au lieu de remove le jump input, je le delay. Si je l'ignore pas, il se trigger dès la prochaine frame.
+        player.InputController.IgnoreGrabInputForSeconds(playerData.GrabInputDeactivationDelayAfterBounce);
+        int originalFacing = player.DirectionController.facingXDirection;
+        float boostMultiplier = (xInput != originalFacing)
             ? playerData.ClimbDownFaceAwayXBoostMultiplier
             : 1f;
-        float boostVelocity = playerData.ClimbDownXBoost * player.DirectionController.facingXDirection * boostMultiplier;
-
+        float boostVelocity = playerData.ClimbDownXBoost * -originalFacing * boostMultiplier;
+        player.DirectionController.FlipX();
         player.MovementController.SetVelocityX(boostVelocity);
+        Transition(stateMachine.inAirState);
     }
-   
+
 }
