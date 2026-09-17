@@ -33,7 +33,7 @@ public class PlayerStateMachine
         moveState = new PlayerMoveState(PlrController, this, m_playerData, "Move");
         jumpState = new PlayerJumpState(PlrController, this, m_playerData, "InAir");
         inAirState = new PlayerInAirState(PlrController, this, m_playerData, "InAir");
-        dashState = new PlayerDashState(PlrController, this, m_playerData, "InAir");
+        dashState = new PlayerDashState(PlrController, this, m_playerData, "Dash");
         diedState = new PlayerDiedState(PlrController, this, m_playerData, "Died");
         grabState = new PlayerGrabState(PlrController, this, m_playerData, "Grab");
         climbState = new PlayerClimbState(PlrController, this, m_playerData, "Climb");
