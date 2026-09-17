@@ -142,6 +142,7 @@ public class PlayerDashState : PlayerAbilityState
     private void StartDash()
     {
         m_dashType = GetDashType();
+        player.Animator.SetFloat("DashType", (float)m_dashType);
         m_hasRegainedDash = false;
         m_elapsedTime = 0f;
         m_dashDirection = GetDirection();
