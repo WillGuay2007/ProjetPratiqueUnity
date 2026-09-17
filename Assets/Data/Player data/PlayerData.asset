@@ -15,7 +15,7 @@ MonoBehaviour:
   playerHealth: 100
   movementVelocity: 8
   groundFriction: 90
-  jumpVelocity: 16
+  jumpVelocity: 17
   jumpHoldMultiplier: 0.5
   amountOfJumps: 1
   coyoteTime: 0.2
