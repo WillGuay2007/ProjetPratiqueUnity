@@ -23,18 +23,19 @@ MonoBehaviour:
   dashSpeed: 25
   dashDuration: 0.2
   regainDashAtDuration: 0.1
-  diagonalDownDashYMultiplier: 0.5
+  diagonalDownDashYMultiplier: 0.7
   verticalDashYMultiplier: 0.75
   diagonalUpDashYMultiplier: 0.85
   maxAmountOfDashes: 1
-  dashEndYMultiplier: 0.7
+  dashEndYMultiplier: 0.65
   HyperdashXVelocity: 40
   HyperdashYVelocity: 13
   SuperDashXVelocity: 30
   SuperDashYVelocity: 21
   maxWallSlideVelocity: 25
   wallSlideFriction: 21
-  wallBounceXVelocity: 12
+  wallBounceXVelocity: 14
+  wallBounceYVelocity: 20
   wallClimbSpeed: 5
   GrabInputDeactivationDelayAfterBounce: 0.2
   ClimbDownXBoost: 35

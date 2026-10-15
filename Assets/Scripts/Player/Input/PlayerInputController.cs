@@ -57,10 +57,8 @@ public class PlayerInputController : MonoBehaviour
     public void UseInteractInput() => m_interactInput.UseInput();
     public void UseSwapGravityInput() => m_swapGravityInput.UseInput();
     public void IgnoreGrabInputForSeconds(float seconds) => m_grabInput.IgnoreInputForSeconds(seconds);
-    public void IgnoreWallBounceForSeconds(float seconds) => m_wallBounce.IgnoreInputForSeconds(seconds);
     public void IgnoreJumpInputForSeconds(float seconds) => m_jumpInput.IgnoreInputForSeconds(seconds);
 
-    public bool WallBounceAllowed => m_wallBounce.IsValid();
 
     [SerializeField] private float m_jumpBufferDuration = 0.2f;
     [SerializeField] private float m_dashBufferDuration = 0.2f;
@@ -71,7 +69,6 @@ public class PlayerInputController : MonoBehaviour
     private BufferedInput m_swapGravityInput;
 
     private HeldInput m_grabInput;
-    private HeldInput m_wallBounce;
 
     private bool m_isInputEnabled = true;
 

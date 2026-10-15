@@ -42,8 +42,8 @@ public class PlayerWallSlideState : PlayerTouchWallState
         }
         else if (jumpInput)
         {
+            stateMachine.jumpState.SetCustomJumpHeight(playerData.wallBounceYVelocity);
             Transition(stateMachine.jumpState);
-            player.InputController.IgnoreWallBounceForSeconds(0.25f);
             player.InputController.IgnoreJumpInputForSeconds(0.25f); //Sinon le joueur va trigger le jump 2 fois puisque dans le in air state, il ya un wall bounce check aussi.
             player.MovementController.SetVelocityX(playerData.wallBounceXVelocity * -player.DirectionController.facingXDirection);
             return;

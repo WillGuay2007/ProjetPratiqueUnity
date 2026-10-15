@@ -40,6 +40,7 @@ public class PlayerData : ScriptableObject
     public float maxWallSlideVelocity = 25f;
     public float wallSlideFriction = 21f;
     public float wallBounceXVelocity = 25f;
+    public float wallBounceYVelocity = 20f;
 
     [Header("Wall Climb state")]
     public float wallClimbSpeed = 5f;
