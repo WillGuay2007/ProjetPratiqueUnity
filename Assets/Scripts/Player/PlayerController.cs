@@ -6,8 +6,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private PlayerInfosWindow m_playerInfosWindow;
 
     #region Components
+    public Animator Animator;
     public Rigidbody2D RigidBody {  get; private set; }
-    public Animator Animator { get; private set; }
     public PlayerStateMachine StateMachine { get; private set; }
     public PlayerInputController InputController { get; private set; }
     public PlayerGravityController GravityController { get; private set; }
@@ -24,7 +24,6 @@ public class PlayerController : MonoBehaviour
 
     private void Awake()
     {
-        Animator = GetComponent<Animator>();
         RigidBody = GetComponent<Rigidbody2D>();
         InputController = GetComponent<PlayerInputController>();
         GravityController = GetComponent<PlayerGravityController>();
@@ -41,7 +40,6 @@ public class PlayerController : MonoBehaviour
     private void Start()
     {
         SurfaceDetector.Initialize(m_playerData);
-        DeathController.Initialize(() => StateMachine.SetState(StateMachine.diedState));
         HealthController.Initialize(m_playerData);
         //TODO: Move back new stateMachine to awake when event bus is static
         StateMachine = new PlayerStateMachine(this, m_playerInfosWindow, m_playerData);

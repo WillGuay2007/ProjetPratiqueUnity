@@ -5,12 +5,8 @@ public class PlayerSmearFramesController : MonoBehaviour
 {
     [SerializeField] GameObject SpriteClonePrefab;
     [SerializeField] PlayerDirectionController DirectionController;
-    SpriteRenderer PlayerSpriteRenderer;
+    [SerializeField] SpriteRenderer PlayerSpriteRenderer;
     private float SPAWN_INTERVAL = 0.05f;
-    void Start()
-    {
-        PlayerSpriteRenderer = GetComponent<SpriteRenderer>();
-    }
 
     public void SpawnSmearFrames(int spawnCount) => StartCoroutine(SpawnSmearFramesImpl(spawnCount));
 

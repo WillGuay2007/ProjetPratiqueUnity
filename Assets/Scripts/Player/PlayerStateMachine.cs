@@ -21,7 +21,7 @@ public class PlayerStateMachine
 
     public PlayerStateMachine(PlayerController plrcontroller, PlayerInfosWindow playerInfosWindow, PlayerData plrData)
     {
-        GenericEventBus.Instance.Subscribe<PlayerRespawnEvent>((PlayerRespawnEvent) => ForceSetState(idleState));
+        GenericEventBus.Subscribe<PlayerRespawnEvent>((PlayerRespawnEvent) => ForceSetState(idleState));
         PlrController = plrcontroller;
         PlayerInfosWindow = playerInfosWindow;
         m_playerData = plrData;
@@ -34,7 +34,7 @@ public class PlayerStateMachine
         jumpState = new PlayerJumpState(PlrController, this, m_playerData, "InAir");
         inAirState = new PlayerInAirState(PlrController, this, m_playerData, "InAir");
         dashState = new PlayerDashState(PlrController, this, m_playerData, "Dash");
-        diedState = new PlayerDiedState(PlrController, this, m_playerData, "Died");
+        diedState = new PlayerDiedState(PlrController, this, m_playerData, null);
         grabState = new PlayerGrabState(PlrController, this, m_playerData, "Grab");
         climbState = new PlayerClimbState(PlrController, this, m_playerData, "Climb");
         wallSlideState = new PlayerWallSlideState(PlrController, this, m_playerData, "Slide");

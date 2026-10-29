@@ -8,7 +8,7 @@ public class PlayerGravityController : MonoBehaviour
 
     private void Start()
     {
-        GenericEventBus.Instance.Subscribe<PlayerRespawnEvent>(OnRespawn);
+        GenericEventBus.Subscribe<PlayerRespawnEvent>(OnRespawn);
         m_player = GetComponent<PlayerController>();
         m_rigidbody = GetComponent<Rigidbody2D>();
         m_originalPlayerGravity = m_rigidbody.gravityScale;

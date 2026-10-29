@@ -9,7 +9,8 @@ public class AudioController : MonoBehaviour
         PlayerJump,
         PlayerDash,
         BirdFlyAway,
-        GravitySwap
+        GravitySwap,
+        PlayerDeath
     }
 
     [System.Serializable]

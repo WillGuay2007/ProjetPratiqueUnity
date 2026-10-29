@@ -17,7 +17,7 @@ public class PlayerSpawnController : MonoBehaviour
 
     public void Respawn()
     {
-        GenericEventBus.Instance.Publish(new PlayerRespawnEvent(m_spawnProvider.ProvideSpawn()));
         TeleportToSpawn();
+        GenericEventBus.Publish(new PlayerRespawnEvent(m_spawnProvider.ProvideSpawn()));
     }
 }

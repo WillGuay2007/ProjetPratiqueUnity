@@ -35,7 +35,7 @@ public class PlayerDashState : PlayerAbilityState
         stateMachine.inAirState.CancelJumping(); //Sinon, le hold est pris en compte dans la air state.
         player.GravityController.DisablePlayerGravity();
         AudioController.Instance.PlaySound(AudioController.Sounds.PlayerDash);
-        player.SmearFramesController.SpawnSmearFrames(5);
+        player.SmearFramesController.SpawnSmearFrames(3);
         StartDash();
     }
 

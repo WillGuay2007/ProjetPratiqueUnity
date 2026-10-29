@@ -4,13 +4,12 @@ public class PlayerDirectionController : MonoBehaviour
 {
     private const float REVERSED_COLLIDER_Y_OFFSET = 0.192f;
     private const float COLLIDER_Y_OFFSET = -0.165f;
-    private SpriteRenderer m_playerSpriteRenderer;
+    [SerializeField] private SpriteRenderer m_playerSpriteRenderer;
     private CapsuleCollider2D m_playerCollider;
     [SerializeField] private Transform m_playerGroundCheck;
 
     private void Awake()
     {
-        m_playerSpriteRenderer = GetComponent<SpriteRenderer>();
         m_playerCollider = GetComponent<CapsuleCollider2D>();
     }
 
