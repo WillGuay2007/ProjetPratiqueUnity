@@ -69,8 +69,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Notification prefab
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 51ff99f23223a5c4e8a560f8465355f5, type: 2}
-  m_sharedMaterial: {fileID: 6012019454544885760, guid: 51ff99f23223a5c4e8a560f8465355f5, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 6204b7e507d78074e966cf2c03f25680, type: 2}
+  m_sharedMaterial: {fileID: -560663902135126153, guid: 6204b7e507d78074e966cf2c03f25680, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -105,6 +105,7 @@ MonoBehaviour:
   m_VerticalAlignment: 256
   m_textAlignment: 65535
   m_characterSpacing: 0
+  m_characterHorizontalScale: 1
   m_wordSpacing: 0
   m_lineSpacing: 0
   m_lineSpacingMax: 0
@@ -135,7 +136,7 @@ MonoBehaviour:
   m_margin: {x: 0, y: 0, z: 1155.1831, w: 11.902039}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
-  m_hasFontAssetChanged: 1
+  m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
 --- !u!114 &-513414825609923985

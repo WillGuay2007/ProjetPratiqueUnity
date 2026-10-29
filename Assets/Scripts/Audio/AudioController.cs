@@ -27,7 +27,7 @@ public class AudioController : MonoBehaviour
     [SerializeField] private SoundEntry[] m_soundEntries;
     [SerializeField] private AudioClip m_defaultMusic;
 
-    private float m_musicVolume = 1f;
+    private float m_musicVolume = 0.25f;
 
     private Dictionary<Sounds, AudioClip> m_sounds = new(); //TODO: Make it possible to have multiple sounds for an enum so it pick random
 
