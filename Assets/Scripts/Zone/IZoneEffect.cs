@@ -2,6 +2,6 @@ using UnityEngine;
 
 public interface IZoneEffect
 {
-    public void Apply();
-    public void Unapply();
+    public void Apply(PlayerController controller);
+    public void Unapply(PlayerController controller);
 }

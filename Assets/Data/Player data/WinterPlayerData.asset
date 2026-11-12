@@ -1,0 +1,47 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b3c74e4734362b540b6719ea683d4f25, type: 3}
+  m_Name: WinterPlayerData
+  m_EditorClassIdentifier: 
+  playerHealth: 100
+  movementVelocity: 8
+  groundFriction: 20
+  jumpVelocity: 17
+  jumpHoldMultiplier: 0.5
+  amountOfJumps: 1
+  coyoteTime: 0.2
+  airFrictionX: 60
+  dashSpeed: 25
+  dashDuration: 0.2
+  regainDashAtDuration: 0.1
+  diagonalDownDashYMultiplier: 0.7
+  verticalDashYMultiplier: 0.75
+  diagonalUpDashYMultiplier: 0.85
+  maxAmountOfDashes: 1
+  dashEndYMultiplier: 0.65
+  HyperdashXVelocity: 40
+  HyperdashYVelocity: 13
+  SuperDashXVelocity: 30
+  SuperDashYVelocity: 21
+  maxWallSlideVelocity: 40
+  wallSlideFriction: 21
+  wallBounceXVelocity: 14
+  wallBounceYVelocity: 20
+  wallClimbSpeed: 5
+  GrabInputDeactivationDelayAfterBounce: 0.2
+  ClimbDownXBoost: 35
+  ClimbDownFaceAwayXBoostMultiplier: 1.5
+  groundCheckRadius: 0.2
+  whatIsGround:
+    serializedVersion: 2
+    m_Bits: 8
+  wallCheckRayLength: 0.7

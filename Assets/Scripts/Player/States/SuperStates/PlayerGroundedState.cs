@@ -10,7 +10,7 @@ public class PlayerGroundedState : PlayerState
     private bool m_isGrounded;
     private bool m_swapGravityInput;
     private bool m_isTouchingWall;
-    public PlayerGroundedState(PlayerController playerController, PlayerStateMachine plrStateMachine, PlayerData plrData, string animBool) : base(playerController, plrStateMachine, plrData, animBool)
+    public PlayerGroundedState(PlayerController playerController, PlayerStateMachine plrStateMachine, string animBool) : base(playerController, plrStateMachine, animBool)
     {
     }
 
@@ -25,7 +25,7 @@ public class PlayerGroundedState : PlayerState
     {
         base.Enter();
         stateMachine.PlayerInfosWindow.SetCanFlipText("Can switch gravity: True");
-        stateMachine.PlayerInfosWindow.SetDashAmountText("Dash amount left: " + playerData.maxAmountOfDashes);
+        stateMachine.PlayerInfosWindow.SetDashAmountText("Dash amount left: " + player.playerData.maxAmountOfDashes);
         stateMachine.jumpState.ResetAmoutOfJumpsLeft();
         stateMachine.dashState.ResetAmountOfDashesLeft();
     }

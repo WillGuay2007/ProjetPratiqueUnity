@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class PlayerDiedState : PlayerState
 {
-    public PlayerDiedState(PlayerController playerController, PlayerStateMachine plrStateMachine, PlayerData plrData, string animBool) : base(playerController, plrStateMachine, plrData, animBool)
+    public PlayerDiedState(PlayerController playerController, PlayerStateMachine plrStateMachine, string animBool) : base(playerController, plrStateMachine, animBool)
     {
     }
 

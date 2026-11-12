@@ -7,12 +7,12 @@ public class NotificationZoneEffect : MonoBehaviour, IZoneEffect
 
     [SerializeField] string enterMessage;
     [SerializeField] string exitMessage;
-    public void Apply()
+    public void Apply(PlayerController controller)
     {
         NotificationService.Notify(enterMessage);
     }
 
-    public void Unapply()
+    public void Unapply(PlayerController controller)
     {
         NotificationService.Notify(exitMessage);
     }

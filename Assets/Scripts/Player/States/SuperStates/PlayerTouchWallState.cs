@@ -8,7 +8,7 @@ public class PlayerTouchWallState : PlayerState
     protected int yInput;
     protected bool grabInput;
     protected bool jumpInput;
-    public PlayerTouchWallState(PlayerController playerController, PlayerStateMachine plrStateMachine, PlayerData plrData, string animBool) : base(playerController, plrStateMachine, plrData, animBool)
+    public PlayerTouchWallState(PlayerController playerController, PlayerStateMachine plrStateMachine, string animBool) : base(playerController, plrStateMachine, animBool)
     {
     }
 

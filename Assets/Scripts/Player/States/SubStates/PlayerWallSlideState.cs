@@ -3,7 +3,7 @@ using UnityEngine;
 public class PlayerWallSlideState : PlayerTouchWallState
 {
     private bool m_isGrounded;
-    public PlayerWallSlideState(PlayerController playerController, PlayerStateMachine plrStateMachine, PlayerData plrData, string animBool) : base(playerController, plrStateMachine, plrData, animBool)
+    public PlayerWallSlideState(PlayerController playerController, PlayerStateMachine plrStateMachine, string animBool) : base(playerController, plrStateMachine, animBool)
     {
     }
 
@@ -42,10 +42,10 @@ public class PlayerWallSlideState : PlayerTouchWallState
         }
         else if (jumpInput)
         {
-            stateMachine.jumpState.SetCustomJumpHeight(playerData.wallBounceYVelocity);
+            stateMachine.jumpState.SetCustomJumpHeight(player.playerData.wallBounceYVelocity);
             Transition(stateMachine.jumpState);
             player.InputController.IgnoreJumpInputForSeconds(0.25f); //Sinon le joueur va trigger le jump 2 fois puisque dans le in air state, il ya un wall bounce check aussi.
-            player.MovementController.SetVelocityX(playerData.wallBounceXVelocity * -player.DirectionController.facingXDirection);
+            player.MovementController.SetVelocityX(player.playerData.wallBounceXVelocity * -player.DirectionController.facingXDirection);
             return;
         }
         else if (xInput != player.DirectionController.facingXDirection && xInput != 0f)
@@ -61,6 +61,6 @@ public class PlayerWallSlideState : PlayerTouchWallState
         base.PhysicsUpdate();
         if (transitioned) return;
         player.MovementController.SetVelocityX(0);
-        player.MovementController.AccelerateYVelocity(-Mathf.Abs(playerData.maxWallSlideVelocity) * player.DirectionController.facingYDirection, playerData.wallSlideFriction);
+        player.MovementController.AccelerateYVelocity(-Mathf.Abs(player.playerData.maxWallSlideVelocity) * player.DirectionController.facingYDirection, player.playerData.wallSlideFriction);
     }
 }

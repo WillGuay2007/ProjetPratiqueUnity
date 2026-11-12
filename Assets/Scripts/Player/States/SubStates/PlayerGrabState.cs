@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class PlayerGrabState : PlayerTouchWallState
 {
-    public PlayerGrabState(PlayerController playerController, PlayerStateMachine plrStateMachine, PlayerData plrData, string animBool) : base(playerController, plrStateMachine, plrData, animBool)
+    public PlayerGrabState(PlayerController playerController, PlayerStateMachine plrStateMachine, string animBool) : base(playerController, plrStateMachine, animBool)
     {
     }
 
@@ -33,11 +33,11 @@ public class PlayerGrabState : PlayerTouchWallState
         }
         else if (jumpInput)
         {
-            player.InputController.IgnoreGrabInputForSeconds(playerData.GrabInputDeactivationDelayAfterBounce);
+            player.InputController.IgnoreGrabInputForSeconds(player.playerData.GrabInputDeactivationDelayAfterBounce);
             player.InputController.UseJumpInput();
             if (xInput != 0f && xInput != player.DirectionController.facingXDirection)
             {
-                stateMachine.PlrController.MovementController.SetVelocityX(playerData.wallBounceXVelocity * -player.DirectionController.facingXDirection);
+                stateMachine.PlrController.MovementController.SetVelocityX(player.playerData.wallBounceXVelocity * -player.DirectionController.facingXDirection);
             }
             Transition(stateMachine.jumpState);
             return;

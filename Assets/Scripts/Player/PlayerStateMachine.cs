@@ -19,25 +19,24 @@ public class PlayerStateMachine
     public PlayerClimbState climbState { get; private set; }
     #endregion
 
-    public PlayerStateMachine(PlayerController plrcontroller, PlayerInfosWindow playerInfosWindow, PlayerData plrData)
+    public PlayerStateMachine(PlayerController plrcontroller, PlayerInfosWindow playerInfosWindow)
     {
         GenericEventBus.Subscribe<PlayerRespawnEvent>((PlayerRespawnEvent) => ForceSetState(idleState));
         PlrController = plrcontroller;
         PlayerInfosWindow = playerInfosWindow;
-        m_playerData = plrData;
     }
 
     public void Initialize()
     {
-        idleState = new PlayerIdleState(PlrController, this, m_playerData, "Idle");
-        moveState = new PlayerMoveState(PlrController, this, m_playerData, "Move");
-        jumpState = new PlayerJumpState(PlrController, this, m_playerData, "InAir");
-        inAirState = new PlayerInAirState(PlrController, this, m_playerData, "InAir");
-        dashState = new PlayerDashState(PlrController, this, m_playerData, "Dash");
-        diedState = new PlayerDiedState(PlrController, this, m_playerData, null);
-        grabState = new PlayerGrabState(PlrController, this, m_playerData, "Grab");
-        climbState = new PlayerClimbState(PlrController, this, m_playerData, "Climb");
-        wallSlideState = new PlayerWallSlideState(PlrController, this, m_playerData, "Slide");
+        idleState = new PlayerIdleState(PlrController, this, "Idle");
+        moveState = new PlayerMoveState(PlrController, this, "Move");
+        jumpState = new PlayerJumpState(PlrController, this, "InAir");
+        inAirState = new PlayerInAirState(PlrController, this, "InAir");
+        dashState = new PlayerDashState(PlrController, this, "Dash");
+        diedState = new PlayerDiedState(PlrController, this, null);
+        grabState = new PlayerGrabState(PlrController, this, "Grab");
+        climbState = new PlayerClimbState(PlrController, this, "Climb");
+        wallSlideState = new PlayerWallSlideState(PlrController, this, "Slide");
 
         CurrentState = idleState;
         CurrentState.Enter();

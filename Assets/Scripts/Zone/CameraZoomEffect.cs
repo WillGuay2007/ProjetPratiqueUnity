@@ -5,12 +5,12 @@ public class CameraZoomEffect : MonoBehaviour, IZoneEffect
     [SerializeField] private float m_cameraZOffset;
     [SerializeField] private CameraController m_camera;
 
-    public void Apply()
+    public void Apply(PlayerController controller)
     {
         m_camera.SetCameraZoom(m_cameraZOffset);
     }
 
-    public void Unapply()
+    public void Unapply(PlayerController controller)
     {
         m_camera.ResetCameraZoom();
     }

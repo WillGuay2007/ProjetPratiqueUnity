@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class PlayerMoveState : PlayerGroundedState
 {
-    public PlayerMoveState(PlayerController playerController, PlayerStateMachine plrStateMachine, PlayerData plrData, string animBool) : base(playerController, plrStateMachine, plrData, animBool)
+    public PlayerMoveState(PlayerController playerController, PlayerStateMachine plrStateMachine, string animBool) : base(playerController, plrStateMachine, animBool)
     {
     }
 
@@ -24,6 +24,6 @@ public class PlayerMoveState : PlayerGroundedState
     {
         base.PhysicsUpdate();
         if (transitioned) return;
-        player.MovementController.AccelerateXVelocity(playerData.movementVelocity * xInput, playerData.groundFriction);
+        player.MovementController.AccelerateXVelocity(player.playerData.movementVelocity * xInput, player.playerData.groundFriction);
     }
 }

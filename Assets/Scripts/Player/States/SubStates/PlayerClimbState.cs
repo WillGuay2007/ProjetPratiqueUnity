@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class PlayerClimbState : PlayerTouchWallState
 {
-    public PlayerClimbState(PlayerController playerController, PlayerStateMachine plrStateMachine, PlayerData plrData, string animBool) : base(playerController, plrStateMachine, plrData, animBool)
+    public PlayerClimbState(PlayerController playerController, PlayerStateMachine plrStateMachine, string animBool) : base(playerController, plrStateMachine, animBool)
     {
     }
 
@@ -24,7 +24,7 @@ public class PlayerClimbState : PlayerTouchWallState
         base.PhysicsUpdate();
         if (transitioned) return;
         player.MovementController.SetVelocityX(0);
-        player.MovementController.SetVelocityY(yInput * playerData.wallClimbSpeed);
+        player.MovementController.SetVelocityY(yInput * player.playerData.wallClimbSpeed);
     }
 
     public override void LogicUpdate()
@@ -41,11 +41,11 @@ public class PlayerClimbState : PlayerTouchWallState
             if (IsClimbingDown()) ApplyBoostVelocity();
             else
             {
-                player.InputController.IgnoreGrabInputForSeconds(playerData.GrabInputDeactivationDelayAfterBounce);
+                player.InputController.IgnoreGrabInputForSeconds(player.playerData.GrabInputDeactivationDelayAfterBounce);
                 player.InputController.UseJumpInput();
                 if (PlayerIsBufferingOppositeXInput())
                 {
-                    player.MovementController.SetVelocityX(playerData.wallBounceXVelocity * -player.DirectionController.facingXDirection);
+                    player.MovementController.SetVelocityX(player.playerData.wallBounceXVelocity * -player.DirectionController.facingXDirection);
                 }
                 Transition(stateMachine.jumpState);
             }
@@ -70,12 +70,12 @@ public class PlayerClimbState : PlayerTouchWallState
     private void ApplyBoostVelocity()
     {
         player.InputController.IgnoreJumpInputForSeconds(0.1f); //Je veut que le buffer reste actif, dont au lieu de remove le jump input, je le delay. Si je l'ignore pas, il se trigger dès la prochaine frame.
-        player.InputController.IgnoreGrabInputForSeconds(playerData.GrabInputDeactivationDelayAfterBounce);
+        player.InputController.IgnoreGrabInputForSeconds(player.playerData.GrabInputDeactivationDelayAfterBounce);
         int originalFacing = player.DirectionController.facingXDirection;
         float boostMultiplier = (xInput != originalFacing)
-            ? playerData.ClimbDownFaceAwayXBoostMultiplier
+            ? player.playerData.ClimbDownFaceAwayXBoostMultiplier
             : 1f;
-        float boostVelocity = playerData.ClimbDownXBoost * -originalFacing * boostMultiplier;
+        float boostVelocity = player.playerData.ClimbDownXBoost * -originalFacing * boostMultiplier;
         player.DirectionController.FlipX();
         player.MovementController.SetVelocityX(boostVelocity);
         Transition(stateMachine.inAirState);

@@ -15,19 +15,21 @@ public class Zone : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (!collision.GetComponent<PlayerController>()) return;
+        PlayerController playerController = collision.GetComponent<PlayerController>();
+        if (!playerController) return;
         foreach (IZoneEffect effect in effects)
         {
-            effect.Apply();
+            effect.Apply(playerController);
         }
     }
 
     private void OnTriggerExit2D(Collider2D collision)
     {
-        if (!collision.GetComponent<PlayerController>()) return;
+        PlayerController playerController = collision.GetComponent<PlayerController>();
+        if (!playerController) return;
         foreach (IZoneEffect effect in effects)
         {
-            effect.Unapply();
+            effect.Unapply(playerController);
         }
     }
 }

@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    [SerializeField] private PlayerData m_playerData;
+    [SerializeField] public PlayerData playerData;
     [SerializeField] private PlayerInfosWindow m_playerInfosWindow;
 
     #region Components
@@ -39,10 +39,10 @@ public class PlayerController : MonoBehaviour
 
     private void Start()
     {
-        SurfaceDetector.Initialize(m_playerData);
-        HealthController.Initialize(m_playerData);
+        SurfaceDetector.Initialize(playerData);
+        HealthController.Initialize(playerData);
         //TODO: Move back new stateMachine to awake when event bus is static
-        StateMachine = new PlayerStateMachine(this, m_playerInfosWindow, m_playerData);
+        StateMachine = new PlayerStateMachine(this, m_playerInfosWindow);
         StateMachine.Initialize();
     }
 

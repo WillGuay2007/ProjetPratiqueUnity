@@ -6,12 +6,12 @@ public class CameraShakeEffect : MonoBehaviour, IZoneEffect
     [SerializeField] private float m_shakeSpeed;
     [SerializeField] private CameraController m_camera;
 
-    public void Apply()
+    public void Apply(PlayerController controller)
     {
         m_camera.SetAmbientCameraShake(m_cameraShakeAmplitude, m_shakeSpeed);
     }
 
-    public void Unapply()
+    public void Unapply(PlayerController controller)
     {
         m_camera.SetAmbientCameraShake(0f);
     }

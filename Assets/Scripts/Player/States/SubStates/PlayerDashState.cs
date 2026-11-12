@@ -19,9 +19,9 @@ public class PlayerDashState : PlayerAbilityState
         DiagonalDown,
     }
 
-    public PlayerDashState(PlayerController playerController, PlayerStateMachine plrStateMachine, PlayerData plrData, string animBool) : base(playerController, plrStateMachine, plrData, animBool)
+    public PlayerDashState(PlayerController playerController, PlayerStateMachine plrStateMachine, string animBool) : base(playerController, plrStateMachine, animBool)
     {
-        m_amountOfAirDashesLeft = playerData.maxAmountOfDashes;
+        m_amountOfAirDashesLeft = player.playerData.maxAmountOfDashes;
     }
 
     public override void DoChecks()
@@ -44,7 +44,7 @@ public class PlayerDashState : PlayerAbilityState
         base.Exit();
         player.GravityController.SetDefaultGravityConsideringGravSwap();
         if (player.MovementController.IsFalling()) return; //Donc si super ou hyper dash
-        player.MovementController.SetVelocityY(player.MovementController.velocity.y * playerData.dashEndYMultiplier);
+        player.MovementController.SetVelocityY(player.MovementController.velocity.y * player.playerData.dashEndYMultiplier);
     }
 
     public override void LogicUpdate()
@@ -55,8 +55,8 @@ public class PlayerDashState : PlayerAbilityState
         if (isAbilityDone) return;
         m_elapsedTime += Time.deltaTime;
 
-        bool dashTimerEnded = m_elapsedTime > playerData.dashDuration;
-        bool groundedDashRegainTimerReached = m_elapsedTime > playerData.regainDashAtDuration && m_hasRegainedDash == false;
+        bool dashTimerEnded = m_elapsedTime > player.playerData.dashDuration;
+        bool groundedDashRegainTimerReached = m_elapsedTime > player.playerData.regainDashAtDuration && m_hasRegainedDash == false;
 
         if (dashTimerEnded)
         {
@@ -79,12 +79,12 @@ public class PlayerDashState : PlayerAbilityState
 
             if (m_dashType == DashType.Horizontal) //Superdash
             {
-                stateMachine.jumpState.SetCustomJumpHeight(playerData.SuperDashYVelocity);
-                player.MovementController.SetVelocityX(playerData.SuperDashXVelocity * player.DirectionController.facingXDirection);
+                stateMachine.jumpState.SetCustomJumpHeight(player.playerData.SuperDashYVelocity);
+                player.MovementController.SetVelocityX(player.playerData.SuperDashXVelocity * player.DirectionController.facingXDirection);
             } else if (m_dashType == DashType.DiagonalDown) //Hyperdash
             {
-                stateMachine.jumpState.SetCustomJumpHeight(playerData.HyperdashYVelocity);
-                player.MovementController.SetVelocityX(playerData.HyperdashXVelocity * player.DirectionController.facingXDirection);
+                stateMachine.jumpState.SetCustomJumpHeight(player.playerData.HyperdashYVelocity);
+                player.MovementController.SetVelocityX(player.playerData.HyperdashXVelocity * player.DirectionController.facingXDirection);
             }
 
             Transition(stateMachine.jumpState);
@@ -101,7 +101,7 @@ public class PlayerDashState : PlayerAbilityState
         SetDirectionVelocity();
     }
 
-    public void ResetAmountOfDashesLeft() => m_amountOfAirDashesLeft = playerData.maxAmountOfDashes;
+    public void ResetAmountOfDashesLeft() => m_amountOfAirDashesLeft = player.playerData.maxAmountOfDashes;
     public void DecreaseAmountOfDashesLeft() => m_amountOfAirDashesLeft -= 1;
     public bool CanDash() => m_amountOfAirDashesLeft > 0;
 
@@ -113,17 +113,17 @@ public class PlayerDashState : PlayerAbilityState
 
         if (m_dashType == DashType.DiagonalDown)
         {
-            yDirection = yDirection * playerData.diagonalDownDashYMultiplier;
+            yDirection = yDirection * player.playerData.diagonalDownDashYMultiplier;
             direction = new Vector2(xDirection, yDirection).normalized;
         }
         else if (m_dashType == DashType.DiagonalUp)
         {
-            yDirection = yDirection * playerData.diagonalUpDashYMultiplier;
+            yDirection = yDirection * player.playerData.diagonalUpDashYMultiplier;
             direction = new Vector2(xDirection, yDirection).normalized;
         }
         else if (m_dashType == DashType.Up || m_dashType == DashType.Down)
         {
-            yDirection = yDirection * playerData.verticalDashYMultiplier;
+            yDirection = yDirection * player.playerData.verticalDashYMultiplier;
             direction = new Vector2(0f, yDirection);
         }
         else
@@ -156,8 +156,8 @@ public class PlayerDashState : PlayerAbilityState
     {
         player.MovementController.SetVelocity(
             new Vector2(
-                m_dashDirection.x * playerData.dashSpeed,
-                m_dashDirection.y * playerData.dashSpeed)
+                m_dashDirection.x * player.playerData.dashSpeed,
+                m_dashDirection.y * player.playerData.dashSpeed)
             );
     }
 

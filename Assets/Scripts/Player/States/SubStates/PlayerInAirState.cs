@@ -13,7 +13,7 @@ public class PlayerInAirState : PlayerState
     private bool m_isFacingWall;
     private bool m_grabInput;
     private bool m_isTouchingWall;
-    public PlayerInAirState(PlayerController playerController, PlayerStateMachine plrStateMachine, PlayerData plrData, string animBool) : base(playerController, plrStateMachine, plrData, animBool)
+    public PlayerInAirState(PlayerController playerController, PlayerStateMachine plrStateMachine, string animBool) : base(playerController, plrStateMachine, animBool)
     {
     }
 
@@ -63,7 +63,7 @@ public class PlayerInAirState : PlayerState
         {
             player.InputController.UseJumpInput();
             int faceWallMultiplier = m_isFacingWall ? 1 : -1;
-            player.MovementController.SetVelocityX(playerData.wallBounceXVelocity * -player.DirectionController.facingXDirection * faceWallMultiplier);
+            player.MovementController.SetVelocityX(player.playerData.wallBounceXVelocity * -player.DirectionController.facingXDirection * faceWallMultiplier);
             Transition(stateMachine.jumpState);
         }
         else if (m_isGrounded && Mathf.Abs(player.RigidBody.linearVelocity.y) < 0.01f) //Abs parce que je dois considerer le gravity swap.
@@ -87,13 +87,13 @@ public class PlayerInAirState : PlayerState
         if (!transitioned)
         {
             player.DirectionController.ShouldFlipX(xInput);
-            player.MovementController.AccelerateXVelocity(xInput * playerData.movementVelocity, playerData.airFrictionX);
+            player.MovementController.AccelerateXVelocity(xInput * player.playerData.movementVelocity, player.playerData.airFrictionX);
         }
     }
 
     private void CheckCoyoteTime()
     {
-        if (m_coyoteTime && Time.time > startTime + playerData.coyoteTime)
+        if (m_coyoteTime && Time.time > startTime + player.playerData.coyoteTime)
         {
             m_coyoteTime = false;
             stateMachine.jumpState.DecreaseAmountOfJumpsLeft();
@@ -105,7 +105,7 @@ public class PlayerInAirState : PlayerState
         if (!m_isJumping) return;
         if (m_jumpInputStop)
         {
-            player.MovementController.SetVelocityY(player.MovementController.velocity.y * playerData.jumpHoldMultiplier);
+            player.MovementController.SetVelocityY(player.MovementController.velocity.y * player.playerData.jumpHoldMultiplier);
             m_isJumping = false;
         }
         else if (player.MovementController.IsFalling())
